@@ -29,9 +29,9 @@ def init_sample(tpe_dir):
 	s.mass_transit_fares = getTransitFareInputs(tpe_dir)
 	s.mode_split = getModeSplit(tpe_dir)
 	s.road_pricing = reconstructRoadPrincingArea(tpe_dir)
-	#No road pricing yet
 
-	s.KPIS = retrieve_KPIs(tpe_dir)
+	s.KPIS = retrieve_KPIs(tpe_dir) #Those are RAW KPIS, getting the actual KPIs
+	#requires to standardize them
 
 	return s
 

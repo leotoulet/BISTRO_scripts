@@ -67,6 +67,9 @@ def getRoadPricing(tpe_dir):
 	path = os.path.join(getInputsDir(tpe_dir), "RoadPricing.csv")
 	dic = {}
 
+	if not os.path.exists(path):
+		return dic
+
 	with open(path) as csvfile:
 		reader = csv.reader(csvfile)
 		for row in reader:
