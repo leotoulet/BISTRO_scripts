@@ -55,9 +55,8 @@ def scatterAllPoints(xi, yi, zi, si, title):
 	for x,y,z,s in zip(xi, yi, zi, si):
 		ratio = (s - mini)/(maxi - mini)
 		color = (0, 1-ratio, ratio, 0.5)
+		ax.plot([x], [y], [z], 'o', c=color)
 
-
-	ax.plot(xi, yi, zi, c=color)
 	plt.savefig("scatterAllPoints.png")	
 
 
