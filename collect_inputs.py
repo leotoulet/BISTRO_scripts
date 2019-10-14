@@ -90,6 +90,10 @@ def reconstructRoadPrincingArea(tpe_dir):
 				if fromLocationY >= y and toLocationY >= y:
 					y = max(fromLocationY, toLocationY)
 
+	if i==0:
+		print(tpe_dir)
+		return {"x":None, "y":None, "p":None}
+
 	p /= i
 	p = round(p, 2)
 	x = int(x)
