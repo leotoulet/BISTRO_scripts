@@ -1,4 +1,3 @@
-
 import os
 import sys
 import csv
@@ -17,17 +16,6 @@ MODE_CHOICES = ['car', 'drive_transit', 'ride_hail', 'walk', 'walk_transit']
 
 #rawScores.csv does not use the same KPI names as the fixed data files...
 
-
-
-#Get the path of the result file given a TPE folder
-def get_results_dir(dir):
-	abs_path = os.path.join(get_dir(), dir)
-	abs_path = os.path.join(abs_path, 'output')
-	abs_path = os.path.join(abs_path, only_subdir(abs_path))
-	abs_path = os.path.join(abs_path, only_subdir(abs_path))
-	abs_path = os.path.join(abs_path, only_subdir(abs_path))
-	abs_path = os.path.join(abs_path, 'competition')
-	return abs_path
 
 def read_scores(tpe_dir):
 	results_dir = get_results_dir(tpe_dir)
@@ -219,7 +207,7 @@ def colorMapToModeSplit(dirs):
 	z = []
 
 	for d in dirs:
-		points = getInputs(d)
+		points = getTransitFareInputs(d)
 		x.append(points["AdultFare"])
 		y.append(points["ChildrenFare"])
 
