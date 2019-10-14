@@ -6,6 +6,8 @@ from Sample import *
 import matplotlib as mp
 import pickle
 import os
+from matplotlib._png import read_png
+from matplotlib.cbook import get_sample_data
 
 ##CREATE COLOR MAPS
 def customColorMap(r, g, b, a):
@@ -21,7 +23,7 @@ def f(x, y, z):
 
 def scatterRoadPricing():
 
-	os.mkdir("4DPlots")
+	os.makedirs("4DPlots",exist_ok=True)
 
 	samples = create_samples_list()
 	weights = load_weights()
@@ -75,9 +77,24 @@ def scatterAllPoints(xi, yi, zi, vi, title):
 
 	ax.scatter(xi, yi, zi, color=colors)
 
-	# Optionally add a colorbar
 	cax, _ = mp.colorbar.make_axes(ax)
 	cbar = mp.colorbar.ColorbarBase(cax, cmap=cmap, norm=normalize)
+
+	fn = get_sample_data(os.path.join(os.getcwd(),"map.png"), asfileobj=False)
+	arr = read_png(fn)
+	# 10 is equal length of x and y axises of your surface
+	stepX, stepY = (max(xi) - min(xi)) / arr.shape[0], (max(yi) - min(yi)) / arr.shape[1]
+
+	X1 = np.arange(min(xi), max(xi), stepX)
+	Y1 = np.arange(min(yi), max(yi), stepY)
+	X1, Y1 = np.meshgrid(X1, Y1)
+	Z = np.zeros(X1.shape)
+	# stride args allows to determine image quality 
+	# stride = 1 work slow
+	ax.plot_surface(X1, Y1, Z, rstride=1, cstride=1, facecolors=arr)
+
+
+
 
 	plt.savefig("4DPlots/" + title + "__scatterAllPoints.png")
 

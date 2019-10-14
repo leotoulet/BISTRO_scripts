@@ -27,7 +27,7 @@ def fit_input_to_submission_score():
 	x0 = np.array([0, 0, 0])
 	xdata = np.array(xdata).transpose()
 	ydata = np.array(ydata)
-	print(xdata)
+
 	print(optimization.curve_fit(func, xdata, ydata, x0))
 
 if __name__ == '__main__':
