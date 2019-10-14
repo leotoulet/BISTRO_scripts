@@ -1,5 +1,7 @@
 from navigate_data import *
 ##### The next few function all take a folder as input and extract input info
+filepath_network = "/home/ubuntu/settingsFiles/network.csv"
+filepath_network = "network.csv"
 
 
 #Load weights from working directory
@@ -13,17 +15,6 @@ def load_weights():
 			dic[name] = list(df[name])[0]
 	return dic
 
-
-#Reads transit fare inputs
-def getTransitFareInputs(tpe_dir):
-	path = os.path.join(getInputsDir(tpe_dir), "MassTransitFares.csv")	
-	dic = {}
-	with open(path) as csvfile:
-		df = pd.read_csv(csvfile, index_col=2)
-		dic["AdultFare"] = df["amount"][0]
-		dic["ChildrenFare"] = df["amount"][1]
-		return dic
-
 #Loads the dicationnary of {KPI: mean, std} from working directory
 def loadStandardization():
 	dict_name = "standardizationParameters.csv"
@@ -35,10 +26,67 @@ def loadStandardization():
 	return params
 
 
+#Reads transit fare inputs
+def getTransitFareInputs(tpe_dir):
+	path = os.path.join(getInputsDir(tpe_dir), "MassTransitFares.csv")	
+	dic = {}
+	with open(path) as csvfile:
+		df = pd.read_csv(csvfile, index_col=2)
+		dic["AdultFare"] = df["amount"][0]
+		dic["ChildrenFare"] = df["amount"][1]
+		return dic
+
+#
+def load_network():
+    with open(filepath_network, "rt") as csvfile:
+        datareader = csv.reader(csvfile)
+        yield next(datareader)
+        for row in datareader:
+        	if row[0].isdigit():
+        		yield row
+        return
+
 
 #Reads road pricing information inputs
 def getRoadPricing(tpe_dir):
-	return
+	path = os.path.join(getInputsDir(tpe_dir), "RoadPricing.csv")
+	dic = {}
+
+	with open(path) as csvfile:
+		reader = csv.reader(csvfile)
+		for row in reader:
+			if row[0][0].isdigit():
+				dic[row[0]] = float(row[1])
+
+	return dic
 
 def reconstructRoadPrincingArea(tpe_dir):
-	return
+	x = 0
+	y = 0
+	p = 0
+
+	i = 0
+
+	dic = getRoadPricing(tpe_dir)
+
+	for row in load_network():
+		linkId = row[0]
+
+		if linkId in dic:
+			linkLength,fromLocationX,fromLocationY,toLocationX,toLocationY = float(row[1]),float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
+
+			if dic[linkId] != 3.0:
+				i += 1
+				p += dic[linkId] * 1600 / linkLength
+
+				if fromLocationX >= x and toLocationX >= x:
+					x = max(fromLocationX, toLocationX)
+
+				if fromLocationY >= y and toLocationY >= y:
+					y = max(fromLocationY, toLocationY)
+
+	p /= round(i, 2)
+	x = int(x)
+	y = int(y)
+
+	return {"x":x, "y":y, "p":p}

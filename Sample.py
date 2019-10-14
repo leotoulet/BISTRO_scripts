@@ -11,7 +11,7 @@ class Sample:
 
 	#Inputs
 	mass_transit_fares = {"AdultFare":None, "ChildrenFare":None};
-	road_pricing = {};
+	road_pricing = {"x":None, "y":None, "p":None};
 
 	#Outputs
 	KPIS = None; #dict of {KPI: (it0, it1, ..., it.n)}
@@ -28,6 +28,7 @@ def init_sample(tpe_dir):
 
 	s.mass_transit_fares = getTransitFareInputs(tpe_dir)
 	s.mode_split = getModeSplit(tpe_dir)
+	s.road_pricing = reconstructRoadPrincingArea(tpe_dir)
 	#No road pricing yet
 
 	s.KPIS = retrieve_KPIs(tpe_dir)
