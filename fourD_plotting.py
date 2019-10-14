@@ -5,6 +5,7 @@ from matplotlib.colors import LinearSegmentedColormap
 from Sample import *
 import matplotlib as mp
 import pickle
+import os
 
 ##CREATE COLOR MAPS
 def customColorMap(r, g, b, a):
@@ -19,11 +20,14 @@ def f(x, y, z):
     return (x ** 2 + y ** 2 - z ** 2)
 
 def scatterRoadPricing():
+
+	os.mkdir("4DPlots")
+
 	samples = create_samples_list()
 	weights = load_weights()
 	standards = loadStandardization()
 
-	title = "Road pricing as function fo (x,y,p)"
+	title = " = f(x,y,p)"
 
 	xi = []
 	yi = []
@@ -31,12 +35,22 @@ def scatterRoadPricing():
 	si = []
 
 	for s in samples:
-		si.append(computeWeightedScores(s, standards, weights)[-1])
 		xi.append(s.road_pricing["x"])
 		yi.append(s.road_pricing["y"])
 		pi.append(s.road_pricing["p"])
 
-	scatterAllPoints(xi, yi, pi, si, title)
+	KPIS = list(weights.keys())
+	for k in KPIS:
+		si = []
+		for s in samples:
+			si.append(computeWeightedScores(s, standards, singleKPI_weights(k))[-1])
+
+		scatterAllPoints(xi, yi, pi, si, k + title)
+
+	si = []
+	for s in samples:
+		si.append(computeWeightedScores(s, standards, weights)[-1])
+	scatterAllPoints(xi, yi, pi, si, "Aggregate" + title)
 
 
 
@@ -54,10 +68,6 @@ def scatterAllPoints(xi, yi, zi, vi, title):
 
 	maxi = np.max(vi)
 	mini = np.min(vi)
-
-	for x,y,z,v in zip(xi, yi, zi, vi):
-		ratio = (v - mini)/(maxi - mini)
-		color = (0, 1-ratio, ratio, 0.5)
 	
 	cmap = mp.cm.get_cmap('viridis')
 	normalize = mp.colors.Normalize(vmin=min(vi), vmax=max(vi))
@@ -69,7 +79,7 @@ def scatterAllPoints(xi, yi, zi, vi, title):
 	cax, _ = mp.colorbar.make_axes(ax)
 	cbar = mp.colorbar.ColorbarBase(cax, cmap=cmap, norm=normalize)
 
-	plt.savefig("scatterAllPoints.png")
+	plt.savefig("4DPlots/" + title + "__scatterAllPoints.png")
 
 
 def scatterByBins():

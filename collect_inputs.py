@@ -15,6 +15,16 @@ def load_weights():
 			dic[name] = list(df[name])[0]
 	return dic
 
+def singleKPI_weights(KPI):
+	weights = load_weights()
+	for w in weights:
+		if w != KPI:
+			weights[w] = 0.0
+		else:
+			weights[w] = 1.0
+	return weights
+
+
 #Loads the dicationnary of {KPI: mean, std} from working directory
 def loadStandardization():
 	dict_name = "standardizationParameters.csv"
