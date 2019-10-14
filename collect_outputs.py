@@ -1,4 +1,4 @@
-from naviage_data.py import *
+from navigate_data.py import *
 
 
 def read_score(tpe_dir):
