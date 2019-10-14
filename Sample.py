@@ -68,6 +68,3 @@ def create_samples_list(dirs = None):
 		samples.append(s)
 
 	return samples
-
-if __name__ == '__main__':
-	create_samples_list()

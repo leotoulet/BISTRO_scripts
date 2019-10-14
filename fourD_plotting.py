@@ -4,6 +4,7 @@ import numpy as np
 from matplotlib.colors import LinearSegmentedColormap
 from Sample import *
 import matplotlib as mp
+import pickle
 
 ##CREATE COLOR MAPS
 def customColorMap(r, g, b, a):
@@ -47,6 +48,7 @@ def scatterAllPoints(xi, yi, zi, vi, title):
 	ax = plt.axes(projection='3d')
 	ax.set_title(title)
 	ax.set_xlabel('x')
+	ax.invert_xaxis() #Otherwise 3D projection does not have x and y intersect at their minimum
 	ax.set_ylabel('y')
 	ax.set_zlabel('p')
 
@@ -67,7 +69,7 @@ def scatterAllPoints(xi, yi, zi, vi, title):
 	cax, _ = mp.colorbar.make_axes(ax)
 	cbar = mp.colorbar.ColorbarBase(cax, cmap=cmap, norm=normalize)
 
-	plt.savefig("scatterAllPoints.png")	
+	plt.savefig("scatterAllPoints.png")
 
 
 def scatterByBins():
