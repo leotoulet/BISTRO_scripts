@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import LinearSegmentedColormap
 from Sample import *
+import matplotlib as mp
 
 ##CREATE COLOR MAPS
 def customColorMap(r, g, b, a):
@@ -38,7 +39,7 @@ def scatterRoadPricing():
 
 
 
-def scatterAllPoints(xi, yi, zi, si, title):
+def scatterAllPoints(xi, yi, zi, vi, title):
 
 	plt.clf()
 
@@ -49,13 +50,22 @@ def scatterAllPoints(xi, yi, zi, si, title):
 	ax.set_ylabel('y')
 	ax.set_zlabel('p')
 
-	maxi = np.max(si)
-	mini = np.min(si)
+	maxi = np.max(vi)
+	mini = np.min(vi)
 
-	for x,y,z,s in zip(xi, yi, zi, si):
-		ratio = (s - mini)/(maxi - mini)
+	for x,y,z,v in zip(xi, yi, zi, vi):
+		ratio = (v - mini)/(maxi - mini)
 		color = (0, 1-ratio, ratio, 0.5)
-		ax.plot([x], [y], [z], 'o', c=color)
+	
+	cmap = mp.cm.get_cmap('viridis')
+	normalize = mp.colors.Normalize(vmin=min(vi), vmax=max(vi))
+	colors = [cmap(normalize(value)) for value in vi]
+
+	ax.scatter(xi, yi, zi, color=colors)
+
+	# Optionally add a colorbar
+	cax, _ = mp.colorbar.make_axes(ax)
+	cbar = mp.colorbar.ColorbarBase(cax, cmap=cmap, norm=normalize)
 
 	plt.savefig("scatterAllPoints.png")	
 
