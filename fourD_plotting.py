@@ -83,8 +83,10 @@ def scatterAllPoints(xi, yi, zi, vi, title):
 	fn = get_sample_data(os.path.join(os.getcwd(),"map.png"), asfileobj=False)
 	arr = read_png(fn)
 	# 10 is equal length of x and y axises of your surface
-	stepX = (max(xi) - min(xi)) / arr.shape[0] - 1
-	stepY = (max(yi) - min(yi)) / arr.shape[1] - 1
+	stepX = (max(xi) - min(xi)) / arr.shape[0] + 1
+	stepY = (max(yi) - min(yi)) / arr.shape[1] + 1
+	print(stepX)
+	print(stepY)
 
 	X1 = np.arange(min(xi), max(xi), stepX)
 	Y1 = np.arange(min(yi), max(yi), stepY)
