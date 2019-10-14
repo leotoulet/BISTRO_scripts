@@ -32,9 +32,14 @@ def getTransitFareInputs(tpe_dir):
 	dic = {}
 	with open(path) as csvfile:
 		df = pd.read_csv(csvfile, index_col=2)
+
+		if df.empty:
+			return dic
+
 		dic["AdultFare"] = df["amount"][0]
 		dic["ChildrenFare"] = df["amount"][1]
-		return dic
+	
+	return dic
 
 #
 def load_network():
