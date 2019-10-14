@@ -11,6 +11,8 @@ import numpy as np
 from collect_inputs import *
 from collect_outputs import *
 
+from Sample import *
+
 sys.path.extend('./../')
 
 MODE_CHOICES = ['car', 'drive_transit', 'ride_hail', 'walk', 'walk_transit']
@@ -18,86 +20,20 @@ MODE_CHOICES = ['car', 'drive_transit', 'ride_hail', 'walk', 'walk_transit']
 #rawScores.csv does not use the same KPI names as the fixed data files...
 
 
-
-#Loads the dicationnary of {KPI: mean, std} from working directory
-def loadStandardization():
-	dict_name = "standardizationParameters.csv"
-	params = {}
-	with open(dict_name) as csvfile:
-		reader = csv.reader(csvfile)
-		for row in reader:
-			params[row[0]] = (float(row[1]), float(row[2]))
-	return params
-
-#Load weights from working directory
-def load_weights():
-	dict_name = "scoringWeights.csv"
-	dic = {}
-	with open(dict_name) as csvfile:
-		df = pd.read_csv(csvfile)
-		kpi_names = list(df.columns)
-		for name in kpi_names:
-			dic[name] = list(df[name])[0]
-	return dic
-
-
-
-
-
-def getModeSplit(tpe_dir):
-	abs_path = os.path.join(tpe_dir, 'output')
-	abs_path = os.path.join(abs_path, only_subdir(abs_path))
-	abs_path = os.path.join(abs_path, only_subdir(abs_path))
-	abs_path = os.path.join(abs_path, only_subdir(abs_path))
-	path = os.path.join(abs_path, "realizedModeChoice.csv")
-
-	dic = {}
-
-	with open(path) as csvfile:
-		df = pd.read_csv(csvfile, index_col=0)
-
-		summ = 0
-		for col in df.columns:
-			summ += list(df[col])[-1]
-
-		for col in df.columns: 
-			dic[col] = round(list(df[col])[-1]/summ, 2)
-
-	return dic
+samples = create_samples_list();
+standards = loadStandardization();
+weights = load_weights();
 	
-
-
-
-
-
-#Returns a list score stored by iteration number
-def computeWeightedScore(kpis_dict, standards, weights):
-	scores = []
-	iters = kpis_dict['Iteration']
-	for i in iters:
-		s = 0
-		nb_params = 0
-		for k in weights:
-			nb_params+=1
-			w = weights[k]
-			mean, std = standards[k]
-			value = kpis_dict[k][i]
-			s += w*(value - mean)/std
-		scores.append(s/sum(weights.values()))
-
-	return scores[-1]	
-
 
 #Returns a list score stored by iteration number
 #Random array contains 10 random folder numbers
-def ScoreEvolutionIters(dirs, weights, title = "Score_evol"):
+def ScoreEvolutionIters(samples, title = "Score_evol"):
 
-	plt.cla()
+	plt.clf()
 
-	for f in dirs:
+	for s in samples:
 		#Load standards and data point KPIS
-		standards = loadStandardization()
-		kpis_dict = retrieve_KPIs(f)
+		kpis_dict = s.KPIS
 
 		#Populate weighted scores from raw scores
 		scores = []
@@ -126,7 +62,7 @@ def ScoreEvolutionIters(dirs, weights, title = "Score_evol"):
 
 
 
-def colorMap(dirs, weights, title = "Score"):
+def colorMap(samples, weights, title = "Score"):
 
 	plt.clf()
 	standards = loadStandardization()
@@ -136,13 +72,10 @@ def colorMap(dirs, weights, title = "Score"):
 	z = []
 
 	#This parses data
-	for d in dirs:
-		points = getTransitFareInputs(d)
-		kpis = retrieve_KPIs(d)
-		points["Score"] = computeWeightedScore(kpis, standards, weights)
-		x.append(points["AdultFare"])
-		y.append(points["ChildrenFare"])
-		z.append(points["Score"])
+	for s in samples:
+		x.append(s.mass_transit_fares["AdultFare"])
+		y.append(s.mass_transit_fares["ChildrenFare"])
+		z.append(computeWeightedScores(s, standards, weights)[-1])
 	
 	#This is incomplete data
 	x = np.array(x)
@@ -174,7 +107,7 @@ def colorMap(dirs, weights, title = "Score"):
 	plt.savefig("ColorMaps/" + title + "__COLOR_MAP.png")
 	
 
-def colorMapToModeSplit(dirs):
+def colorMapToModeSplit(samples):
 
 	plt.clf()
 
@@ -182,8 +115,8 @@ def colorMapToModeSplit(dirs):
 	y = []
 	z = []
 
-	for d in dirs:
-		points = getTransitFareInputs(d)
+	for s in samples:
+		points = s.mass_transit_fares
 		x.append(points["AdultFare"])
 		y.append(points["ChildrenFare"])
 
@@ -194,8 +127,8 @@ def colorMapToModeSplit(dirs):
 		plt.clf()
 
 		z = []
-		for d in dirs:
-			ms = getModeSplit(d)
+		for s in samples:
+			ms = s.mode_split
 			z.append(ms[mode])
 
 		#This is complete, interpolated data
@@ -222,10 +155,6 @@ def colorMapToModeSplit(dirs):
 		#Save figure
 		plt.savefig("ColorMaps/" + mode + "__COLOR_MAP.png")
 
-		
-			
-
-
 
 if __name__ == "__main__":
 
@@ -238,12 +167,13 @@ if __name__ == "__main__":
 	
 
 	#Inputs to mode split
-	colorMapToModeSplit(dirs)
+	colorMapToModeSplit(samples)
 
 	k = list(weights.keys())
 
 	#Keep the same data points for all figures
 	randomList = [dirs[random.randint(0, len(dirs)-1)] for i in range(10)]
+	randomSamples = create_samples_list(randomList)
 
 	#Generate iters evol for each KPI
 	for i in range(len(k)):
@@ -255,13 +185,13 @@ if __name__ == "__main__":
 			else:
 				weights[k[j]] = 0.0
 
-		ScoreEvolutionIters(randomList, weights, k[i])
+		ScoreEvolutionIters(randomSamples, k[i])
 
 	#Generate aggregate colorMap
 	print("Creating aggrgate iterations evolution graph")
 	for j in range(len(k)):
 		weights[k[j]] = 1.0
-	ScoreEvolutionIters(randomList, weights, "Aggregate")
+	ScoreEvolutionIters(randomSamples, "Aggregate")
 
 
 	for i in range(len(k)):
@@ -273,7 +203,7 @@ if __name__ == "__main__":
 			else:
 				weights[k[j]] = 0.0
 
-		colorMap(dirs, weights, k[i])
+		colorMap(samples, weights, k[i])
 
 
 
@@ -281,7 +211,7 @@ if __name__ == "__main__":
 	print("Generating aggrgate color map")
 	for j in range(len(k)):
 		weights[k[j]] = 1.0
-	colorMap(dirs, weights, "Aggregate")
+	colorMap(samples, weights, "Aggregate")
 
 
 
