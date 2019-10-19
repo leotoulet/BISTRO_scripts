@@ -17,6 +17,7 @@ AVG_DELAY = "Congestion: average vehicle delay per passenger trip"
 WORK_BURDEN = "Equity: average travel cost burden - work"
 BUS_CROWDING = "Level of service: average bus crowding experienced"
 COSTS_BENEFITS = "Level of service: costs and benefits"
+GHG = "Sustainability: Total grams GHGe Emissions"
 
 SUBMISSION = "Submission Score"
 
@@ -85,9 +86,11 @@ def objective(params):
     print("BISTRO finished")
 
 
-    #Change score HERE
     scores = read_scores(output_dir)
-    score = scores[SUBMISSION]
+    
+    #Change score HERE
+    score = score_average(scores)
+    
     score = float(score)
     print("SCORE :", score)
 
@@ -105,3 +108,11 @@ def objective(params):
     # Dictionary with information for evaluation
     return {'loss': loss, 'params': params, 
             'train_time': run_time, 'status': STATUS_OK, 'paths': paths}
+
+
+
+def score_average(scores):
+    congestion = (scores[TMV] + scores[AVG_DELAY] + scores[GHG])/3
+    social = (scores[WORK_BURDEN] + scores[BUS_CROWDING])/2
+    return (congestion + social)/2
+
