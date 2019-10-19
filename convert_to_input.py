@@ -7,9 +7,18 @@ mode_incentive_columns = ['mode', 'age', 'income', 'amount']
 mass_fare_columns = ['agencyId', 'routeId', 'age', 'amount']
 road_pricing_columns = ['linkId','toll','timeRange']
 
+
+#Cordon fare limits
 fareLimitX = None
 fareLimitY = None
 fareP = None
+
+
+#Circle fare limits
+centerx = None
+centery = None
+cradius = None
+centry_toll = None
 filepath_network = "/home/ubuntu/settingsFiles/network.csv"
 
 
@@ -33,8 +42,14 @@ def convert_to_input(sample, input_dir):
 
         elif key.startswith('f'):
             road_pricing = road_pricing + processF(key, value)
+
         elif key.startswith('a'):
             mass_fare.append(processA(key, value))
+
+        #Circle toll
+        elif key.startswith('c'):
+            road_pricing = road_pricing + processC(key, value)
+
         elif 'income' in key:
             mode_incentive.append(processM(key, value))
 
@@ -71,6 +86,28 @@ def processF(key, value):
     else:
         print("Parameters for this run: \nFareX: " + str(fareLimitX) + "\nFareY: " + str(fareLimitY) + "\nPrice: " + str(fareP))
         return get_cordon_links(fareLimitX, fareLimitY, fareP, timeRange)
+
+
+def processC(key, value):
+    timeRange = '[7:10,16:20]'
+
+    global centerx, centery, centry_toll, cradius
+
+    if key=='centerx':
+        centerx = value
+    if key=='centery':
+        centery = value
+    if key=='cradius':
+        cradius = value
+    if key=='centry_toll':
+        centry_toll = value
+
+    if centerx == None or centery == None or centry_toll == None or cradius == None:
+        return []
+
+    else:
+        print("Parameters for this run: \nCenterX: " + str(centerx) + "\nCenterY: " + str(centery) + "\nPrice: " + str(centry_toll) + "\nRadius: " + str(cradius))
+        return get_circle_links(centerx, centery, cradius, centry_toll, timeRange)
 
 
 def processV(key, value):
@@ -142,6 +179,24 @@ def get_cordon_links(x, y, p, timeRange):
                 changes.append([linkId,price,timeRange])
     return changes
 
+
+def get_circle_links(x, y, r, p, timeRange):
+
+    #Save parameters
+    file = open("circle_params.txt","w")
+    file.write("x:" + str(x) + ",y:" + str(y) + ",r:"+str(r) + ",p:", str(p))
+    file.close()
+
+    changes = []
+    for row in load_network():
+        if row[0].isdigit():
+            linkId,linkLength,fromLocationX,fromLocationY,toLocationX,toLocationY = row[0],row[1],row[-4],row[-3],row[-2],row[-1]
+            dfrom = ((x - fromLocationX)**2 + (y - fromLocationY)**2)**0.5
+            dto = ((x - toLocationX)**2 + (y - toLocationY)**2)**0.5
+
+            if dfrom > r and dto < r:
+                changes.append([linkId,p,timeRange])
+    return changes
 
 
 

@@ -80,27 +80,6 @@ def scatterAllPoints(xi, yi, zi, vi, title):
 	cax, _ = mp.colorbar.make_axes(ax)
 	cbar = mp.colorbar.ColorbarBase(cax, cmap=cmap, norm=normalize)
 
-	fn = get_sample_data(os.path.join(os.getcwd(),"map.png"), asfileobj=False)
-	arr = read_png(fn)
-	# 10 is equal length of x and y axises of your surface
-	stepX = (max(xi) - min(xi)) / arr.shape[0] + 1
-	stepY = (max(yi) - min(yi)) / arr.shape[1] + 1
-	print(stepX)
-	print(stepY)
-
-	X1 = np.arange(min(xi), max(xi), stepX)
-	Y1 = np.arange(min(yi), max(yi), stepY)
-	X1, Y1 = np.meshgrid(X1, Y1)
-	Z = np.zeros(X1.shape)
-	# stride args allows to determine image quality 
-	# stride = 1 work slow
-	ax.plot_surface(X1, Y1, Z, rstride=1, cstride=1, facecolors=arr)
-
-
-
-
-	plt.savefig("4DPlots/" + title + "__scatterAllPoints.png")
-
 
 def scatterByBins():
 	#For each X, Y and Z, gets a V value
