@@ -40,11 +40,15 @@ def read_scores(tpe_dir):
 	results_dir = get_results_dir(tpe_dir)
 	outfile = os.path.join(results_dir, "submissionScores.csv")
 	
-	with open(outfile) as csvfile:
-		reader = csv.reader(csvfile)
-		for row in reader:
-			if row[0] == 'Submission Score':
-				return round(float(row[-1]), 2)
+	df = pd.read_csv(outfile)
+    scores = df["Weighted Score"]
+    return score_average(scores)
+
+
+def score_average(scores):
+    congestion = (scores[TMV] + scores[AVG_DELAY] + scores[GHG])/3
+    social = (scores[WORK_BURDEN] + scores[BUS_CROWDING])/2
+    return (congestion + social)/2
 
 def read_timestamp(tpe_dir):
 	results_dir = get_results_dir(tpe_dir)

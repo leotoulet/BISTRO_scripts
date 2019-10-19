@@ -37,7 +37,7 @@ space = {
     #Variable circle with varaible entry tolls at peak times
     'centerx': hp.quniform('centerx', MIN_X, MAX_X, (MAX_X - MIN_X)/50),
     'centery': hp.quniform('centery', MIN_Y, MAX_Y, (MAX_Y - MIN_Y)/50),
-    'cradius':  hp.quniform('cradius',  0, MAX_Y - MIN_Y, (MAX_Y - MIN_Y)/50)
+    'cradius':  hp.quniform('cradius',  0 , MAX_Y - MIN_Y, (MAX_Y - MIN_Y)/50),
     'centry_toll': hp.quniform('centry_toll', 0, 10, 0.1)
 
 
@@ -232,11 +232,11 @@ def main():
     global ITERATION
 
     ITERATION = 0
-    MAX_EVALS = 100
+    MAX_EVALS = 300
     from hyperopt import fmin
     from hyperopt import tpe
     # Keep track of results
-    bayes_trials = MongoTrials('mongo://localhost:27017/wh_db_cordon/jobs', exp_key='CORDON_test2')
+    bayes_trials = MongoTrials('mongo://localhost:27017/wh_db_circle/jobs', exp_key='CIRCLE')
     # File to save first results
     out_file = '../bayesian-output/bayes_trials.csv'
     of_connection = open(out_file, 'w')

@@ -184,13 +184,17 @@ def get_circle_links(x, y, r, p, timeRange):
 
     #Save parameters
     file = open("circle_params.txt","w")
-    file.write("x:" + str(x) + ",y:" + str(y) + ",r:"+str(r) + ",p:", str(p))
+    file.write("x:" + str(x) + ",y:" + str(y) + ",r:"+str(r) + ",p:" + str(p))
     file.close()
 
     changes = []
     for row in load_network():
         if row[0].isdigit():
             linkId,linkLength,fromLocationX,fromLocationY,toLocationX,toLocationY = row[0],row[1],row[-4],row[-3],row[-2],row[-1]
+            fromLocationX = float(fromLocationX)
+            toLocationX = float(toLocationX)
+            fromLocationY = float(fromLocationY)
+            toLocationY = float(toLocationY)
             dfrom = ((x - fromLocationX)**2 + (y - fromLocationY)**2)**0.5
             dto = ((x - toLocationX)**2 + (y - toLocationY)**2)**0.5
 

@@ -110,7 +110,6 @@ def objective(params):
             'train_time': run_time, 'status': STATUS_OK, 'paths': paths}
 
 
-
 def score_average(scores):
     congestion = (scores[TMV] + scores[AVG_DELAY] + scores[GHG])/3
     social = (scores[WORK_BURDEN] + scores[BUS_CROWDING])/2
