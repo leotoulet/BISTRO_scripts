@@ -12,6 +12,17 @@ import sys
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+
+
+TMV = "Congestion: total vehicle miles traveled"
+AVG_DELAY = "Congestion: average vehicle delay per passenger trip"
+WORK_BURDEN = "Equity: average travel cost burden - work"
+BUS_CROWDING = "Level of service: average bus crowding experienced"
+COSTS_BENEFITS = "Level of service: costs and benefits"
+GHG = "Sustainability: Total grams GHGe Emissions"
+
+SUBMISSION = "Submission Score"
 
 #Get the current working directory
 def get_dir():
@@ -40,15 +51,15 @@ def read_scores(tpe_dir):
 	results_dir = get_results_dir(tpe_dir)
 	outfile = os.path.join(results_dir, "submissionScores.csv")
 	
-	df = pd.read_csv(outfile)
-    scores = df["Weighted Score"]
-    return score_average(scores)
+	df = pd.read_csv(outfile, index_col="Component Name")
+	scores = df["Weighted Score"]
+	return score_average(scores)
 
 
 def score_average(scores):
-    congestion = (scores[TMV] + scores[AVG_DELAY] + scores[GHG])/3
-    social = (scores[WORK_BURDEN] + scores[BUS_CROWDING])/2
-    return (congestion + social)/2
+	congestion = (scores[TMV] + scores[AVG_DELAY] + scores[GHG])/3
+	social = (scores[WORK_BURDEN] + scores[BUS_CROWDING])/2
+	return (congestion + social)/2
 
 def read_timestamp(tpe_dir):
 	results_dir = get_results_dir(tpe_dir)

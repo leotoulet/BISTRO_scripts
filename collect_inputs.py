@@ -113,3 +113,17 @@ def reconstructRoadPrincingArea(tpe_dir):
 	y = int(y)
 
 	return {"x":x, "y":y, "p":p}
+
+
+def collect_circle_fares_parameters(tpe_dir):
+	file = open(tpe_dir + "/circle_params.txt",'r')
+	params = file.readline().split(',')
+
+	dic = {}
+	for p in params:
+		k,v = p.split(":")
+		dic[k] = v
+
+	print(dic)
+	return dic
+
