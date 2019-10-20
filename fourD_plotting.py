@@ -9,6 +9,9 @@ import os
 from matplotlib._png import read_png
 from matplotlib.cbook import get_sample_data
 
+
+NB_GRAPHS = 10 #Used for 5D plots
+
 ##CREATE COLOR MAPS
 def customColorMap(r, g, b, a):
 	colors = [(r, g, b, a), [r, g ,b, a]]  # R -> R
@@ -21,7 +24,7 @@ def customColorMap(r, g, b, a):
 def f(x, y, z):
     return (x ** 2 + y ** 2 - z ** 2)
 
-def scatterRoadPricing():
+def scatterRoadPricing(): #5d road pricing
 
 	os.makedirs("4DPlots",exist_ok=True)
 
@@ -29,17 +32,20 @@ def scatterRoadPricing():
 	weights = load_weights()
 	standards = loadStandardization()
 
-	title = " = f(x,y,p)"
+	title = " = f(x,y,r,p) "
 
 	xi = []
 	yi = []
+	ri = []
 	pi = []
 	si = []
 
 	for s in samples:
 		xi.append(s.road_pricing["x"])
 		yi.append(s.road_pricing["y"])
+		ri.append(s.road_pricing["r"])
 		pi.append(s.road_pricing["p"])
+
 
 	KPIS = list(weights.keys())
 	for k in KPIS:
@@ -47,16 +53,39 @@ def scatterRoadPricing():
 		for s in samples:
 			si.append(computeWeightedScores(s, standards, singleKPI_weights(k))[-1])
 
-		scatterAllPoints(xi, yi, pi, si, k + title)
+
+		scatterBinnedPoints(xi, yi, ri, pi, si, k + title + b_string, k)
 
 	si = []
 	for s in samples:
 		si.append(computeWeightedScores(s, standards, weights)[-1])
-	scatterAllPoints(xi, yi, pi, si, "Aggregate" + title)
+	scatterBinnedPoints(xi, yi, ri, pi, si, "Aggregate" + title + b_string, "Aggregate")
 
 
 
-def scatterAllPoints(xi, yi, zi, vi, title):
+def scatterBinnedPoints(xi, yi, zi, ti, vi, title, folder):
+
+	os.makedirs("4DPlots/" + folder, exist_ok=True)
+
+	bins = [min(ti) + i/NB_GRAPHS*(max(ti) - min(ti)) for i in range(NB_GRAPHS)] + [max(pi)]
+	for i in range(NB_GRAPHS):
+		inf = bins[i]
+		sup = bins[i+1]
+		b_string = "[" + str(round(inf, 1)) + " ; " + str(round(sup, 1)) + "]"
+
+
+		x,y,z,v = [],[],[],[]
+		for i in range(len(xi)):
+			if ti[i] >= inf and ti[i] <= sup:
+				x.append(xi[i])
+				y.append(yi[i])
+				r.append(zi[i])
+				s.append(vi[i])
+
+		scatterAllPoints(xi, yi, zi, vi, "Aggregate" + title + b_string, folder)
+
+
+def scatterAllPoints(xi, yi, zi, vi, title, folder=""):
 
 	plt.clf()
 
@@ -79,6 +108,9 @@ def scatterAllPoints(xi, yi, zi, vi, title):
 
 	cax, _ = mp.colorbar.make_axes(ax)
 	cbar = mp.colorbar.ColorbarBase(cax, cmap=cmap, norm=normalize)
+
+	plt.savefig("4DPlots/" + folder + "/" + title + ".png")
+
 
 
 def scatterByBins():

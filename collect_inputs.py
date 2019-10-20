@@ -122,7 +122,7 @@ def collect_circle_fares_parameters(tpe_dir):
 	dic = {}
 	for p in params:
 		k,v = p.split(":")
-		dic[k] = v
+		dic[k] = round(float(v), 2)
 
 	print(dic)
 	return dic
