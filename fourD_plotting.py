@@ -8,9 +8,18 @@ import pickle
 import os
 from matplotlib._png import read_png
 from matplotlib.cbook import get_sample_data
+from collect_inputs import *
+import matplotlib.lines as mlines
+from KPIS import *
 
 
-NB_GRAPHS = 10 #Used for 5D plots
+MIN_X = 676949
+MAX_X = 689624
+
+MIN_Y = 4818750
+MAX_Y = 4832294
+
+NB_GRAPHS = 6 #Used for 5D plots
 
 ##CREATE COLOR MAPS
 def customColorMap(r, g, b, a):
@@ -29,7 +38,7 @@ def scatterRoadPricing(): #5d road pricing
 	os.makedirs("4DPlots",exist_ok=True)
 
 	samples = create_samples_list()
-	weights = load_weights()
+	#weights = load_weights()
 	standards = loadStandardization()
 
 	title = " = f(x,y,r,p) "
@@ -47,42 +56,43 @@ def scatterRoadPricing(): #5d road pricing
 		pi.append(s.road_pricing["p"])
 
 
-	KPIS = list(weights.keys())
-	for k in KPIS:
+	KPIS = [congestion_KPI, social_KPI, aggregate_KPI]
+	KPIS_names = ["congestion","social", "aggregate" ]
+	for i in range(len(KPIS)):
+		name = KPIS_names[i]
+		k = KPIS[i]
+
+		print("Creating figures for KPI : " + name)
+
 		si = []
 		for s in samples:
-			si.append(computeWeightedScores(s, standards, singleKPI_weights(k))[-1])
+			si.append(computeWeightedScores(s, standards, k)[-1])
 
 
-		scatterBinnedPoints(xi, yi, ri, pi, si, k + title + b_string, k)
-
-	si = []
-	for s in samples:
-		si.append(computeWeightedScores(s, standards, weights)[-1])
-	scatterBinnedPoints(xi, yi, ri, pi, si, "Aggregate" + title + b_string, "Aggregate")
-
+		scatterBinnedPoints(xi, yi, ri, pi, si, name + title, name + "/")
 
 
 def scatterBinnedPoints(xi, yi, zi, ti, vi, title, folder):
 
 	os.makedirs("4DPlots/" + folder, exist_ok=True)
 
-	bins = [min(ti) + i/NB_GRAPHS*(max(ti) - min(ti)) for i in range(NB_GRAPHS)] + [max(pi)]
+	bins = [min(ti) + i/NB_GRAPHS*(max(ti) - min(ti)) for i in range(NB_GRAPHS)] + [max(ti)]
 	for i in range(NB_GRAPHS):
 		inf = bins[i]
 		sup = bins[i+1]
-		b_string = "[" + str(round(inf, 1)) + " ; " + str(round(sup, 1)) + "]"
+		b_string = "[p = " + str(round(inf, 1)) + " ; " + str(round(sup, 1)) + "p = "
 
 
 		x,y,z,v = [],[],[],[]
-		for i in range(len(xi)):
-			if ti[i] >= inf and ti[i] <= sup:
-				x.append(xi[i])
-				y.append(yi[i])
-				r.append(zi[i])
-				s.append(vi[i])
+		for j in range(len(xi)):
+			if ti[j] >= inf and ti[j] <= sup:
+				x.append(xi[j])
+				y.append(yi[j])
+				z.append(zi[j])
+				v.append(vi[j])
 
-		scatterAllPoints(xi, yi, zi, vi, "Aggregate" + title + b_string, folder)
+		print("    Scattering points for bin " + str(i) + "/" + str(NB_GRAPHS))
+		scatterAllPoints(x, y, z, v, title + b_string, folder)
 
 
 def scatterAllPoints(xi, yi, zi, vi, title, folder=""):
@@ -95,7 +105,7 @@ def scatterAllPoints(xi, yi, zi, vi, title, folder=""):
 	ax.set_xlabel('x')
 	ax.invert_xaxis() #Otherwise 3D projection does not have x and y intersect at their minimum
 	ax.set_ylabel('y')
-	ax.set_zlabel('p')
+	ax.set_zlabel('r')
 
 	maxi = np.max(vi)
 	mini = np.min(vi)
@@ -109,7 +119,7 @@ def scatterAllPoints(xi, yi, zi, vi, title, folder=""):
 	cax, _ = mp.colorbar.make_axes(ax)
 	cbar = mp.colorbar.ColorbarBase(cax, cmap=cmap, norm=normalize)
 
-	plt.savefig("4DPlots/" + folder + "/" + title + ".png")
+	plt.savefig("4DPlots/" + folder + title + ".png")
 
 
 
@@ -127,6 +137,7 @@ def scatterByBins():
 	#on the value of V
 	nb_bins = points_per_axis
 	mini = np.min(V)
+
 	maxi = np.max(V)
 	bins = np.linspace(mini, maxi, nb_bins + 1)
 
@@ -171,3 +182,73 @@ def scatterByBins():
 		plt.savefig("fig"+str(i)+".png")
 
 
+
+def plotBestTrafficCircles():
+	samples = create_samples_list()
+	#weights = load_weights()
+	standards = loadStandardization()
+
+	xi = []
+	yi = []
+	ri = []
+	pi = []
+	si = []
+
+	for s in samples:
+
+		xi.append(s.road_pricing["x"])
+		yi.append(s.road_pricing["y"])
+		ri.append(s.road_pricing["r"])
+		pi.append(s.road_pricing["p"])
+
+	outputs_ranks = [i for i in range(len(xi))]
+
+	KPIS = [congestion_KPI, social_KPI, aggregate_KPI]
+	KPIS_names = ["congestion","social", "aggregate" ]
+
+	for i in range(len(KPIS)):
+		name = KPIS_names[i]
+		k = KPIS[i]
+
+		print("Creating figures for KPI : " + name)
+
+		si = []
+		for s in samples:
+			si.append(computeWeightedScores(s, standards, k)[-1])
+
+		outputs_ranks = sorted(outputs_ranks, key=lambda x:si[x])
+
+		plt.clf()
+
+		fig, ax = plt.subplots()
+
+		ax.set_title(name)
+		ax.set_xlabel('x')
+		ax.set_ylabel('y')
+		ax.set_xlim((MIN_X, MAX_X))
+		ax.set_ylim((MIN_Y, MAX_Y))
+
+		ax.set_facecolor((0, 0, 0))
+
+		plotSiouxFauxMap(ax)
+
+		for k in range(NB_GRAPHS):
+			j = NB_GRAPHS - k - 1
+			plotColoredCircle(ax, xi[outputs_ranks[j]], yi[outputs_ranks[j]], ri[outputs_ranks[j]], [0, 0.8, 0, 0.5*j/(NB_GRAPHS - 1)])
+			ax.text(xi[outputs_ranks[j]], yi[outputs_ranks[j]], str(round(pi[outputs_ranks[j]], 2)))
+
+		fig.savefig(name+".png")
+
+
+def plotColoredCircle(ax, x, y, r, color): #color takes and rgba argument as a list	
+	circle = plt.Circle((x, y), r, color=color, fill=True)
+	circle2 = plt.Circle((x, y), r, color=[1, 0, 0, 1], fill=False)
+	ax.add_artist(circle)
+	ax.add_artist(circle2)
+
+
+def plotSiouxFauxMap(ax):
+	for row in load_network():
+		if row[0].isdigit():
+			fromLocationX,fromLocationY,toLocationX,toLocationY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
+			ax.plot([fromLocationX,toLocationX], [fromLocationY, toLocationY], 'w')

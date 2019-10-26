@@ -63,6 +63,11 @@ def rm_iters_of_run(tpe_dir):
 		print("    Deleted " + p)
 
 
+def remove():
+	runs = sub_list()
+	for r in runs:
+		rm_iters_of_run(r)
+
 
 if __name__ == "__main__":
 	runs = sub_list()

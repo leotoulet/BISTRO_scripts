@@ -4,6 +4,7 @@ import shutil
 import sys
 import uuid
 from timeit import default_timer as timer
+from clear_iters import remove
 
 import pandas as pd
 
@@ -84,8 +85,7 @@ def objective(params):
     print("Running system command : " + cmd)
     os.system(cmd)
     print("BISTRO finished")
-
-
+    
     scores = read_scores(output_dir)
     
     #Change score HERE

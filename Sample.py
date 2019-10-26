@@ -37,7 +37,7 @@ def init_sample(tpe_dir):
 	return s
 
 #Returns a list score stored by iteration number
-def computeWeightedScores(s, standards, weights):
+def computeWeightedScores(s, standards, weights, standarding = True):
 	kpis_dict = s.KPIS
 
 	scores = []
@@ -66,6 +66,7 @@ def create_samples_list(dirs = None):
 
 	for d in dirs:
 		s = init_sample(d)
-		samples.append(s)
+		if s.road_pricing["p"] != 0.0:
+			samples.append(s)
 
 	return samples
