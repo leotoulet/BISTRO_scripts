@@ -4,7 +4,10 @@ import shutil
 import sys
 import uuid
 from timeit import default_timer as timer
-from clear_iters import remove
+import untangle
+import xmltodict
+import gzip
+#from clear_iters import remove
 
 import pandas as pd
 
@@ -85,7 +88,6 @@ def objective(params):
     print("Running system command : " + cmd)
     os.system(cmd)
     print("BISTRO finished")
-    
     scores = read_scores(output_dir)
     
     #Change score HERE
@@ -115,3 +117,17 @@ def score_average(scores):
     social = (scores[WORK_BURDEN] + scores[BUS_CROWDING])/2
     return (congestion + social)/2
 
+
+def read_toll_revenue(output_dir):
+    output_dir = only_subdir(only_subdir(output_dir))
+    f = gzip.open(os.path.join(output_dir,'outputEvents.xml.gz'), 'rb')
+    print("Loading events")
+    doc = xmltodict.parse(f.read())
+    print("Parsing tolls paid")
+    totalTolls = 0
+    for event in doc['events']['event']:
+        if '@tollPaid' in event.keys():
+            totalTolls += float(event['@tollPaid'])
+
+    return totalTolls
+            

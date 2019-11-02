@@ -14,7 +14,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-
 TMV = "Congestion: total vehicle miles traveled"
 AVG_DELAY = "Congestion: average vehicle delay per passenger trip"
 WORK_BURDEN = "Equity: average travel cost burden - work"

@@ -161,8 +161,6 @@ def getModeSplit(tpe_dir):
 
 
 
-
-
 #Returns a list score stored by iteration number
 def computeWeightedScore(kpis_dict, standards, weights):
 	scores = []
@@ -356,7 +354,6 @@ if __name__ == "__main__":
 		weights[k[j]] = 1.0
 	ScoreEvolutionIters(randomList, weights, "Aggregate")
 
-
 	for i in range(len(k)):
 		print("Creating color map for KPI " + k[i])
 		#Change keys in dictionnary
@@ -371,11 +368,10 @@ if __name__ == "__main__":
 
 
 	#Generate aggregate colorMap
-	print("Generating aggrgate color map")
+	print("Generating aggregate color map")
 	for j in range(len(k)):
 		weights[k[j]] = 1.0
 	colorMap(dirs, weights, "Aggregate")
-
 
 
 

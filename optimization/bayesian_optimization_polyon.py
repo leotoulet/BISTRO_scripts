@@ -16,11 +16,16 @@ SUB_FILE = "ModeSubsidies.csv"
 FLEET_FILE = "VehicleFleetMix.csv"
 MASS_TRANSIT_FILE = "MassTransitFares.csv"
 
-MIN_X = 676949
-MAX_X = 689624
+MIN_X, MIN_Y, MAX_X, MAX_Y = 0, 0, 0, 0
+SCENARIO = "SIOUX_FAUX"
+#SCENARIO = "SF_LIGHT"
 
-MIN_Y = 4818750
-MAX_Y = 4832294
+#Values for SIOUX FAUX
+if SCENARIO == "SIOUX_FAUX":
+    MIN_X, MAX_X, MIN_Y, MAX_Y = 676949, 689624, 4818750, 4832294
+
+if SCENARIO == "SF_LIGHT":
+    MIN_X, MAX_X, MIN_Y, MAX_Y = 539000, 570000, 4162000, 4195000
 
 MAX_PRICE_PER_MILE = 3.0
 
@@ -30,9 +35,27 @@ logger = logging.getLogger(__name__)
 space = {
 
     #Tolls adjustements
-    'fareLimitX': hp.quniform('fareLimitX', MIN_X, MAX_X, (MAX_X - MIN_X)/50),
-    'fareLimitY': hp.quniform('fareLimitY', MIN_Y, MAX_Y, (MAX_Y - MIN_Y)/50),
-    'farePriceP': hp.quniform('farePriceP', 0, MAX_PRICE_PER_MILE/1600,MAX_PRICE_PER_MILE/1600/50)
+    #'fareLimitX': hp.quniform('fareLimitX', MIN_X, MAX_X, (MAX_X - MIN_X)/50),
+    #'fareLimitY': hp.quniform('fareLimitY', MIN_Y, MAX_Y, (MAX_Y - MIN_Y)/50),
+    #'farePriceP': hp.quniform('farePriceP', 0, MAX_PRICE_PER_MILE/1600,MAX_PRICE_PER_MILE/1600/50)
+
+    #Variable circle with varaible entry tolls at peak times
+    'centerx': hp.quniform('centerx', MIN_X, MAX_X, (MAX_X - MIN_X)/50),
+    'centery': hp.quniform('centery', MIN_Y, MAX_Y, (MAX_Y - MIN_Y)/50),
+    'cradius':  hp.quniform('cradius',  0 , MAX_Y - MIN_Y, (MAX_Y - MIN_Y)/50),
+    'centry_toll': hp.quniform('centry_toll', 0, 10, 0.1)
+
+    #Four points polygon
+    'p1_x' : hp.quniform('p1_x', MIN_X, MAX_X, (MAX_X - MIN_X)/50)
+    'p2_x' : hp.quniform('p2_x', MIN_X, MAX_X, (MAX_X - MIN_X)/50)
+    'p3_x' : hp.quniform('p3_x', MIN_X, MAX_X, (MAX_X - MIN_X)/50)
+    'p4_x' : hp.quniform('p4_x', MIN_X, MAX_X, (MAX_X - MIN_X)/50)
+
+    'p5_x' : hp.quniform('p5_x', MIN_Y, MAX_Y, (MAX_Y - MIN_Y)/50)
+    'p6_x' : hp.quniform('p6_x', MIN_Y, MAX_Y, (MAX_Y - MIN_Y)/50)
+    'p7_x' : hp.quniform('p7_x', MIN_Y, MAX_Y, (MAX_Y - MIN_Y)/50)
+    'p8_x' : hp.quniform('p8_x', MIN_Y, MAX_Y, (MAX_Y - MIN_Y)/50)
+
 
     # VehicleFleetMix
     #'vehicleType_r1340': hp.choice('vehicleType1', ['BUS-SMALL-HD', 'BUS-DEFAULT', 'BUS-STD-HD', 'BUS-STD-ART']),
@@ -224,11 +247,11 @@ def main():
     global ITERATION
 
     ITERATION = 0
-    MAX_EVALS = 100
+    MAX_EVALS = 300
     from hyperopt import fmin
     from hyperopt import tpe
     # Keep track of results
-    bayes_trials = MongoTrials('mongo://localhost:27017/wh_db_cordon/jobs', exp_key='CORDON_test2')
+    bayes_trials = MongoTrials('mongo://localhost:27017/wh_db_circle/jobs', exp_key='CIRCLE')
     # File to save first results
     out_file = '../bayesian-output/bayes_trials.csv'
     of_connection = open(out_file, 'w')

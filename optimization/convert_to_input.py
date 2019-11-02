@@ -1,6 +1,9 @@
 import pandas as pd
 import csv
 
+from shapely.geometry import Point
+from shapely.geometry.polygon import Polygon
+
 vehicle_fleet_columns = ["agencyId", "routeId", "vehicleTypeId"]
 frequency_adjustment_columns = ['route_id', 'start_time', 'end_time', 'headway_secs', 'exact_times']
 mode_incentive_columns = ['mode', 'age', 'income', 'amount']
@@ -21,6 +24,9 @@ cradius = None
 centry_toll = None
 filepath_network = "/home/ubuntu/settingsFiles/network.csv"
 
+points_x = {"p1_x":None, "p2_x":None, "p3_x":None, "p4_x":None }
+points_y = {"p1_y":None, "p2_y":None, "p3_y":None, "p4_y":None }
+polygon = []
 
 def convert_to_input(sample, input_dir):
     vehicle_fleet = []
@@ -50,11 +56,16 @@ def convert_to_input(sample, input_dir):
         elif key.startswith('c'):
             road_pricing = road_pricing + processC(key, value)
 
+        #Polygon cordon
+        elif key.startswith('p'):
+            processP(key, value)
+
         elif 'income' in key:
             mode_incentive.append(processM(key, value))
 
-
-
+    #Once we have all points in polygon, process it
+    #polygon = Polygon(polygon)
+    #road_pricing += processPolygon()
 
     vehicle_fleet_d = pd.DataFrame(vehicle_fleet, columns=vehicle_fleet_columns)
     frequency_adjustment_d = pd.DataFrame(frequency_adjustment, columns=frequency_adjustment_columns)
@@ -67,6 +78,51 @@ def convert_to_input(sample, input_dir):
     mode_incentive_d.to_csv(input_dir + '/ModeIncentives.csv', sep=',', index=False)
     mass_fare_d.to_csv(input_dir + '/MassTransitFares.csv', sep=',', index=False)
     road_pricing_d.to_csv(input_dir + '/RoadPricing.csv', sep=',', index=False)
+
+
+def processP(key, value):
+    #Key format pn_x = val
+    if key[3]=="x":
+        points_x[key] = value
+    else:
+        points_y[key] = value
+
+
+def processPolygon():
+    timeRange = '[7:10,16:20]'
+    
+    global polygon
+
+    for x,y in zip(points_x.values(), points_y.values()):
+        if x!= None and y!=None:
+            polygon.append((x,y))
+
+    polygon = Polygon(sorted(polygon))
+
+    #Save parameters
+    file = open("polygon_params.txt","a")
+    for point in polygon.exterior.coords:
+        file.write(str(point) + ";")
+    file.close()
+
+    changes = []
+    i = 0
+    for row in load_network():
+        if row[0].isdigit():
+            i+=1
+            linkId,linkLength,fromLocationX,fromLocationY,toLocationX,toLocationY = row[0],row[1],row[-4],row[-3],row[-2],row[-1]
+            p1 = Point(float(fromLocationX), float(fromLocationY))
+            p2 = Point(float(toLocationX), float(toLocationY))
+            if (polygon.contains(p2) and not polygon.contains(p1)):
+                changes.append([linkId,3.0,timeRange])
+            if (polygon.contains(p1) and not polygon.contains(p2)):
+                changes.append([linkId,3.0,timeRange])
+
+            if i%1000  == 0:
+                print("Nb links analized : ", i)
+
+    return changes
+
 
 def processF(key, value):
     timeRange = '[:]'
@@ -89,7 +145,6 @@ def processF(key, value):
 
 
 def processC(key, value):
-    timeRange = '[7:10,16:20]'
 
     global centerx, centery, centry_toll, cradius
 
@@ -107,7 +162,7 @@ def processC(key, value):
 
     else:
         print("Parameters for this run: \nCenterX: " + str(centerx) + "\nCenterY: " + str(centery) + "\nPrice: " + str(centry_toll) + "\nRadius: " + str(cradius))
-        return get_circle_links(centerx, centery, cradius, centry_toll, timeRange)
+        return get_circle_links(centerx, centery, cradius, centry_toll)
 
 
 def processV(key, value):
@@ -180,7 +235,9 @@ def get_cordon_links(x, y, p, timeRange):
     return changes
 
 
-def get_circle_links(x, y, r, p, timeRange):
+def get_circle_links(x, y, r, p):
+    timeRange = '[:]'
+    #timeRange2 = '[57600:72000]'
 
     #Save parameters
     file = open("circle_params.txt","w")
@@ -198,7 +255,9 @@ def get_circle_links(x, y, r, p, timeRange):
             dfrom = ((x - fromLocationX)**2 + (y - fromLocationY)**2)**0.5
             dto = ((x - toLocationX)**2 + (y - toLocationY)**2)**0.5
 
-            if dfrom > r and dto < r:
+            if (dfrom > r and dto < r): 
+                changes.append([linkId,p,timeRange])
+            if (dfrom < r and dto > r):
                 changes.append([linkId,p,timeRange])
     return changes
 

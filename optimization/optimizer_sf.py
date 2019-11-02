@@ -79,8 +79,11 @@ def objective(params):
     output_suffix = uuid.uuid4()
     output_dir = os.path.abspath(f"./output/{output_suffix}")
 
-    cmd = f"docker run -it -v {output_dir}:/output -v {input_dir}:/submission-inputs {DOCKER_IMAGE} {docker_cmd}"
-    cmd = cmd + " > log.txt"
+    #cmd = f"docker run -it -v {output_dir}:/output -v {input_dir}:/submission-inputs {DOCKER_IMAGE} {docker_cmd}"
+    #cmd = cmd + " > log.txt"
+
+    cmd = f"sudo docker run -ite \"JAVA_OPT=\"-Xmx32G\"\" -v {output_dir}:/output:rw -v {input_dir}:/submission-inputs -v {input_dir}/fixed-data:/fixed-data:rw beammodel/beam-competition:0.0.4-SNAPSHOT --config fixed-data/sf_light/sf_light-25k.conf"
+
     logger.info("!!! execute simulator cmd: %s" % cmd)
     print("Running system command : " + cmd)
     os.system(cmd)

@@ -252,3 +252,16 @@ def plotSiouxFauxMap(ax):
 		if row[0].isdigit():
 			fromLocationX,fromLocationY,toLocationX,toLocationY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
 			ax.plot([fromLocationX,toLocationX], [fromLocationY, toLocationY], 'w')
+
+def plotCityMap():
+	plt.clf()
+	plt.rcParams['axes.facecolor'] = 'black'
+	i = 0
+	for row in load_network():
+		if row[0].isdigit():
+			i+=1
+			fromLocationX,fromLocationY,toLocationX,toLocationY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
+			plt.plot([fromLocationX,toLocationX], [fromLocationY, toLocationY], 'w')
+			if i%1000==0:
+				print("Link ", i)
+	plt.savefig("map.png")
