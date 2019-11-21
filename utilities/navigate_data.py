@@ -22,7 +22,7 @@ def only_subdir(current_dir = os.getcwd()):
 def sub_list(current_dir = os.getcwd()):
 	dirs = next(os.walk(current_dir))[1]
 	dirs = [os.path.join(current_dir, d) for d in dirs]
-	dirs = [d for d in dirs if dir[0]=='5' and check_file_existence(d)]
+	dirs = [d for d in dirs if d[0]=='5' and check_file_existence(d)]
 	print(dirs)
 
 
