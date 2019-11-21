@@ -323,19 +323,6 @@ def plotColoredCircle(ax, x, y, r, color): #color takes and rgba argument as a l
 
 
 
-def getSiouxFauxLinks():
-	rows = []
-	avg = 0
-	i = 0
-	for row in load_network():
-		if row[0].isdigit():
-			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
-			rows.append((fX, fY, tX, tY))
-			avg += sqrt((fX-tX)**2+(fY-tY)**2)
-			i+=1
-
-	return rows
-
 
 def plotCityMap():
 	plt.clf()
@@ -353,90 +340,7 @@ def plotCityMap():
 				print("Link ", i)
 	plt.savefig("map.png")
 
-def ColorAxesPerToll():
-	samples = create_samples_list()
-	standards = loadStandardization()
-	links = getSiouxFauxLinks()
 
-	KPIS = ALL_KPIS
-	KPIS_names = ALL_NAMES
-
-	for i in range(len(KPIS)):
-
-		KPI = KPIS[i]
-		name = KPIS_names[i]
-		percent = 0.1
-		weighted_tolls = [0 for i in range(len(links))]
-		print(KPI)
-
-		#Sort samples best score first
-		samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
-		#print([s.directory for s in samples])
-		#smin, smax = min(scores), max(scores)
-
-		for s in samples[:int(percent*len(samples))]:
-			xc,yc,r = s.road_pricing["x"], s.road_pricing["y"], s.road_pricing["r"]
-			p = s.road_pricing["p"]
-
-			for i,l in enumerate(links):
-				fX,fY,tX,tY = l
-				if (fX - xc)**2 + (fY - yc)**2 < r**2 and (tX - xc)**2 + (tY - yc)**2 < r**2:
-					weighted_tolls[i] += p/(percent*len(samples))
-
-		fig, ax = plt.subplots()
-
-		tolls_max = max(weighted_tolls)
-		tolls_min = min(weighted_tolls)
-		lmin, lmax = None, None
-
-		for i in range(len(links)):
-			X = [links[i][0], links[i][2]]
-			Y = [links[i][1], links[i][3]]
-			c = [1 - (weighted_tolls[i] - tolls_min)/(tolls_max-tolls_min), (weighted_tolls[i] - tolls_min)/(tolls_max-tolls_min), 0]
-			if weighted_tolls[i]==tolls_min:
-				lmin, = ax.plot(X,Y,color=c, label="min")
-			if weighted_tolls[i]==tolls_max:
-				lmax, = ax.plot(X,Y,color=c, label="max")
-			else:
-				ax.plot(X,Y,color=c)
-
-		tolls_min = round(tolls_min, 2)
-		tolls_max = round(tolls_max, 2)
-
-		print(tolls_min, tolls_max)
-		plt.legend((lmin, lmax), (str(tolls_min)+"$/m", str(tolls_max)+"$/m"))
-		plt.title("Average toll, " + str(int(100*percent)) + "% best samples")
-		plt.savefig(name + "links_color.png")
-
-
-def radius_evol():
-
-	plt.clf()
-
-	samples = create_samples_list()
-	standards = loadStandardization()
-
-	KPI = aggregate_KPI
-	name = "Aggregate"
-	
-	plt.plot([s.road_pricing["r"] for s in samples], "bo")
-
-
-	plt.savefig("radius_evol.png")
-
-def price_evol():
-	samples = create_samples_list()
-	standards = loadStandardization()
-
-	KPI = aggregate_KPI
-	name = "Aggregate"
-
-	plt.clf()
-	
-	plt.plot([s.road_pricing["p"] for s in samples], "bo")
-
-
-	plt.savefig("price_evol.png")
 
 def placement_evol():
 	samples = create_samples_list()
