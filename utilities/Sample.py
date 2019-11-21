@@ -62,7 +62,7 @@ def computeWeightedScores(s, standards, weights, standarding = True):
 def create_samples_list(exp_directory, dirs = None):
 
 	if dirs == None:
-		dirs = getTimeSortedDirs()
+		dirs = getTimeSortedDirs(exp_directory)
 
 	samples = []
 	i = 0
