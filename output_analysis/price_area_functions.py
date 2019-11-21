@@ -27,8 +27,8 @@ def KPI_wrt_price_area(samples, standards, KPI, name, folder):
 	scores = [computeWeightedScores(s, standards, KPI)[-1] for s in samples]
 
 	plt.title(name + "w.r.t price * area")
-	plt.label_x("Price * Area ($ * m^2)")
-	plt.label_y("KPI score")
+	plt.xlabel("Price * Area ($ * m^2)")
+	plt.ylabel("KPI score")
 
 	plt.plot(price_area, scores)
 	path = folder+"/"+name+"_price_area.png"
@@ -46,8 +46,8 @@ def mode_choice_wrt_price_area(samples, standards, mode, name, folder):
 	scores = [s.mode_split[name] for s in samples]
 
 	plt.title(name + " mode split w.r.t price * area")
-	plt.label_x("Price * Area ($ * m^2)")
-	plt.label_y(name + " mode split")
+	plt.xlabel("Price * Area ($ * m^2)")
+	plt.ylabel(name + " mode split")
 
 	plt.plot(price_area, scores)
 	path = folder+"/"+name+"_price_area.png"
