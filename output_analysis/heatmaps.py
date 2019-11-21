@@ -39,13 +39,15 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 2):
 	X, Y = np.meshgrid(np.linspace(MIN_X, MAX_X, 1000), np.linspace(MIN_Y, MAX_Y, 1000))
 	
 	for s in samples:
-		xcs.append(s.road_pricing["x"])
-		ycs.append(s.road_pricing["y"])
-		sigmas.append(s.road_pricing["r"]/f)
+		if s.road_pricing["r"]!=0:
+			xcs.append(s.road_pricing["x"])
+			ycs.append(s.road_pricing["y"])
+			sigmas.append(s.road_pricing["r"]/f)
 
 	si = []
 	for s in samples:
-		si.append(computeWeightedScores(s, standards, KPI)[-1])
+		if s.road_pricing["r"]!=0:
+			si.append(computeWeightedScores(s, standards, KPI)[-1])
 	Z = combined_normal_distribution(X, Y, si)
 
 	fig, ax = plt.subplots()
