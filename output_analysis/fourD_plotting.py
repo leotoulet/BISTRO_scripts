@@ -321,13 +321,7 @@ def plotColoredCircle(ax, x, y, r, color): #color takes and rgba argument as a l
 	ax.add_artist(circle2)
 
 
-def plotSiouxFauxMap(ax):
-	for row in load_network():
-		if row[0].isdigit():
-			fromLocationX,fromLocationY,toLocationX,toLocationY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
-			X = [fromLocationX,toLocationX]
-			Y = [fromLocationY, toLocationY]
-			plt.plot(X, Y, 'w')
+
 
 def getSiouxFauxLinks():
 	rows = []
