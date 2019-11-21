@@ -21,6 +21,7 @@ def only_subdir(current_dir = os.getcwd()):
 #Get a list of all subdirectories
 def sub_list(current_dir = os.getcwd()):
 	dirs = next(os.walk(current_dir))[1]
+	print(dirs)
 	dirs = [os.path.join(current_dir, d) for d in dirs]
 	print(dirs)
 	return [dir for dir in dirs if dir[0]=='5' and check_file_existence(dir)]
