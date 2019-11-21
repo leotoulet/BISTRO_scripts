@@ -13,6 +13,7 @@ from collect_inputs import *
 from heatmaps import *
 from Sample import *
 from price_area_functions import *
+from link_coloring import *
 
 print("################### Scripts loaded ! ##################\n")
 
@@ -74,11 +75,13 @@ def link_coloring():
 	saving_dir = CONFIG["OUTPUT_DIR"] + "/link_coloring"
 	os.makedirs(saving_dir, exist_ok = True)
 	for k,n in zip(KPIS, KPIS_names):
-		
+		best_scores_link_tolls(samples_copy, standards, k, n, saving _dir)
+
 
 #############################################################################
 
 if __name__=="__main__":
 	price_area()
+	link_coloring()
 	heatmaps()
 
