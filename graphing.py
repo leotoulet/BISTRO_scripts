@@ -49,6 +49,11 @@ print("#################### Setup finished ###################\n")
 
 ######################### USER DEFINED FUNCTIONS #############################
 
+if __name__=="__main__":
+	price_area()
+
+
+#############################################################################
 
 def price_area():
 	samples_copy = [s for s in samples]
