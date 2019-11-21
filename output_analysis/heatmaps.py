@@ -63,7 +63,7 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 1):
 
 def normal_distribution(x,y, xc, yc, sigma):
 	r = np.sqrt((x - xc)**2 + (y - yc)**2)
-	return 1 - (np.arctan((r - sigma)/500)+np.pi/2)/np.pi
+	return 1 - (np.arctan((r - sigma)/300)+np.pi/2)/np.pi
 	return 1-(np.sign(r - sigma) + 1)/2
 	return np.exp(-r**2/(2*sigma**2))
 	return 1/np.sqrt(2*pi*sigma**2)*np.exp(-r**2/(2*sigma**2))
