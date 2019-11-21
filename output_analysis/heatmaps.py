@@ -66,8 +66,8 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 2):
 	ax.axis([X.min(), X.max(), Y.min(), Y.max()])
 	fig.colorbar(c, ax=ax)
 
-	plt.savefig(folder+"/score_heatmap"+name+".png")
-	print("    Saved heatmap to: "+folder+"/score_heatmap"+name+".png")
+	plt.savefig(folder+"/score_heatmap_"+name+".png")
+	print("    Saved heatmap to: "+folder+"/score_heatmap_"+name+".png")
 
 
 def normal_distribution(x,y, xc, yc, sigma):

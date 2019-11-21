@@ -46,5 +46,6 @@ print("#################### Setup finished ###################\n\n")
 
 ######################### USER DEFINED FUNCTIONS #############################
 
+saving_dir = CONFIG["OUTPUT_DIR"]+"/heatmaps"
 for k,n in zip(KPIS, KPIS_names):
-	plotTrafficCirclesHeatMap(samples, standards, k, n, CONFIG["OUTPUT_DIR"]+"heatmaps/")
+	plotTrafficCirclesHeatMap(samples, standards, k, n, )
