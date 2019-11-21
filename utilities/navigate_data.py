@@ -47,6 +47,7 @@ def check_file_existence(tpe_dir):
 def getTimeSortedDirs(exp_directory):
 	print(exp_directory)
 	dirs = sub_list(exp_directory)
+	print(dirs)
 	dirs = sorted(dirs, key = lambda x:read_timestamp(x))
 	print("Number of complete result directories : "+str(len(dirs)))
 	return dirs
