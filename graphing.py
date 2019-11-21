@@ -49,4 +49,4 @@ print("#################### Setup finished ###################\n")
 print("Generating score heatmaps for all KPIS")
 saving_dir = CONFIG["OUTPUT_DIR"]+"/heatmaps"
 for k,n in zip(KPIS, KPIS_names):
-	plotTrafficCirclesHeatMap(samples, standards, k, n, )
+	plotTrafficCirclesHeatMap(samples, standards, k, n, saving_dir)
