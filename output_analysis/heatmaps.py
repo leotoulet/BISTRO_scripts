@@ -82,3 +82,12 @@ def combined_normal_distribution(x,y, factors):
 	for i in range(len(xcs)):
 		value += factors[i]/len(factors)*normal_distribution(x,y,xcs[i], ycs[i], sigmas[i])
 	return value
+
+
+def plotSiouxFauxMap(ax):
+	for row in load_network():
+		if row[0].isdigit():
+			fromLocationX,fromLocationY,toLocationX,toLocationY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
+			X = [fromLocationX,toLocationX]
+			Y = [fromLocationY, toLocationY]
+			plt.plot(X, Y, 'w')
