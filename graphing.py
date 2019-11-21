@@ -75,7 +75,7 @@ def link_coloring():
 	saving_dir = CONFIG["OUTPUT_DIR"] + "/link_coloring"
 	os.makedirs(saving_dir, exist_ok = True)
 	for k,n in zip(KPIS, KPIS_names):
-		best_scores_link_tolls(samples_copy, standards, k, n, saving _dir)
+		best_scores_link_tolls(samples_copy, standards, k, n, saving_dir)
 
 
 #############################################################################
