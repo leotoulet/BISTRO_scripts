@@ -1,4 +1,6 @@
 #Defines a Sample class that stores all relevant information about a sample
+import os
+
 from navigate_data import *
 from collect_inputs import *
 from collect_outputs import *
@@ -11,7 +13,7 @@ class Sample:
 
 	#Inputs
 	mass_transit_fares = {"AdultFare":None, "ChildrenFare":None};
-	road_pricing = {"x":None, "y":None, "p":None};
+	road_pricing = {"x":None, "y":None, "p":None, "r":None};
 
 	#Outputs
 	KPIS = None; #dict of {KPI: (it0, it1, ..., it.n)}
@@ -57,16 +59,19 @@ def computeWeightedScores(s, standards, weights, standarding = True):
 
 
 #Returns a list of samples ordered by timeStamp
-def create_samples_list(dirs = None):
+def create_samples_list(exp_directory, dirs = None):
 
 	if dirs == None:
 		dirs = getTimeSortedDirs()
 
 	samples = []
+	i = 0
 
 	for d in dirs:
+		i += 1
+		print("Loading sample " + str(i) + "...", end="\r")
 		s = init_sample(d)
 		if s.road_pricing["p"] != 0.0:
 			samples.append(s)
-
+	print("\n")
 	return samples

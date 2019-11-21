@@ -31,9 +31,11 @@ def read_timestamp(tpe_dir):
 
 #Check data existence and input validity
 def check_file_existence(tpe_dir):
-	outputs =  os.path.exists(os.path.join(get_results_dir(tpe_dir), "submissionScores.csv"))
+	outputs =  os.path.exists(os.path.join(get_results_dir(tpe_dir), "rawScores.csv"))
+	outputs = outputs and os.path.exists(os.path.join(get_results_dir(tpe_dir), "submissionScores.csv"))
 	inputs = os.path.exists(os.path.join(getInputsDir(tpe_dir), "MassTransitFares.csv"))
-	return inputs and outputs
+	circle_params = os.path.exists(os.path.join(tpe_dir, 'circle_params.txt'))
+	return inputs and outputs and circle_params
 
 #Return a list of data points sorted by time
 def getTimeSortedDirs():

@@ -24,62 +24,15 @@ GHG = "Sustainability: Total grams GHGe Emissions"
 SUBMISSION = "Submission Score"
 
 #Get the current working directory
-def get_dir():
-	return os.getcwd()
+from navigate_data import *
+from Sample import *
+from collect_outputs import *
+from collect_inputs import *
+from KPIS import *
 
-#Get only subdir
-def only_subdir(current_dir = os.getcwd()):
-	return next(os.walk(current_dir))[1][0]
-
-#Get a list of all subdirectories
-def sub_list(current_dir = os.getcwd()):
-	return [dir for dir in next(os.walk(current_dir))[1] if dir[0]=='5']
-
-#Get the path of the result file given a TPE folder
-def get_results_dir(dir):
-	abs_path = os.path.join(get_dir(), dir)
-	abs_path = os.path.join(abs_path, 'output')
-	abs_path = os.path.join(abs_path, only_subdir(abs_path))
-	abs_path = os.path.join(abs_path, only_subdir(abs_path))
-	abs_path = os.path.join(abs_path, only_subdir(abs_path))
-	abs_path = os.path.join(abs_path, 'competition')
-	return abs_path
-
-
-def read_scores(tpe_dir):
-	results_dir = get_results_dir(tpe_dir)
-	outfile = os.path.join(results_dir, "submissionScores.csv")
-	
-	df = pd.read_csv(outfile, index_col="Component Name")
-	scores = df["Weighted Score"]
-	return score_average(scores)
-
-
-def score_average(scores):
-	congestion = (scores[TMV] + scores[AVG_DELAY] + scores[GHG])/3
-	social = (scores[WORK_BURDEN] + scores[BUS_CROWDING])/2
-	return (congestion + social)/2
-
-def read_timestamp(tpe_dir):
-	results_dir = get_results_dir(tpe_dir)
-	outfile = os.path.join(results_dir, "submissionScores.csv")
-	timestamp = os.path.getmtime(outfile)
-	return timestamp
-
-def check_file_existence(tpe_dir):
-	return os.path.exists(os.path.join(get_results_dir(tpe_dir), "submissionScores.csv"))
-
-#Returns array of (timestamp, score)
-def read_sorted_tpe_results():
-	results = []
-	for dir in sub_list():
-		if check_file_existence(dir):
-			results.append((read_timestamp(dir), read_scores(dir)))
-	return sorted(results,key = lambda x:x[0])
-
-def graph_tpe_results():
+def graph_tpe_results(samples, standards, kpi = aggregate_KPI, name = "Aggregate"):
 	plt.cla()
-	results = [r[1] for r in read_sorted_tpe_results()]
+	results = [computeWeightedScores(s, standards, kpi)[-1] for s in samples]
 	order = [i for i in range(len(results))]
 	mini = [results[0]]+[min(results[:i]) for i in range(1, len(results))]
 	
@@ -91,9 +44,10 @@ def graph_tpe_results():
 	plt.legend(loc='upper right',frameon=True,framealpha=1.0)
 	plt.savefig("tpe_score_evolution.png")
 
-def graph_tpe_spread():
+def graph_tpe_spread(samples, standards, kpi = aggregate_KPI, name = "Aggregate"):
 	plt.cla()
-	results = [r[1] for r in read_sorted_tpe_results()]
+
+	results = [computeWeightedScores(s, standards, kpi)[-1] for s in samples]
 	order = [i for i in range(len(results))]
 	mini = [results[0]]+[min(results[:i]) for i in range(1, len(results))]
 	maxi = [results[0]]+[max(results[:i]) for i in range(1, len(results))]
@@ -111,11 +65,19 @@ def graph_tpe_spread():
 
 	plt.legend(loc='upper right',frameon=True,framealpha=1.0)
 
-	plt.savefig("tpe_score_spread.png")
+	plt.savefig(name+"_tpe_score_spread.png")
 
 
 
 if __name__ == "__main__":
-	graph_tpe_results()
-	graph_tpe_spread()
+	samples = create_samples_list()
+	standards = loadStandardization()
+	graph_tpe_spread(samples, standards)
+
+	graph_tpe_spread(samples, standards, TollRevenue_KPI, "Tolls")
+
+	graph_tpe_spread(samples, standards, congestion_KPI, "Congestion")
+
+	graph_tpe_spread(samples, standards, social_KPI, "Social")
+
 	

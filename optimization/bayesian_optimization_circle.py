@@ -236,7 +236,7 @@ def main():
     from hyperopt import fmin
     from hyperopt import tpe
     # Keep track of results
-    bayes_trials = MongoTrials('mongo://localhost:27017/wh_db_circle/jobs', exp_key='CIRCLE')
+    bayes_trials = MongoTrials('mongo://localhost:27017/wh_db_circle/jobs', exp_key='PER_MILE_TOLL_PAPER')
     # File to save first results
     out_file = '../bayesian-output/bayes_trials.csv'
     of_connection = open(out_file, 'w')

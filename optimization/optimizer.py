@@ -10,24 +10,45 @@ import gzip
 #from clear_iters import remove
 
 import pandas as pd
-
+import csv
 sys.path.append(os.path.abspath("../../"))
-# print(sys.path)
+sys.path.append("/home/ubuntu/BeamCompetitions/")
 import convert_to_input
 from hyperopt import STATUS_OK
 
-TMV = "Congestion: total vehicle miles traveled"
-AVG_DELAY = "Congestion: average vehicle delay per passenger trip"
-WORK_BURDEN = "Equity: average travel cost burden - work"
-BUS_CROWDING = "Level of service: average bus crowding experienced"
-COSTS_BENEFITS = "Level of service: costs and benefits"
-GHG = "Sustainability: Total grams GHGe Emissions"
+trans_dict = {
 
+    'Iteration':'Iteration',
+
+    'Accessibility: number of secondary locations accessible by car within 15 minutes':'driveSecondaryAccessibility',
+    'Accessibility: number of secondary locations accessible by transit within 15 minutes':'transitSecondaryAccessibility',
+    'Accessibility: number of work locations accessible by car within 15 minutes':'driveWorkAccessibility',
+    'Accessibility: number of work locations accessible by transit within 15 minutes':'transitWorkAccessibility',
+
+    'Congestion: average vehicle delay per passenger trip':'averageVehicleDelayPerPassengerTrip',
+    'Congestion: total vehicle miles traveled':'motorizedVehicleMilesTraveled_total',
+    'Equity: average travel cost burden -  secondary':'averageTravelCostBurden_Secondary',
+    'Equity: average travel cost burden - work':'averageTravelCostBurden_Work',
+    'Level of service: average bus crowding experienced':'busCrowding',
+    'Level of service: costs and benefits':'costBenefitAnalysis',
+
+    'Sustainability: Total grams GHGe Emissions':'sustainability_GHG',
+    'Sustainability: Total grams PM 2.5 Emitted':'sustainability_PM'
+}
+
+AVG_DELAY = "averageVehicleDelayPerPassengerTrip"
+WORK_BURDEN = "averageTravelCostBurden_Work"
+SECOND_BURDEN = "averageTravelCostBurden_Secondary"
+BUS_CROWDING = "busCrowding"
+COSTS_BENEFITS = "costBenefitAnalysis"
+GHG = "sustainability_GHG"
+TOLL_REVENUE = "TollRevenue"
 SUBMISSION = "Submission Score"
 
 
 DOCKER_IMAGE = "beammodel/beam-competition:0.0.3-SNAPSHOT"
-CMD_TEMPLATE = "--scenario {0} --sample-size {1} --iters {2}"
+CMD_TEMPLATE = "--scenario {0} --sample-size {1} --iters {2} --config {3}"
+CONFIG_PATH = "/fixed-data/sioux_faux/sioux_faux-15k.conf"
 SCENARIO_NAME = "sioux_faux"
 SCORES_PATH = ("competition", "submissionScores.csv")
 DIR_DELIM = "-"
@@ -74,7 +95,7 @@ def objective(params):
     # Run simulator, return a score
     sample_size = "15k"
     n_sim_iters = 30
-    docker_cmd = CMD_TEMPLATE.format(SCENARIO_NAME, sample_size, n_sim_iters)
+    docker_cmd = CMD_TEMPLATE.format(SCENARIO_NAME, sample_size, n_sim_iters, CONFIG_PATH)
 
     # Write params to input submission csv files
     convert_to_input.convert_to_input(params, input_dir)
@@ -82,18 +103,14 @@ def objective(params):
     output_suffix = uuid.uuid4()
     output_dir = os.path.abspath(f"./output/{output_suffix}")
 
-    cmd = f"docker run -it -v {output_dir}:/output -v {input_dir}:/submission-inputs {DOCKER_IMAGE} {docker_cmd}"
+    cmd = f"docker run -it -v {output_dir}:/output -v {input_dir}:/submission-inputs -v /home/ubuntu/BeamCompetitions/fixed-data:/fixed-data:rw {DOCKER_IMAGE} {docker_cmd}"
     cmd = cmd + " > log.txt"
     logger.info("!!! execute simulator cmd: %s" % cmd)
     print("Running system command : " + cmd)
     os.system(cmd)
     print("BISTRO finished")
-    scores = read_scores(output_dir)
     
-    #Change score HERE
-    score = score_average(scores)
-    
-    score = float(score)
+    score = get_score(output_dir)
     print("SCORE :", score)
 
     output_dir = only_subdir(only_subdir(output_dir))
@@ -112,10 +129,46 @@ def objective(params):
             'train_time': run_time, 'status': STATUS_OK, 'paths': paths}
 
 
-def score_average(scores):
-    congestion = (scores[TMV] + scores[AVG_DELAY] + scores[GHG])/3
-    social = (scores[WORK_BURDEN] + scores[BUS_CROWDING])/2
-    return (congestion + social)/2
+def get_score(output_dir):
+    standards = load_standards()
+    raw_scores = read_raw_scores(output_dir)
+    return compute_weighted_scores(raw_scores, standards)
+
+
+#KPI is hard coded for now
+def compute_weighted_scores(raw_scores, standards):
+    congestion, social, toll = 0, 0, 0
+
+    #Congestion
+    congestion += (raw_scores[AVG_DELAY] - standards[AVG_DELAY][0])/standards[AVG_DELAY][1]/2
+    congestion += (raw_scores[GHG] - standards[GHG][0])/standards[GHG][1]/2
+
+    #Social
+    social += (raw_scores[WORK_BURDEN] - standards[WORK_BURDEN][0])/standards[WORK_BURDEN][1]/2
+    social += (raw_scores[SECOND_BURDEN] - standards[SECOND_BURDEN][0])/standards[SECOND_BURDEN][1]/2
+    #social += (raw_scores[BUS_CROWDING] - standards[BUS_CROWDING][0])/standards[BUS_CROWDING][1]/3
+
+    #Toll revenue
+    toll_revenue = (raw_scores[TOLL_REVENUE] - standards[TOLL_REVENUE][0])/standards[TOLL_REVENUE][1]
+
+    return 2*congestion/5 + 2*social/5 + toll_revenue/5
+
+def read_raw_scores(output_dir):
+    path = only_subdir(only_subdir(output_dir))
+    path = os.path.join(path, "competition/rawScores.csv")
+    dic = {}
+
+    #if not check_file_existence(tpe_dir):
+    #    print("Problem retreiveing raw scores")
+
+    with open(path) as csvfile:
+        df = pd.read_csv(csvfile)
+        kpi_names = list(df.columns)
+        for name in kpi_names:
+            dic[trans_dict[name]] = list(df[name])[-1]
+
+    dic['TollRevenue'] = read_toll_revenue(output_dir)
+    return dic
 
 
 def read_toll_revenue(output_dir):
@@ -131,3 +184,12 @@ def read_toll_revenue(output_dir):
 
     return totalTolls
             
+def load_standards(file = "/home/ubuntu/settingsFiles/standardizationParameters.csv"):
+    dict_name = file
+    params = {}
+    with open(dict_name) as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            params[row[0]] = (float(row[1]), float(row[2]))
+    return params
+

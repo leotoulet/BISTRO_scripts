@@ -26,7 +26,7 @@ def singleKPI_weights(KPI):
 
 
 #Loads the dicationnary of {KPI: mean, std} from working directory
-def loadStandardization(file = "standardizationParameters.csv"):
+def loadStandardization(file = "/home/ubuntu/settingsFiles/standardizationParameters.csv"):
 	dict_name = file
 	params = {}
 	with open(dict_name) as csvfile:

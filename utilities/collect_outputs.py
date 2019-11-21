@@ -1,4 +1,6 @@
 from navigate_data import *
+import gzip
+import xmltodict
 
 MODE_CHOICES = ['car', 'drive_transit', 'ride_hail', 'walk', 'walk_transit']
 
@@ -20,7 +22,8 @@ trans_dict = {
 	'Level of service: costs and benefits':'costBenefitAnalysis',
 
 	'Sustainability: Total grams GHGe Emissions':'sustainability_GHG',
-	'Sustainability: Total grams PM 2.5 Emitted':'sustainability_PM'
+	'Sustainability: Total grams PM 2.5 Emitted':'sustainability_PM',
+	'TollRevenue':'TollRevenue'
 }
 
 def read_score(tpe_dir):
@@ -42,11 +45,20 @@ def retrieve_KPIs(tpe_dir):
 	if not check_file_existence(tpe_dir):
 		return
 
-	with open(path) as csvfile:
-		df = pd.read_csv(csvfile)
-		kpi_names = list(df.columns)
-		for name in kpi_names:
-			dic[trans_dict[name]] = list(df[name])
+	csvfile = open(path)
+	df = pd.read_csv(csvfile, index_col="Iteration")
+	kpi_names = list(df.columns)
+	dic['Iteration'] = [i for i in range(len(df))]
+	for name in kpi_names:
+		dic[trans_dict[name]] = list(df[name])
+
+	if "TollRevenue" not in dic.keys():
+		tolls = get_toll_revenue(tpe_dir)
+		dic["TollRevenue"] = [tolls for i in range(31)]
+		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
+
+	csvfile.close()
+	df.to_csv(path)
 	return dic
 
 
@@ -70,3 +82,18 @@ def getModeSplit(tpe_dir):
 			dic[col] = round(list(df[col])[-1]/summ, 2)
 
 	return dic
+
+def get_toll_revenue(tpe_dir):
+	output_dir = os.path.join(tpe_dir, 'output')
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	f = gzip.open(os.path.join(output_dir,'outputEvents.xml.gz'), 'rb')
+	doc = xmltodict.parse(f.read())
+	totalTolls = 0
+	for event in doc['events']['event']:
+		if '@tollPaid' in event.keys():
+			totalTolls += float(event['@tollPaid'])
+
+	print("Tolls paid : " + str(totalTolls))
+	return totalTolls

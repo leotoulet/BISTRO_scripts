@@ -1,3 +1,4 @@
+
 import pandas as pd
 import csv
 
@@ -63,6 +64,7 @@ def convert_to_input(sample, input_dir):
         elif 'income' in key:
             mode_incentive.append(processM(key, value))
 
+
     #Once we have all points in polygon, process it
     #polygon = Polygon(polygon)
     #road_pricing += processPolygon()
@@ -73,11 +75,12 @@ def convert_to_input(sample, input_dir):
     mass_fare_d = pd.DataFrame(mass_fare, columns=mass_fare_columns)
     road_pricing_d = pd.DataFrame(road_pricing, columns=road_pricing_columns)
 
+    road_pricing_d.to_csv(input_dir + '/RoadPricing.csv', sep=',', index=False)
     vehicle_fleet_d.to_csv(input_dir+'/VehicleFleetMix.csv', sep=',', index=False)
     frequency_adjustment_d.to_csv(input_dir + '/FrequencyAdjustment.csv', sep=',', index=False)
     mode_incentive_d.to_csv(input_dir + '/ModeIncentives.csv', sep=',', index=False)
     mass_fare_d.to_csv(input_dir + '/MassTransitFares.csv', sep=',', index=False)
-    road_pricing_d.to_csv(input_dir + '/RoadPricing.csv', sep=',', index=False)
+    
 
 
 def processP(key, value):
@@ -162,7 +165,8 @@ def processC(key, value):
 
     else:
         print("Parameters for this run: \nCenterX: " + str(centerx) + "\nCenterY: " + str(centery) + "\nPrice: " + str(centry_toll) + "\nRadius: " + str(cradius))
-        return get_circle_links(centerx, centery, cradius, centry_toll)
+        links = get_circle_links(centerx, centery, cradius, centry_toll)
+        return links
 
 
 def processV(key, value):
@@ -254,11 +258,14 @@ def get_circle_links(x, y, r, p):
             toLocationY = float(toLocationY)
             dfrom = ((x - fromLocationX)**2 + (y - fromLocationY)**2)**0.5
             dto = ((x - toLocationX)**2 + (y - toLocationY)**2)**0.5
+            price = str(round(float(linkLength)*float(p)/1600, 2))
+            #if (dfrom > r and dto < r): 
+            #    changes.append([linkId,p,timeRange])
+            #if (dfrom < r and dto > r):
+            #    changes.append([linkId,p,timeRange])
+            if dfrom < r or dto < r: 
+                changes.append([linkId,price,timeRange])
 
-            if (dfrom > r and dto < r): 
-                changes.append([linkId,p,timeRange])
-            if (dfrom < r and dto > r):
-                changes.append([linkId,p,timeRange])
     return changes
 
 

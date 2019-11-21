@@ -11,6 +11,7 @@ from matplotlib.cbook import get_sample_data
 from collect_inputs import *
 import matplotlib.lines as mlines
 from KPIS import *
+from math import *
 
 
 MIN_X = 676949
@@ -29,9 +30,7 @@ def customColorMap(r, g, b, a):
 	cm = LinearSegmentedColormap.from_list(cmap_name, colors, N=n_bin)
 	return cm
 
-
-def f(x, y, z):
-    return (x ** 2 + y ** 2 - z ** 2)
+return (x ** 2 + y ** 2 - z ** 2)
 
 def scatterRoadPricing(): #5d road pricing
 
@@ -240,6 +239,81 @@ def plotBestTrafficCircles():
 		fig.savefig(name+".png")
 
 
+
+def cordon_normal_distribution(x,y, xc, yc, sigma, radius):
+	r = np.sqrt((x - xc)**2 + (y - yc)**2)
+	return np.exp(-(r-radius)**2/(2*sigma**2))
+	return 1/np.sqrt(2*pi*sigma**2)*np.exp(-(r-radius)**2/(2*sigma**2))
+
+
+def cordon_combined_normal_distribution(x,y, factors):
+	global sigmas, xcs, ycs, radius
+	value = 0
+	for i in range(len(xcs)):
+		value += factors[i]/len(factors)*cordon_normal_distribution(x,y,xcs[i], ycs[i], sigmas[i], radius[i])
+	return value
+
+def score_normalization(x ,mu, sigma):
+	return 1/np.sqrt(2*pi*sigma**2)*np.exp(-(x-mu)**2/(2*sigma**2))
+
+
+
+def plotTrafficCordonsHeatMap():
+	samples = create_samples_list()
+	standards = loadStandardization()
+	global sigmas, xcs, ycs, radius
+	sigmas = []
+	xcs = []
+	ycs = []
+	radius = []
+
+	X, Y = np.meshgrid(np.linspace(MIN_X, MAX_X, 1000), np.linspace(MIN_Y, MAX_Y, 1000))
+
+	#KPIS = [aggregate_KPI, congestion_KPI, social_KPI, TollRevenue_KPI]
+	#KPIS_names = ["aggregate", "congestion", "social", "toll_revenue"]
+	KPIS = ALL_KPIS
+	KPIS_NAMES = ALL_NAMES
+
+
+	for s in samples:
+		if s.road_pricing["r"]!=0: # and s.KPIS["TollRevenue"][-1] !=0:
+			xcs.append(s.road_pricing["x"])
+			ycs.append(s.road_pricing["y"])
+			sigmas.append(s.road_pricing["r"]/4)
+			radius.append(s.road_pricing["r"])
+
+	for i in range(len(KPIS)):
+		name = KPIS_NAMES[i]
+		k = KPIS[i]
+
+		print("Creating figures for KPI : " + name)
+
+
+		si = []
+		for s in samples:
+			if s.road_pricing["r"]!=0: # and s.KPIS["TollRevenue"][-1] !=0:
+				si.append(computeWeightedScores(s, standards, k)[-1])
+
+		Z = cordon_combined_normal_distribution(X, Y, si)
+
+		fig, ax = plt.subplots()
+		z_min, z_max = Z.min(), Z.max()
+
+		Z = (Z - z_min)/z_max
+		Z = 1 - Z
+		#Z = score_normalization(Z, 0.5, 0.2)
+
+
+		plotSiouxFauxMap(ax)
+		c = ax.pcolormesh(X, Y, Z, cmap='RdBu', vmin=0, vmax=1)
+		ax.set_title(name)
+		# set the limits of the plot to the limits of the data
+		ax.axis([X.min(), X.max(), Y.min(), Y.max()])
+		fig.colorbar(c, ax=ax)
+
+		plt.savefig(name+".png")
+
+
 def plotColoredCircle(ax, x, y, r, color): #color takes and rgba argument as a list	
 	circle = plt.Circle((x, y), r, color=color, fill=True)
 	circle2 = plt.Circle((x, y), r, color=[1, 0, 0, 1], fill=False)
@@ -251,7 +325,23 @@ def plotSiouxFauxMap(ax):
 	for row in load_network():
 		if row[0].isdigit():
 			fromLocationX,fromLocationY,toLocationX,toLocationY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
-			ax.plot([fromLocationX,toLocationX], [fromLocationY, toLocationY], 'w')
+			X = [fromLocationX,toLocationX]
+			Y = [fromLocationY, toLocationY]
+			plt.plot(X, Y, 'w')
+
+def getSiouxFauxLinks():
+	rows = []
+	avg = 0
+	i = 0
+	for row in load_network():
+		if row[0].isdigit():
+			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
+			rows.append((fX, fY, tX, tY))
+			avg += sqrt((fX-tX)**2+(fY-tY)**2)
+			i+=1
+
+	return rows
+
 
 def plotCityMap():
 	plt.clf()
@@ -261,7 +351,113 @@ def plotCityMap():
 		if row[0].isdigit():
 			i+=1
 			fromLocationX,fromLocationY,toLocationX,toLocationY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
-			plt.plot([fromLocationX,toLocationX], [fromLocationY, toLocationY], 'w')
+			X = [fromLocationX,toLocationX]
+			Y = [fromLocationY, toLocationY]
+			plt.plot(X, Y, 'w')
+
 			if i%1000==0:
 				print("Link ", i)
 	plt.savefig("map.png")
+
+def ColorAxesPerToll():
+	samples = create_samples_list()
+	standards = loadStandardization()
+	links = getSiouxFauxLinks()
+
+	KPIS = ALL_KPIS
+	KPIS_names = ALL_NAMES
+
+	for i in range(len(KPIS)):
+
+		KPI = KPIS[i]
+		name = KPIS_names[i]
+		percent = 0.1
+		weighted_tolls = [0 for i in range(len(links))]
+		print(KPI)
+
+		#Sort samples best score first
+		samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
+		#print([s.directory for s in samples])
+		#smin, smax = min(scores), max(scores)
+
+		for s in samples[:int(percent*len(samples))]:
+			xc,yc,r = s.road_pricing["x"], s.road_pricing["y"], s.road_pricing["r"]
+			p = s.road_pricing["p"]
+
+			for i,l in enumerate(links):
+				fX,fY,tX,tY = l
+				if (fX - xc)**2 + (fY - yc)**2 < r**2 and (tX - xc)**2 + (tY - yc)**2 < r**2:
+					weighted_tolls[i] += p/(percent*len(samples))
+
+		fig, ax = plt.subplots()
+
+		tolls_max = max(weighted_tolls)
+		tolls_min = min(weighted_tolls)
+		lmin, lmax = None, None
+
+		for i in range(len(links)):
+			X = [links[i][0], links[i][2]]
+			Y = [links[i][1], links[i][3]]
+			c = [1 - (weighted_tolls[i] - tolls_min)/(tolls_max-tolls_min), (weighted_tolls[i] - tolls_min)/(tolls_max-tolls_min), 0]
+			if weighted_tolls[i]==tolls_min:
+				lmin, = ax.plot(X,Y,color=c, label="min")
+			if weighted_tolls[i]==tolls_max:
+				lmax, = ax.plot(X,Y,color=c, label="max")
+			else:
+				ax.plot(X,Y,color=c)
+
+		tolls_min = round(tolls_min, 2)
+		tolls_max = round(tolls_max, 2)
+
+		print(tolls_min, tolls_max)
+		plt.legend((lmin, lmax), (str(tolls_min)+"$/m", str(tolls_max)+"$/m"))
+		plt.title("Average toll, " + str(int(100*percent)) + "% best samples")
+		plt.savefig(name + "links_color.png")
+
+
+def radius_evol():
+
+	plt.clf()
+
+	samples = create_samples_list()
+	standards = loadStandardization()
+
+	KPI = aggregate_KPI
+	name = "Aggregate"
+	
+	plt.plot([s.road_pricing["r"] for s in samples], "bo")
+
+
+	plt.savefig("radius_evol.png")
+
+def price_evol():
+	samples = create_samples_list()
+	standards = loadStandardization()
+
+	KPI = aggregate_KPI
+	name = "Aggregate"
+
+	plt.clf()
+	
+	plt.plot([s.road_pricing["p"] for s in samples], "bo")
+
+
+	plt.savefig("price_evol.png")
+
+def placement_evol():
+	samples = create_samples_list()
+	standards = loadStandardization()
+
+	KPI = aggregate_KPI
+	name = "Aggregate"
+
+	plt.clf()
+
+	for i in range(len(samples)):
+		s = samples[i]
+		x = s.road_pricing["x"]
+		y = s.road_pricing["y"]
+		c = [1-i/len(samples), i/len(samples), 0]
+		plt.plot(x,y,"o", color=c)
+
+	plt.savefig("pos_evol.png")
