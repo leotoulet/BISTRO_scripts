@@ -38,8 +38,8 @@ def check_file_existence(tpe_dir):
 	return inputs and outputs and circle_params
 
 #Return a list of data points sorted by time
-def getTimeSortedDirs():
-	dirs = sub_list()
+def getTimeSortedDirs(exp_directory):
+	dirs = sub_list(exp_directory)
 	dirs = sorted(dirs, key = lambda x:read_timestamp(x))
 	print("Number of complete result directories : "+str(len(dirs)))
 	return dirs
