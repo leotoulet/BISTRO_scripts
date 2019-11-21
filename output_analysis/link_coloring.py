@@ -70,7 +70,7 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.1)
 	print(tolls_min, tolls_max)
 	plt.legend((lmin, lmax), (str(tolls_min)+"$/m", str(tolls_max)+"$/m"))
 
-	plt.title("Average toll " name +", "+ str(int(100*percent)) + "% best samples")
+	plt.title("Average toll "+ name +", "+ str(int(100*percent)) + "% best samples")
 	
 	filepath = folder+"/link_coloring_"+name+".png"
 	plt.savefig(filepath)
