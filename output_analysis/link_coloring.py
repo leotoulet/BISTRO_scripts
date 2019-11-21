@@ -32,7 +32,7 @@ def getSiouxFauxLinks():
 
 	return rows
 
-def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.1):
+def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05):
 	links = getSiouxFauxLinks()
 	weighted_tolls = [0 for i in range(len(links))]
 
