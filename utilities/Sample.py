@@ -60,7 +60,7 @@ def computeWeightedScores(s, standards, weights, standarding = True):
 
 #Returns a list of samples ordered by timeStamp
 def create_samples_list(exp_directory, dirs = None):
-
+	print(exp_directory)
 	if dirs == None:
 		dirs = getTimeSortedDirs(exp_directory)
 
