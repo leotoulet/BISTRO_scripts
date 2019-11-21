@@ -95,5 +95,5 @@ def get_toll_revenue(tpe_dir):
 		if '@tollPaid' in event.keys():
 			totalTolls += float(event['@tollPaid'])
 
-	print("Tolls paid : " + str(totalTolls))
+	print("Tolls paid : " + str(totalTolls)+"\r")
 	return totalTolls

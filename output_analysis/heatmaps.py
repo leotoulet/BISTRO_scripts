@@ -18,7 +18,11 @@ sys.path.append(os.path.abspath("../utilities/"))
 from Sample import *
 from collect_inputs import *
 
+MIN_X = 676949
+MAX_X = 689624
 
+MIN_Y = 4818750
+MAX_Y = 4832294
 
 sigmas = []
 xcs = []
