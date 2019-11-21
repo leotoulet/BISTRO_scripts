@@ -53,6 +53,7 @@ def price_area():
 	samples_copy = [s for s in samples]
 	print("Generating price area graphs")
 	saving_dir = CONFIG["OUTPUT_DIR"]+"/price_area"
+	os.makedirs(saving_dir, exist_ok = True)
 	for k,n in zip(KPIS, KPIS_names):
 		KPI_wrt_price_area(samples_copy, standards, k, n, saving_dir)
 
