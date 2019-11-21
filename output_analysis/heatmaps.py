@@ -26,9 +26,8 @@ ycs = []
 radius = []
 
 
-def plotTrafficCirclesHeatMap(KPI, name, folder, f = 2):
-	samples = create_samples_list()
-	standards = loadStandardization()
+def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 2):
+	
 	global sigmas, xcs, ycs
 	sigmas = []
 	xcs = []
@@ -43,7 +42,7 @@ def plotTrafficCirclesHeatMap(KPI, name, folder, f = 2):
 			sigmas.append(s.road_pricing["r"]/f)
 
 
-		print("Creating score heatmap for KPI : " + name)
+	print("Creating score heatmap for KPI : " + name)
 
 
 	si = []

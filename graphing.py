@@ -33,7 +33,7 @@ print("Configuration file loaded !")
 
 ########################## Load samples and standards ########################
 
-samples_time_sorted = create_samples_list(CONFIG["EXPERIMENT_DIR"])
+samples = create_samples_list(CONFIG["EXPERIMENT_DIR"])
 standards = load_standards("fixed_data/standardizationParameters.csv")
 
 print("\nLoaded all samples in order !")
@@ -48,4 +48,4 @@ KPIS_names = ALL_NAMES
 ######################### USER DEFINED FUNCTIONS #############################
 
 for k,n in zip(KPIS, KPIS_names):
-	plotTrafficCirclesHeatMap(k, n, CONFIG["OUTPUT_DIR"]+"heatmaps/")
+	plotTrafficCirclesHeatMap(samples, standards, k, n, CONFIG["OUTPUT_DIR"]+"heatmaps/")
