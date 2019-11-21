@@ -52,7 +52,7 @@ print("#################### Setup finished ###################\n")
 def price_area():
 	samples_copy = [s for s in samples]
 	print("Generating price area graphs")
-	saving_dir = CONFIG["OUTPUT_DIR"]+"price_area"
+	saving_dir = CONFIG["OUTPUT_DIR"]+"/price_area"
 	for k,n in zip(KPIS, KPIS_names):
 		KPI_wrt_price_area(samples_copy, standards, k, n, saving_dir)
 
