@@ -25,6 +25,8 @@ with open(CONFIG_PATH, 'r') as settings_file:
 	CONFIG = yaml.safe_load(settings_file)
 assert(CONFIG != None)
 
+os.makedirs(CONFIG["OUTPUT_DIR"], exist_ok = True)
+
 print("############ Configuration file loaded ! ##############\n")
 
 
@@ -48,5 +50,6 @@ print("#################### Setup finished ###################\n")
 
 print("Generating score heatmaps for all KPIS")
 saving_dir = CONFIG["OUTPUT_DIR"]+"/heatmaps"
+os.makedirs(saving_dir, exist_ok = True)
 for k,n in zip(KPIS, KPIS_names):
 	plotTrafficCirclesHeatMap(samples, standards, k, n, saving_dir)
