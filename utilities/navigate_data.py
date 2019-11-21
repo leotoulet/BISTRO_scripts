@@ -22,9 +22,8 @@ def only_subdir(current_dir = os.getcwd()):
 def sub_list(current_dir = os.getcwd()):
 	dirs = next(os.walk(current_dir))[1]
 	dirs = [os.path.join(current_dir, d) for d in dirs if d[0]=='5']
-	print("Dirs before checking ", dirs)
 	dirs = [d for d in dirs if  check_file_existence(d)]
-	print("Dirs out of sublist", dirs)
+	return dirs
 
 
 #Read the timestamp of a data point
@@ -36,7 +35,6 @@ def read_timestamp(tpe_dir):
 
 #Check data existence and input validity
 def check_file_existence(tpe_dir):
-	print(tpe_dir)
 	outputs =  os.path.exists(os.path.join(get_results_dir(tpe_dir), "rawScores.csv"))
 	outputs = outputs and os.path.exists(os.path.join(get_results_dir(tpe_dir), "submissionScores.csv"))
 	inputs = os.path.exists(os.path.join(getInputsDir(tpe_dir), "MassTransitFares.csv"))
