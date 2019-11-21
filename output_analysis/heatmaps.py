@@ -1,13 +1,7 @@
-from mpl_toolkits.mplot3d import axes3d
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import LinearSegmentedColormap
-import matplotlib as mp
-import pickle
 import os
-from matplotlib._png import read_png
-from matplotlib.cbook import get_sample_data
-import matplotlib.lines as mlines
 from math import *
 import sys 
 
@@ -53,7 +47,7 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 2):
 	fig, ax = plt.subplots()
 	z_min, z_max = Z.min(), Z.max()
 
-	#Z = (Z - z_min)/z_max
+	Z = (Z - z_min)/z_max
 
 	plotSiouxFauxMap(ax)
 	c = ax.pcolormesh(X, Y, Z, cmap='RdBu_r', vmin=z_min, vmax=z_max)
