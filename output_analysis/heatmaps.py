@@ -26,7 +26,7 @@ ycs = []
 radius = []
 
 
-def plotTrafficCirclesHeatMap(KPI, name, f = 2):
+def plotTrafficCirclesHeatMap(KPI, name, folder, f = 2):
 	samples = create_samples_list()
 	standards = loadStandardization()
 	global sigmas, xcs, ycs
