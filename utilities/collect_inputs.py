@@ -1,6 +1,6 @@
 from navigate_data import *
 ##### The next few function all take a folder as input and extract input info
-filepath_network = "../fixed_data/network.csv"
+filepath_network = "./fixed_data/network.csv"
 
 
 #Load weights from working directory
