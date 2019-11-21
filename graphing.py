@@ -2,7 +2,7 @@ import yaml
 import sys
 import os
 
-print("Starting...\n")
+print("##################### Starting... #####################\n")
 
 ############################## Load scripts ################################
 sys.path.append(os.path.abspath("./fixed_data/"))
@@ -13,7 +13,7 @@ from collect_inputs import *
 from heatmaps import *
 from Sample import *
 
-print("Scripts loaded !")
+print("################### Scripts loaded ! ##################\n")
 
 
 ############################ Load configuration file #######################
@@ -25,7 +25,7 @@ with open(CONFIG_PATH, 'r') as settings_file:
 	CONFIG = yaml.safe_load(settings_file)
 assert(CONFIG != None)
 
-print("Configuration file loaded !")
+print("############ Configuration file loaded ! ##############\n")
 
 
 ########################## Load samples and standards ########################
@@ -33,7 +33,7 @@ print("Configuration file loaded !")
 samples = create_samples_list(CONFIG["EXPERIMENT_DIR"])
 standards = load_standards("fixed_data/standardizationParameters.csv")
 
-print("\nLoaded all samples in order !")
+print("########### Loaded all samples in order ! #############\n")
 
 
 ################################# KPIS ######################################
@@ -41,6 +41,8 @@ print("\nLoaded all samples in order !")
 from KPIS import *
 KPIS = ALL_KPIS
 KPIS_names = ALL_NAMES
+
+print("#################### Setup finished ###################\n\n")
 
 ######################### USER DEFINED FUNCTIONS #############################
 
