@@ -62,7 +62,7 @@ def computeWeightedScores(s, standards, weights, standarding = True):
 def create_samples_list(exp_directory, dirs = None):
 	if dirs == None:
 		dirs = getTimeSortedDirs(exp_directory)
-	print("Found " + len(dirs) + "samples")
+	print("Found " + str(len(dirs)) + "samples")
 
 	samples = []
 	i = 0
@@ -74,4 +74,5 @@ def create_samples_list(exp_directory, dirs = None):
 		if s.road_pricing["p"] != 0.0:
 			samples.append(s)
 
+	print("\n")
 	return samples

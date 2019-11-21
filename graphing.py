@@ -42,10 +42,11 @@ from KPIS import *
 KPIS = ALL_KPIS
 KPIS_names = ALL_NAMES
 
-print("#################### Setup finished ###################\n\n")
+print("#################### Setup finished ###################\n")
 
 ######################### USER DEFINED FUNCTIONS #############################
 
+print("Generating score heatmaps for all KPIS")
 saving_dir = CONFIG["OUTPUT_DIR"]+"/heatmaps"
 for k,n in zip(KPIS, KPIS_names):
 	plotTrafficCirclesHeatMap(samples, standards, k, n, )
