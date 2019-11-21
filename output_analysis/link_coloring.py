@@ -36,7 +36,7 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.1)
 	links = getSiouxFauxLinks()
 	weighted_tolls = [0 for i in range(len(links))]
 
-	print("    Generating best" + name + " avg link tolls")
+	print("    Generating best " + name + " avg link tolls")
 
 	samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
 	for s in samples[:int(percent*len(samples))]:
@@ -67,7 +67,7 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.1)
 
 	tolls_min = round(tolls_min, 2)
 	tolls_max = round(tolls_max, 2)
-	print(tolls_min, tolls_max)
+
 	plt.legend((lmin, lmax), (str(tolls_min)+"$/m", str(tolls_max)+"$/m"))
 
 	plt.title("Average toll "+ name +", "+ str(int(100*percent)) + "% best samples")
