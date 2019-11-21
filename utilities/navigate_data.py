@@ -20,7 +20,10 @@ def only_subdir(current_dir = os.getcwd()):
 
 #Get a list of all subdirectories
 def sub_list(current_dir = os.getcwd()):
+	print(next(os.walk(current_dir)))
+	print(next(os.walk(current_dir))[1])
 	return [dir for dir in next(os.walk(current_dir))[1] if dir[0]=='5' and check_file_existence(dir)]
+	print("test")
 
 #Read the timestamp of a data point
 def read_timestamp(tpe_dir):
@@ -39,6 +42,7 @@ def check_file_existence(tpe_dir):
 
 #Return a list of data points sorted by time
 def getTimeSortedDirs(exp_directory):
+	print(exp_directory)
 	dirs = sub_list(exp_directory)
 	dirs = sorted(dirs, key = lambda x:read_timestamp(x))
 	print("Number of complete result directories : "+str(len(dirs)))
