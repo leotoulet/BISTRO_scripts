@@ -22,7 +22,7 @@ sigmas = []
 xcs = []
 ycs = []
 
-def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 2):
+def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 1):
 	print("    Creating score heatmap for KPI : " + name)
 
 	global sigmas, xcs, ycs
@@ -47,7 +47,7 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 2):
 	fig, ax = plt.subplots()
 	z_min, z_max = Z.min(), Z.max()
 
-	Z = (Z - z_min)/z_max
+	#Z = (Z - z_min)/z_max
 
 	plotSiouxFauxMap(ax)
 	c = ax.pcolormesh(X, Y, Z, cmap='RdBu_r', vmin=z_min, vmax=z_max)
@@ -63,6 +63,10 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 2):
 
 def normal_distribution(x,y, xc, yc, sigma):
 	r = np.sqrt((x - xc)**2 + (y - yc)**2)
+	if r>simga:
+		return 0
+	else:
+		return 1
 	return np.exp(-r**2/(2*sigma**2))
 	return 1/np.sqrt(2*pi*sigma**2)*np.exp(-r**2/(2*sigma**2))
 
