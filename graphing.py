@@ -25,9 +25,6 @@ with open(CONFIG_PATH, 'r') as settings_file:
 	CONFIG = yaml.safe_load(settings_file)
 assert(CONFIG != None)
 
-CONFIG["EXPERIMENT_DIR"] = os.path.abspath(CONFIG["EXPERIMENT_DIR"])
-CONFIG["OUTPUT_DIR"] = os.path.abspath(CONFIG["OUTPUT_DIR"])
-
 print("Configuration file loaded !")
 
 
