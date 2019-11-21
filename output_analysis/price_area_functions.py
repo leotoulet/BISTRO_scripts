@@ -31,11 +31,26 @@ def KPI_wrt_price_area(samples, standards, KPI, name, folder):
 	plt.y_label("KPI score")
 
 	plt.plot(price_area, scores)
-	path = folder+"/"+KPI+"_price_area.png"
+	path = folder+"/"+name+"_price_area.png"
 	plt.savefig(path)
 	print("    Saved to "+path)
 
 
-def mode_choice_wrt_price_area(samples, standards, KPI, name, folder):
-	return;
+def mode_choice_wrt_price_area(samples, standards, mode, name, folder):
+
+	plt.clf()
+
+	print("    Generating "+ name + " choice wrt to price area")
+
+	price_area = [np.pi*s.road_pricing["r"]**2*s.road_pricing["p"] for s in samples]
+	scores = [s.mode_split[name] for s in samples]
+
+	plt.title(name + " mode split w.r.t price * area")
+	plt.x_label("Price * Area ($ * m^2)")
+	plt.y_label(name + " mode split")
+
+	plt.plot(price_area, scores)
+	path = folder+"/"+name+"_price_area.png"
+	plt.savefig(path)
+	print("    Saved to "+path)
 

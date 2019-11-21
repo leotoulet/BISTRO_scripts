@@ -49,18 +49,15 @@ print("#################### Setup finished ###################\n")
 
 ######################### USER DEFINED FUNCTIONS #############################
 
-if __name__=="__main__":
-	price_area()
-
-
-#############################################################################
-
 def price_area():
 	samples_copy = [s for s in samples]
 	print("Generating price area graphs")
 	saving_dir = CONFIG["OUTPUT_DIR"]+"price_area"
 	for k,n in zip(KPIS, KPIS_names):
 		KPI_wrt_price_area(samples_copy, standards, k, n, saving_dir)
+
+	for k in samples[0].mode_split.keys():
+		mode_choice_wrt_price_area(samples_copy, standards, k, k, saving_dir)
 
 def heatmaps():
 	samples_copy = [s for s in samples] #Because the function sorts the array in place
@@ -71,4 +68,8 @@ def heatmaps():
 		plotTrafficCirclesHeatMap(samples_copy, standards, k, n, saving_dir)
 
 
+#############################################################################
+
+if __name__=="__main__":
+	price_area()
 
