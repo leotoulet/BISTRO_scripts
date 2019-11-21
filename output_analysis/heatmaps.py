@@ -27,8 +27,6 @@ MAX_Y = 4832294
 sigmas = []
 xcs = []
 ycs = []
-radius = []
-
 
 def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 2):
 	print("    Creating score heatmap for KPI : " + name)
@@ -41,17 +39,13 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 2):
 	X, Y = np.meshgrid(np.linspace(MIN_X, MAX_X, 1000), np.linspace(MIN_Y, MAX_Y, 1000))
 	
 	for s in samples:
-		if s.road_pricing["r"]!=0: # and s.KPIS["TollRevenue"][-1] !=0:
-			xcs.append(s.road_pricing["x"])
-			ycs.append(s.road_pricing["y"])
-			sigmas.append(s.road_pricing["r"]/f)
-
-
+		xcs.append(s.road_pricing["x"])
+		ycs.append(s.road_pricing["y"])
+		sigmas.append(s.road_pricing["r"]/f)
 
 	si = []
 	for s in samples:
-		if s.road_pricing["r"]!=0: # and s.KPIS["TollRevenue"][-1] !=0:
-			si.append(computeWeightedScores(s, standards, KPI)[-1])
+		si.append(computeWeightedScores(s, standards, KPI)[-1])
 	Z = combined_normal_distribution(X, Y, si)
 
 	fig, ax = plt.subplots()
