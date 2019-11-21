@@ -53,10 +53,10 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 2):
 	fig, ax = plt.subplots()
 	z_min, z_max = Z.min(), Z.max()
 
-	Z = (Z - z_min)/z_max
+	#Z = (Z - z_min)/z_max
 
 	plotSiouxFauxMap(ax)
-	c = ax.pcolormesh(X, Y, Z, cmap='RdBu_r', vmin=0, vmax=1)
+	c = ax.pcolormesh(X, Y, Z, cmap='RdBu_r', vmin=z_min, vmax=z_max)
 	ax.set_title(name)
 	# set the limits of the plot to the limits of the data
 	ax.axis([X.min(), X.max(), Y.min(), Y.max()])
