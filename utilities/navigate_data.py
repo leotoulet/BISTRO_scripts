@@ -20,9 +20,9 @@ def only_subdir(current_dir = os.getcwd()):
 
 #Get a list of all subdirectories
 def sub_list(current_dir = os.getcwd()):
-	print(next(os.walk(current_dir)))
-	print(next(os.walk(current_dir))[1])
-	return [dir for dir in next(os.walk(current_dir))[1] if dir[0]=='5' and check_file_existence(dir)]
+	dirs = next(os.walk(current_dir))[1]
+	print(dirs)
+	return [dir for dir in dirs if dir[0]=='5' and check_file_existence(dir)]
 	print("test")
 
 #Read the timestamp of a data point
