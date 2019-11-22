@@ -50,7 +50,7 @@ def mode_choice_wrt_price_area(samples, standards, mode, name, folder):
 		if not name in s.mode_split.keys():
 			scores.append(0)
 		else:
-			score.append(s.mode_split[name])
+			scores.append(s.mode_split[name])
 
 	plt.title(name + " mode split w.r.t price * area")
 	plt.xlabel("Price * Area ($/mile * m^2)")
