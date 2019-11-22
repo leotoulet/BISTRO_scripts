@@ -41,7 +41,7 @@ def mode_choice_wrt_price_area(samples, standards, mode, name, folder):
 	plt.clf()
 
 	print("    Generating "+ name + " choice wrt to price area")
-	score = []
+	scores = []
 
 	price_area = [np.pi*s.road_pricing["r"]**2*s.road_pricing["p"] for s in samples]
 	
