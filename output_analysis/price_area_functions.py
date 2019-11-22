@@ -41,9 +41,16 @@ def mode_choice_wrt_price_area(samples, standards, mode, name, folder):
 	plt.clf()
 
 	print("    Generating "+ name + " choice wrt to price area")
+	score = []
 
 	price_area = [np.pi*s.road_pricing["r"]**2*s.road_pricing["p"] for s in samples]
-	scores = [s.mode_split[name] for s in samples]
+	
+	#Avoid key errors
+	for s in samples:
+		if not name in s.mode_split.keys():
+			scores.append(0)
+		else:
+			score.append(s.mode_split[name])
 
 	plt.title(name + " mode split w.r.t price * area")
 	plt.xlabel("Price * Area ($/mile * m^2)")
