@@ -109,7 +109,7 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 	samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
 	
 	links = {}
-	coos = getSiouxFauxLinks()
+	coo = getSiouxFauxLinks()
 
 	for row in load_network():
 		if row[0].isdigit():
