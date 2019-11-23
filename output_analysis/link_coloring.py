@@ -49,8 +49,8 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 	for row in load_network():
 		if row[0].isdigit() and row[0] in sample_stats:
 			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
-			congestion = float(sample_stats[row[0]][1])/float(sample_stats[row[0]][3])
-			links[row[0]] = congestion
+			congestion = 100/24*float(sample_stats[row[0]][1])/float(sample_stats[row[0]][3])
+			links[row[0]] = (congestion,fX,fY,tX,tY)
 
 	return links
 
@@ -97,13 +97,14 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05
 
 	plt.title("Average toll "+ name +", "+ str(int(100*percent)) + "% best samples")
 	
-	filepath = folder+"/link_coloring_"+name+".png"
+	os.makedirs(folder+"/tolls", exist_ok=True)
+	filepath = folder+"/tolls"+"/link_coloring_"+name+".png"
 	plt.savefig(filepath)
 	print("    Saved tollmap to: "+filepath)
 
 
 def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0.05):
-	print("    Generating congestion for best " + name + " samples")
+	print("    Generating link congestion coloring for best " + name + " samples")
 	samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
 	
 	links = {}
@@ -116,7 +117,29 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 		sample_congestion = getSiouxFauxLinksCongestion(s)
 		for k in sample_congestion.keys():
 			links[k] +=sample_congestion[k]/nb_samples
-	print(max([links[k] for k in links.keys()]))
 
+	#Right now we have a dictionnary with linkId, congestion and coos
+	cong_max = max([links[k][0] for k in links.keys()])
+	cong_min = max([links[k][0] for k in links.keys()])
+
+	for i in range(len(links)):
+		X = [links[i][1], links[i][3]]
+		Y = [links[i][2], links[i][4]]
+		c = [1 - (links[i][0] - cong_min)/(cong_max-cong_min), (links[i][0] - cong_min)/(cong_max-cong_min), 0]
+		if weighted_tolls[i]==tolls_min:
+			lmin, = ax.plot(X,Y,color=c, label="min")
+		if weighted_tolls[i]==tolls_max:
+			lmax, = ax.plot(X,Y,color=c, label="max")
+		else:
+			ax.plot(X,Y,color=c)
+
+	plt.legend((lmin, lmax), (str(tolls_min)+ "% capacity", str(tolls_max)+"% capacity"))
+
+	plt.title("Average toll "+ name +", "+ str(int(100*percent)) + "% best samples")
+	
+	os.makedirs(folder+"/congestion", exist_ok=True)
+	filepath = folder+"/congestion"+"/link_coloring_"+name+".png"
+	plt.savefig(filepath)
+	print("    Saved congestion map to: "+filepath)
 
 	return;
