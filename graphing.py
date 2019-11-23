@@ -14,6 +14,7 @@ from heatmaps import *
 from Sample import *
 from price_area_functions import *
 from link_coloring import *
+from pareto import *
 
 print("################### Scripts loaded ! ##################\n")
 
@@ -78,9 +79,20 @@ def link_coloring():
 		best_scores_link_tolls(samples_copy, standards, k, n, saving_dir)
 
 
+def pareto():
+	samples_copy = [s for s in samples]
+	print("Generating pareto fronts")
+	saving_dir = CONFIG["OUTPUT_DIR"] + "/pareto"
+	os.makedirs(saving_dir, exist_ok = True)
+	for k1,n1 in zip(KPIS, KPIS_names):
+		for k2, n2 in zip(KPIS, KPIS_names):
+			plot_pareto(samples_copy, standards, k1, k2, n1, n2, saving_dir)
+
+
 #############################################################################
 
 if __name__=="__main__":
+	pareto()
 	price_area()
 	link_coloring()
 	heatmaps()

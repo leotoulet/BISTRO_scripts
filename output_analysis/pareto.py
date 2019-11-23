@@ -3,11 +3,6 @@ from collect_inputs import *
 from KPIS import *
 import matplotlib.pyplot as plt
 
-KPI1 = congestion_KPI
-KPI2 = TollRevenue_KPI
-KPI1_name = "congestion"
-KPI2_name = "tolls"
-
 def swap(list, i, j):
 	a = list[i]
 	list[i] = list[j]
@@ -20,9 +15,7 @@ def sort(liste, fun):
 			if inferior(liste[j+1], liste[j]):
 				swap(liste, j, j+1)
 
-def pareto_front():
-	samples = create_samples_list()
-	standards = loadStandardization()
+def pareto_front(samples, standards, KPI1, KPI2):
 
 	points = [] #A point is made of a triplet (s, KPI1, KPI2)
 	for s in samples:
@@ -78,17 +71,21 @@ def inferior(par1, par2):
 		else:
 			return False
 
-def plot_pareto(plot = True):
-	pareto, non_pareto = pareto_front()
+def save_samples_pareto(pareto_list, KPI1_name, KPI2_name, folder):
+	path = folder+"/pareto_"+KPI1_name+"_"+KPI2_name+".txt"
+	file = open(path, "w")
+	for s in pareto_list:
+		file.write(s.directory)
+	file.close()
+	print("    Saved pareto list to: "+filepath)
+
+def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
+	pareto, non_pareto = pareto_front(samples, standards, KPI1, KPI2)
 
 	plt.clf()
 
 	for p in pareto:
 		plt.plot(p[1], p[2], 'ro')
-		print(p[0].directory, p[0].road_pricing)
-
-	if plot == False:
-		return
 
 	for p in non_pareto:
 		plt.plot(p[1], p[2], 'xb')
@@ -108,9 +105,12 @@ def plot_pareto(plot = True):
 	plt.ylim((y_min - 0.4, y_max + 0.4))
 	plt.xlabel(KPI1_name)
 	plt.ylabel(KPI2_name)
-	plt.title("Pareto front")
+	plt.title("Pareto front" + KPI1_name + " " + KPI2_name)
+
+	filepath = folder+"/pareto_"+KPI1_name+"_"+KPI2_name+".png"
+	plt.savefig(filepath)
+	print("    Saved pareto front to: "+filepath)
 
 	plt.savefig("pareto.png")
 
-if __name__ == "__main__":
-	plot_pareto()
+	save_samples_pareto(pareto, KPI1_name, KPI2_name, folder)
