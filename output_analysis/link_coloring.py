@@ -45,7 +45,7 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 			if row[0] not in list(df.columns):
 				continue;
 			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
-			congestion = df[row[0]]["vehicleTravserals"]/df[row[0]]["linkCapacity"]
+			congestion = df["vehicleTravserals"][row[0]]/df["linkCapacity"][row[0]]
 			links[row[0]] = congestion
 	return links
 
