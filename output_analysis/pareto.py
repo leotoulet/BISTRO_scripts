@@ -75,6 +75,8 @@ def pareto_front(samples, standards, KPI1, KPI2):
 			pareto.append(p)
 
 	sort2(pareto, inferior)
+	print(len(pareto))
+	print(len(non_pareto))
 	return (pareto, non_pareto)
 
 
@@ -121,8 +123,7 @@ def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
 	print("    Generating pareto front for "+KPI1_name+ " and "+ KPI2_name)
 	pareto, non_pareto = pareto_front(samples, standards, KPI1, KPI2)
 	print("Got pareto")
-	print(len(pareto))
-	print(len(non_pareto))
+
 	plt.clf()
 
 	for p in pareto:
