@@ -68,11 +68,11 @@ def pareto_front(samples, standards, KPI1, KPI2):
 		pa = True
 		for q in points:
 			if dominates(q[1:], p[1:]):
-				non_pareto.append(p)
 				pa = False
-				continue
 		if pa:
 			pareto.append(p)
+		else:
+			non_pareto.append(p)
 
 	sort2(pareto, inferior)
 	print(len(pareto))
