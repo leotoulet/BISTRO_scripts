@@ -4,6 +4,7 @@ from matplotlib.colors import LinearSegmentedColormap
 import os
 from math import *
 import sys 
+import panda as pd
 
 sys.path.append(os.path.abspath("../fixed_data/"))
 from KPIS import *
@@ -37,7 +38,7 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 	links = {}
 	d = sample.directory
 	link_stats_path = os.path.join(get_results_dir(d),"link_stats.csv")
-	df = pd.read_csv(csvfile, index_col="linkID")
+	df = pd.read_csv(link_stats_path, index_col="linkID")
 
 	for row in load_network():
 		if row[0].isdigit():
