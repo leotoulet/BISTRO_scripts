@@ -129,14 +129,14 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 		X = [coo[i][0], coo[i][2]]
 		Y = [coo[i][1], coo[i][3]]
 		c = [1 - (links[i] - cong_min)/(cong_max-cong_min), (links[i] - cong_min)/(cong_max-cong_min), 0]
-		if links[i]==tolls_min:
+		if links[i]==cong_min:
 			lmin, = ax.plot(X,Y,color=c, label="min")
-		if links[i]==tolls_max:
+		if links[i]==cong_max:
 			lmax, = ax.plot(X,Y,color=c, label="max")
 		else:
 			ax.plot(X,Y,color=c)
 
-	plt.legend((lmin, lmax), (str(tolls_min)+ "% capacity", str(tolls_max)+"% capacity"))
+	plt.legend((lmin, lmax), (str(cong_min)+ "% capacity", str(cong_max)+"% capacity"))
 
 	plt.title("Average toll "+ name +", "+ str(int(100*percent)) + "% best samples")
 	
