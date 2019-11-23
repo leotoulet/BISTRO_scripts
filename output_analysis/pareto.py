@@ -111,7 +111,7 @@ def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
 	plt.ylim((y_min - 0.4, y_max + 0.4))
 	plt.xlabel(KPI1_name)
 	plt.ylabel(KPI2_name)
-	plt.title("Pareto front" + KPI1_name + " " + KPI2_name)
+	plt.title("Pareto front " + KPI1_name + " " + KPI2_name)
 
 	filepath = folder+"/pareto_"+KPI1_name+"_"+KPI2_name+".png"
 	plt.savefig(filepath)
