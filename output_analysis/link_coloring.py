@@ -129,9 +129,9 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 		X = [coo[i][0], coo[i][2]]
 		Y = [coo[i][1], coo[i][3]]
 		c = [1 - (links[i] - cong_min)/(cong_max-cong_min), (links[i] - cong_min)/(cong_max-cong_min), 0]
-		if weighted_tolls[i]==tolls_min:
+		if links[i]==tolls_min:
 			lmin, = ax.plot(X,Y,color=c, label="min")
-		if weighted_tolls[i]==tolls_max:
+		if links[i]==tolls_max:
 			lmax, = ax.plot(X,Y,color=c, label="max")
 		else:
 			ax.plot(X,Y,color=c)
