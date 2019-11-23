@@ -27,6 +27,7 @@ trans_dict = {
 	'Sustainability: Total grams GHGe Emissions':'sustainability_GHG',
 	'Sustainability: Total grams PM 2.5 Emitted':'sustainability_PM',
 	'TollRevenue':'TollRevenue'
+	'VMT':'VMT'
 }
 
 def read_score(tpe_dir):

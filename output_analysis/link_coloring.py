@@ -32,6 +32,10 @@ def getSiouxFauxLinks():
 
 	return rows
 
+def getSiouxFauxLinksCongestion(): #Congestion being total trips/capacity
+	dic = {}
+
+
 def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05):
 	links = getSiouxFauxLinks()
 	weighted_tolls = [0 for i in range(len(links))]
@@ -75,3 +79,7 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05
 	filepath = folder+"/link_coloring_"+name+".png"
 	plt.savefig(filepath)
 	print("    Saved tollmap to: "+filepath)
+
+
+def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0.05):
+	return;
