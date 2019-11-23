@@ -42,6 +42,7 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 
 	for row in load_network():
 		if row[0].isdigit():
+			print(row[0])
 			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
 			congestion = df[row[0]]["vehicleTravserals"]/df[row[0]]["linkCapacity"]
 			links[row[0]] = congestion
