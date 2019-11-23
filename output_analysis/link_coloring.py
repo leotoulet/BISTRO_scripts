@@ -41,12 +41,11 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 
 	csvfile = open(filepath_network, "rt")
 	reader = csv.reader(csvfile)
-	print(reader)
+	for row in reader:
+		print(row)
 
 	for row in load_network():
 		if row[0].isdigit():
-			if row[0] not in list(df.rows):
-				print("Pb");
 			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
 			congestion = df["vehicleTravserals"][row[0]]/df["linkCapacity"][row[0]]
 			links[row[0]] = congestion
