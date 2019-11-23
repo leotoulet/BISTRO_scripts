@@ -11,6 +11,7 @@ from KPIS import *
 sys.path.append(os.path.abspath("../utilities/"))
 from Sample import *
 from collect_inputs import *
+from navigate_data import *
 
 MIN_X = 676949
 MAX_X = 689624
@@ -32,8 +33,22 @@ def getSiouxFauxLinks():
 
 	return rows
 
-def getSiouxFauxLinksCongestion(): #Congestion being total trips/capacity
-	dic = {}
+def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
+	links = {}
+	d = sample.directory
+	link_stats_path = os.path.join(get_results_dir(d),"link_stats.csv")
+	df = pd.read_csv(csvfile, index_col="linkID")
+
+	for row in load_network():
+		if row[0].isdigit():
+			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
+			congestion = df[row[0]]["vehicleTravserals"]/df[row[0]]["linkCapacity"]
+			links[row[0]] = congestion
+
+	print(links)
+	return links
+
+
 
 
 def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05):
@@ -82,4 +97,14 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05
 
 
 def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0.05):
+	print("    Generating congestion for best " + name + " samples")
+	samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
+	
+	links = {}
+	for row in load_network():
+		of row[0].isdigit();
+		links[row[0]]=0
+	print(links)
+
+
 	return;

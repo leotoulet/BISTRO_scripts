@@ -52,7 +52,9 @@ def retrieve_KPIs(tpe_dir):
 	csvfile = open(path)
 	df = pd.read_csv(csvfile, index_col="Iteration")
 	kpi_names = list(df.columns)
+
 	dic['Iteration'] = [i for i in range(len(df))]
+	
 	for name in kpi_names:
 		dic[trans_dict[name]] = list(df[name])
 
