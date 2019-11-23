@@ -40,7 +40,7 @@ def pareto_front(samples, standards, KPI1, KPI2):
 		else:
 			non_pareto.append(p)
 
-	sort2(pareto, inferior, standards)
+	sort2(pareto, inferior, standards, KPI1, KPI2)
 	return (pareto, non_pareto)
 
 
