@@ -90,7 +90,7 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05
 
 	tolls_min = round(tolls_min, 2)
 	tolls_max = round(tolls_max, 2)
-	if tolls_max == tolls_min:
+	if tolls_max - tolls_min < 0.01:
 		print("Tolls max == tolls min, abandoning this one")
 		return;
 
