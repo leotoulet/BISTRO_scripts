@@ -44,14 +44,14 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 	reader = csv.reader(csvfile)
 	sample_stats = {}
 	for r in reader:
-		sample_stats=[r[0]] = r[1:] 
+		sample_stats[r[0]] = r[1:] 
 
 	for row in load_network():
 		if row[0].isdigit() and row[0] in sample_stats:
 			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
 			congestion = sample_stats[row[0]][1]/sample_stats[row[0]][3]
 			links[row[0]] = congestion
-			
+
 	return links
 
 
