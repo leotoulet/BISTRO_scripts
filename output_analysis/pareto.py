@@ -36,7 +36,7 @@ def merge(liste, fun, i, middle, j, merge_temp): #MErge sort in place
 	k,l = i,middle
 
 	for p in range(i,j+1):
-		if (k < middle) && (l>j or liste[k] < liste[l]):
+		if (k < middle) and (l>j or liste[k] < liste[l]):
 			merge_temp = liste[k]
 			k = k + 1
 		else:
