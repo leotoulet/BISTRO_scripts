@@ -43,6 +43,14 @@ def merge(liste, fun, i, middle, j, merge_temp): #MErge sort in place
 			merge_temp = liste[l]
 			l = l + 1
 
+	
+
+def sort2(liste, fun):
+	l = len(liste)
+	for i in range(l-1):
+		for j in range(l-1):
+			if inferior(liste[j+1], liste[j]):
+				swap(liste, j, j+1)
 
 def pareto_front(samples, standards, KPI1, KPI2):
 
@@ -66,7 +74,7 @@ def pareto_front(samples, standards, KPI1, KPI2):
 		if pa:
 			pareto.append(p)
 
-	sort(pareto, inferior)
+	sort2(pareto, inferior)
 	return (pareto, non_pareto)
 
 
@@ -112,6 +120,7 @@ def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
 	
 	print("    Generating pareto front for "+KPI1_name+ " and "+ KPI2_name)
 	pareto, non_pareto = pareto_front(samples, standards, KPI1, KPI2)
+	print("Got pareto")
 
 	plt.clf()
 
