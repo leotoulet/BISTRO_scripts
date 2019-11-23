@@ -111,8 +111,7 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 		sample_congestion = getSiouxFauxLinksCongestion(s)
 		for k,v in sample_congestion:
 			links[k] += v/nb_samples
-
-	 print(links)
+	print(links)
 
 
 	return;
