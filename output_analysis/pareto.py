@@ -77,7 +77,7 @@ def save_samples_pareto(pareto_list, KPI1_name, KPI2_name, folder):
 	path = folder+"/pareto_"+KPI1_name+"_"+KPI2_name+".txt"
 	file = open(path, "w")
 	for s in pareto_list:
-		file.write(s[0].directory)
+		file.write(s[0].directory+"\n")
 	file.close()
 	print("    Saved pareto list to: "+path)
 
