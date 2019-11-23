@@ -41,7 +41,7 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 	df = pd.read_csv(link_stats_path, index_col="linkId")
 	rows = list(df.index)
 	traversals = df["vehicleTravserals"]
-	capacities = df["capacities"]
+	capacities = df["linkCapacity"]
 
 	print(df["vehicleTravserals"])
 	for row in load_network():
