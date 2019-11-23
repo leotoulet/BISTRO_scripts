@@ -11,40 +11,6 @@ def swap(list, i, j):
 	list[j] = a
 
 
-def sort(liste, fun, i=None, j=None):
-	
-	if i==None or j==None:
-		i = 0
-		j = len(liste) - 1
-		merge_temp = [0 for k in range(len(liste))]
-
-	if i == j:
-		return;
-	inf = inferior(liste[i], liste[j])
-	if j == i + 1 and inf:
-		return;
-	if j == i + 1 and not inf:
-		swap[list[i], list[j]]
-
-	middle = int((i+j)/2)
-	sort(liste, fun, i, middle)
-	sort(liste, fun, middle, j)
-
-	merge(liste, fun, i, middle, j, merge_temp)
-
-def merge(liste, fun, i, middle, j, merge_temp): #MErge sort in place
-	k,l = i,middle
-
-	for p in range(i,j+1):
-		if (k < middle) and (l>j or liste[k] < liste[l]):
-			merge_temp = liste[k]
-			k = k + 1
-		else:
-			merge_temp = liste[l]
-			l = l + 1
-
-	
-
 def sort2(liste, fun):
 	l = len(liste)
 	for i in range(l-1):
@@ -75,8 +41,6 @@ def pareto_front(samples, standards, KPI1, KPI2):
 			non_pareto.append(p)
 
 	sort2(pareto, inferior)
-	print(len(pareto))
-	print(len(non_pareto))
 	return (pareto, non_pareto)
 
 
@@ -114,7 +78,7 @@ def save_samples_pareto(pareto_list, KPI1_name, KPI2_name, folder):
 	path = folder+"/pareto_"+KPI1_name+"_"+KPI2_name+".txt"
 	file = open(path, "w")
 	for s in pareto_list:
-		file.write(s.directory)
+		file.write(s[0].directory)
 	file.close()
 	print("    Saved pareto list to: "+filepath)
 
