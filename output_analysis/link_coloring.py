@@ -4,7 +4,7 @@ from matplotlib.colors import LinearSegmentedColormap
 import os
 from math import *
 import sys 
-import panda as pd
+import pandas as pd
 
 sys.path.append(os.path.abspath("../fixed_data/"))
 from KPIS import *
