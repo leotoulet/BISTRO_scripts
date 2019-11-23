@@ -138,7 +138,7 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 		else:
 			ax.plot(X,Y,color=c)
 
-	plt.legend((lmin, lmax), (str(cong_min)+ "% capacity", str(cong_max)+"% capacity"))
+	plt.legend((lmin, lmax), (str(round(cong_min,2))+ "% capacity", str(round(cong_max,2))+"% capacity"))
 
 	plt.title("Average congestion "+ name +", "+ str(int(100*percent)) + "% best samples")
 	
