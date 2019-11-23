@@ -125,6 +125,8 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 	cong_max = max([links[k] for k in links.keys()])
 	cong_min = min([links[k] for k in links.keys()])
 
+	fig, ax = plt.subplots()
+
 	for i in links.keys():
 		X = [coo[i][0], coo[i][2]]
 		Y = [coo[i][1], coo[i][3]]
