@@ -11,11 +11,11 @@ def swap(list, i, j):
 	list[j] = a
 
 
-def sort2(liste, fun):
+def sort2(liste, fun, standards):
 	l = len(liste)
 	for i in range(l-1):
 		for j in range(l-1):
-			if inferior(liste[j+1], liste[j]):
+			if inferior(liste[j+1], liste[j], standards):
 				swap(liste, j, j+1)
 
 def pareto_front(samples, standards, KPI1, KPI2):
@@ -40,7 +40,7 @@ def pareto_front(samples, standards, KPI1, KPI2):
 		else:
 			non_pareto.append(p)
 
-	sort2(pareto, inferior)
+	sort2(pareto, inferior, standards)
 	return (pareto, non_pareto)
 
 
@@ -57,8 +57,7 @@ def dominates(k1, k2):
 
 	return one_strict
 
-def inferior(par1, par2):
-	standards = loadStandardization()
+def inferior(par1, par2, standards):
 	x1 = computeWeightedScores(par1[0], standards, KPI1)[-1]
 	y1 = computeWeightedScores(par1[0], standards, KPI2)[-1]
 	x2 = computeWeightedScores(par2[0], standards, KPI1)[-1]
@@ -96,7 +95,6 @@ def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
 		plt.plot(p[1], p[2], 'xb')
 
 
-	print("Plotted pareto points")
 
 	for i in range(len(pareto) - 1):
 		plt.plot([pareto[i][1], pareto[i+1][1]], [pareto[i][2], pareto[i+1][2]],color="black")
