@@ -123,8 +123,8 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 
 	#Right now we have a dictionnary with linkId, congestion and coos
 	cong_max = max([links[k] for k in links.keys()])
-	cong_min = max([links[k] for k in links.keys()])
-	print(cong_min, cong_max)
+	cong_min = min([links[k] for k in links.keys()])
+
 	for i in links.keys():
 		X = [coo[i][0], coo[i][2]]
 		Y = [coo[i][1], coo[i][3]]
