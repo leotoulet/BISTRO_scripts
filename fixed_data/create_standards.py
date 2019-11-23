@@ -22,6 +22,7 @@ trans_dict = {
 	'Sustainability: Total grams PM 2.5 Emitted':'sustainability_PM',
 
 	'TollRevenue': 'TollRevenue'
+	'VMT':'VMT'
 }
 
 

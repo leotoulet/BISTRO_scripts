@@ -102,8 +102,8 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 	
 	links = {}
 	for row in load_network():
-		of row[0].isdigit();
-		links[row[0]]=0
+		if row[0].isdigit():
+			links[row[0]]=0
 	print(links)
 
 
