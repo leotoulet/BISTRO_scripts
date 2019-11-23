@@ -106,6 +106,7 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05
 
 def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0.05):
 	print("    Generating link congestion coloring for best " + name + " samples")
+	print(computeWeightedScores(samples[0], standards, KPI))
 	samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
 	
 	links = {}
