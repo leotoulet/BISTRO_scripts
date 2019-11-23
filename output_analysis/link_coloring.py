@@ -22,15 +22,12 @@ MAX_Y = 4832294
 
 
 def getSiouxFauxLinks():
-	rows = []
+	rows = {}
 	avg = 0
-	i = 0
 	for row in load_network():
 		if row[0].isdigit():
 			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
-			rows.append((fX, fY, tX, tY))
-			avg += sqrt((fX-tX)**2+(fY-tY)**2)
-			i+=1
+			rows[row[0]] = (fX, fY, tX, tY)
 
 	return rows
 
@@ -59,6 +56,7 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 
 def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05):
 	links = getSiouxFauxLinks()
+	links = links.values()
 	weighted_tolls = [0 for i in range(len(links))]
 
 	print("    Generating best " + name + " avg link tolls")
@@ -111,6 +109,8 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 	samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
 	
 	links = {}
+	coos = getSiouxFauxLinks()
+
 	for row in load_network():
 		if row[0].isdigit():
 			links[row[0]]=0
@@ -122,13 +122,13 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 			links[k] +=sample_congestion[k][0]/nb_samples
 
 	#Right now we have a dictionnary with linkId, congestion and coos
-	cong_max = max([links[k][0] for k in links.keys()])
-	cong_min = max([links[k][0] for k in links.keys()])
+	cong_max = max([links[k] for k in links.keys()])
+	cong_min = max([links[k] for k in links.keys()])
 
-	for i in range(len(links)):
-		X = [links[i][1], links[i][3]]
-		Y = [links[i][2], links[i][4]]
-		c = [1 - (links[i][0] - cong_min)/(cong_max-cong_min), (links[i][0] - cong_min)/(cong_max-cong_min), 0]
+	for i in links.keys():
+		X = [coo[i][0], coo[i][2]]
+		Y = [coo[i][1], coo[i][3]]
+		c = [1 - (links[i] - cong_min)/(cong_max-cong_min), (links[i] - cong_min)/(cong_max-cong_min), 0]
 		if weighted_tolls[i]==tolls_min:
 			lmin, = ax.plot(X,Y,color=c, label="min")
 		if weighted_tolls[i]==tolls_max:
