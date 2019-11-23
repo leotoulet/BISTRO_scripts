@@ -1,8 +1,11 @@
 from navigate_data import *
+from collect_inputs import *
 import gzip
 import xmltodict
 
 MODE_CHOICES = ['car', 'drive_transit', 'ride_hail', 'walk', 'walk_transit']
+
+VEHICLES = ["car", "drive_transit", "ride_hail"]
 
 #Since not all csv files share the same KPI headers, and tranlsation dictionnary is in order
 trans_dict = {
@@ -57,6 +60,11 @@ def retrieve_KPIs(tpe_dir):
 		dic["TollRevenue"] = [tolls for i in range(31)]
 		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
 
+	if "VMT" not in dic.keys():
+		VMT = get_VMT(tpe_dir)
+		dic["VMT"] = [VMT for i in range(31)]
+		df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
+
 	csvfile.close()
 	df.to_csv(path)
 	return dic
@@ -97,3 +105,49 @@ def get_toll_revenue(tpe_dir):
 
 	print("Tolls paid : " + str(totalTolls)+"\r")
 	return totalTolls
+
+def get_VMT(tpe_dir):
+	output_dir = os.path.join(tpe_dir, 'output')
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	f = gzip.open(os.path.join(output_dir,'outputEvents.xml.gz'), 'rb')
+	doc = xmltodict.parse(f.read())
+
+	#For each link, compute the number of time it was used
+	links = {}
+	for event in doc['events']['event']:
+		if event["@type"] == 'PathTraversal':
+			if event['@mode'] in VEHICLES:
+				for l in event["@links"].split(","):
+					if l in links.keys():
+						links[l]+=1
+					else:
+						links[l]=0
+
+	f.close()
+
+	VMT = 0
+
+	link_stats_file = os.path.join(output_dir, 'competition')
+	link_stats_file = os.path.join(link_stats_file,'link_stats.csv')
+
+	#Write link stats file
+	file =  open(link_stats_file, "w")
+	file.write("linkId,linkLength,vehicleTravserals,VMT,linkCapacity\n")
+	for row in load_network():
+		if row[0].isdigit():
+			file.write(row[0]+",")
+			file.write(row[1]+",")
+
+			if row[0] in links.keys():
+				file.write(str(links[row[0]])+",")
+				file.write(str(links[row[0]]*float(row[1])/1609)+",")
+				VMT += (links[row[0]]*float(row[1])/1609)
+			else:
+				file.write("0,0,")
+
+			file.write(row[3]+"\n")
+	file.close()
+
+	return VMT
