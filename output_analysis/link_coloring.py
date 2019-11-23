@@ -39,7 +39,7 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 	d = sample.directory
 	link_stats_path = os.path.join(get_results_dir(d),"link_stats.csv")
 
-	csvfile = open(filepath_network, "rt")
+	csvfile = open(link_stats_path, "rt")
 	reader = csv.reader(csvfile)
 	for row in reader:
 		print(row)
