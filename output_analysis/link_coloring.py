@@ -56,7 +56,7 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 
 def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05):
 	links = getSiouxFauxLinks()
-	links = links.values()
+	links = list(links.values())
 	weighted_tolls = [0 for i in range(len(links))]
 
 	print("    Generating best " + name + " avg link tolls")
@@ -99,7 +99,7 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05
 	plt.title("Average toll "+ name +", "+ str(int(100*percent)) + "% best samples")
 	
 	os.makedirs(folder+"/tolls", exist_ok=True)
-	filepath = folder+"/tolls"+"/link_coloring_"+name+".png"
+	filepath = folder+"/tolls"+"/toll_coloring_"+name+".png"
 	plt.savefig(filepath)
 	print("    Saved tollmap to: "+filepath)
 
@@ -140,10 +140,10 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 
 	plt.legend((lmin, lmax), (str(cong_min)+ "% capacity", str(cong_max)+"% capacity"))
 
-	plt.title("Average toll "+ name +", "+ str(int(100*percent)) + "% best samples")
+	plt.title("Average congestion "+ name +", "+ str(int(100*percent)) + "% best samples")
 	
 	os.makedirs(folder+"/congestion", exist_ok=True)
-	filepath = folder+"/congestion"+"/link_coloring_"+name+".png"
+	filepath = folder+"/congestion"+"/congestion_coloring_"+name+".png"
 	plt.savefig(filepath)
 	print("    Saved congestion map to: "+filepath)
 
