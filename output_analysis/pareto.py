@@ -3,17 +3,46 @@ from collect_inputs import *
 from KPIS import *
 import matplotlib.pyplot as plt
 
+merge_temp = []
+
 def swap(list, i, j):
 	a = list[i]
 	list[i] = list[j]
 	list[j] = a
 
-def sort(liste, fun):
-	l = len(liste)
-	for i in range(l-1):
-		for j in range(l-1):
-			if inferior(liste[j+1], liste[j]):
-				swap(liste, j, j+1)
+
+def sort(liste, fun, i=None, j=None):
+	
+	if i==None or j==None:
+		i = 0
+		j = len(liste) - 1
+		merge_temp = [0 for k in range(len(liste))]
+
+	if i == j:
+		return;
+	inf = inferior(liste[i], liste[j])
+	if j == i + 1 and inf:
+		return;
+	if j == i + 1 and not inf:
+		swap[list[i], list[j]]
+
+	middle = int((i+j)/2)
+	sort(liste, fun, i, middle)
+	sort(liste, fun, middle, j)
+
+	merge(liste, fun, i, middle, j, merge_temp)
+
+def merge(liste, fun, i, middle, j, merge_temp): #MErge sort in place
+	k,l = i,middle
+
+	for p in range(i,j+1):
+		if (k < middle) && (l>j || liste[k] < liste[l]):
+			merge_temp = liste[k]
+			k = k + 1
+		else:
+			merge_temp = liste[l]
+			l = l + 1
+
 
 def pareto_front(samples, standards, KPI1, KPI2):
 
@@ -80,6 +109,8 @@ def save_samples_pareto(pareto_list, KPI1_name, KPI2_name, folder):
 	print("    Saved pareto list to: "+filepath)
 
 def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
+	
+	print("    Generating pareto front for "+KPI1_name+ " and "+ KPI2_name)
 	pareto, non_pareto = pareto_front(samples, standards, KPI1, KPI2)
 
 	plt.clf()
