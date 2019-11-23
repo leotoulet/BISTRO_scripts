@@ -39,6 +39,7 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 	d = sample.directory
 	link_stats_path = os.path.join(get_results_dir(d),"link_stats.csv")
 	df = pd.read_csv(link_stats_path, index_col="linkId")
+	print(list(df.columns))
 	print(df["vehicleTravserals"])
 	for row in load_network():
 		if row[0].isdigit():
