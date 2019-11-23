@@ -39,17 +39,14 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 	d = sample.directory
 	link_stats_path = os.path.join(get_results_dir(d),"link_stats.csv")
 	df = pd.read_csv(link_stats_path, index_col="linkId")
-
+	print(df)
 	for row in load_network():
 		if row[0].isdigit():
 			if row[0] not in list(df.columns):
-				print(row[0])
 				continue;
 			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
 			congestion = df[row[0]]["vehicleTravserals"]/df[row[0]]["linkCapacity"]
 			links[row[0]] = congestion
-
-	print(links)
 	return links
 
 
