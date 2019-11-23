@@ -106,9 +106,6 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05
 
 def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0.05):
 	print("    Generating link congestion coloring for best " + name + " samples")
-	for s in samples:
-		print(s.directory)
-		print(computeWeightedScores(s, standards, KPI)[-1])
 	samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
 	
 	links = {}
@@ -127,7 +124,7 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 	#Right now we have a dictionnary with linkId, congestion and coos
 	cong_max = max([links[k] for k in links.keys()])
 	cong_min = max([links[k] for k in links.keys()])
-
+	print(cong_min, cong_max)
 	for i in links.keys():
 		X = [coo[i][0], coo[i][2]]
 		Y = [coo[i][1], coo[i][3]]
