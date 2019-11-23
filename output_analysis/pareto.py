@@ -11,11 +11,11 @@ def swap(list, i, j):
 	list[j] = a
 
 
-def sort2(liste, fun, standards):
+def sort2(liste, fun, standards, KPI1, KPI2):
 	l = len(liste)
 	for i in range(l-1):
 		for j in range(l-1):
-			if inferior(liste[j+1], liste[j], standards):
+			if inferior(liste[j+1], liste[j], standards, KPI1, KPI2):
 				swap(liste, j, j+1)
 
 def pareto_front(samples, standards, KPI1, KPI2):
@@ -57,7 +57,7 @@ def dominates(k1, k2):
 
 	return one_strict
 
-def inferior(par1, par2, standards):
+def inferior(par1, par2, standards, KPI1, KPI2):
 	x1 = computeWeightedScores(par1[0], standards, KPI1)[-1]
 	y1 = computeWeightedScores(par1[0], standards, KPI2)[-1]
 	x2 = computeWeightedScores(par2[0], standards, KPI1)[-1]
