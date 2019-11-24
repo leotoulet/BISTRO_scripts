@@ -38,6 +38,12 @@ print("############ Configuration file loaded ! ##############\n")
 samples = create_samples_list(CONFIG["EXPERIMENT_DIR"])
 standards = load_standards("fixed_data/standardizationParameters.csv")
 
+def filter(samples): #Returns a bool it we want to keep the sample
+	return sample.mode_split["car"]/sum(list(sample.mode_split.values()) > 0.4
+
+samples = [s for s in samples if filter(samples)]
+
+
 print("########### Loaded all samples in order ! #############\n")
 
 
@@ -78,8 +84,6 @@ def link_coloring():
 	for k,n in zip(KPIS, KPIS_names):
 		best_scores_link_congestion(samples_copy, standards, k, n, saving_dir)
 		best_scores_link_tolls(samples_copy, standards, k, n, saving_dir)
-
-
 
 def pareto():
 	samples_copy = [s for s in samples]
