@@ -41,7 +41,6 @@ def init_sample(tpe_dir):
 #Returns a list score stored by iteration number
 def computeWeightedScores(s, standards, weights, standarding = True):
 	kpis_dict = s.KPIS
-
 	scores = []
 	iters = kpis_dict['Iteration']
 	for i in iters:
