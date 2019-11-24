@@ -5,7 +5,7 @@ import xmltodict
 
 MODE_CHOICES = ['car', 'drive_transit', 'ride_hail', 'walk', 'walk_transit']
 
-VEHICLES = ["car", "drive_transit", "ride_hail"]
+VEHICLES = ["car", "drive_transit", "ride_hail", "bus"]
 
 #Since not all csv files share the same KPI headers, and tranlsation dictionnary is in order
 trans_dict = {
@@ -63,10 +63,11 @@ def retrieve_KPIs(tpe_dir):
 		dic["TollRevenue"] = [tolls for i in range(31)]
 		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
 
-	if "VMT" not in dic.keys():
-		VMT = get_VMT(tpe_dir)
-		dic["VMT"] = [VMT for i in range(31)]
-		df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
+
+	#if "VMT" not in dic.keys():
+	#VMT = get_VMT(tpe_dir)
+	#dic["VMT"] = [VMT for i in range(31)]
+	#df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
 
 	csvfile.close()
 	df.to_csv(path)
