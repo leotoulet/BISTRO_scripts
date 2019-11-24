@@ -66,10 +66,10 @@ def retrieve_KPIs(tpe_dir):
 
 
 
-	#if "VMT" not in dic.keys():
-	#VMT = get_VMT(tpe_dir)
-	#dic["VMT"] = [VMT for i in range(31)]
-	#df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
+	if "VMT" not in dic.keys():
+		VMT = get_VMT(tpe_dir)
+		dic["VMT"] = [VMT for i in range(31)]
+		df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
 
 	csvfile.close()
 	df.to_csv(path)
