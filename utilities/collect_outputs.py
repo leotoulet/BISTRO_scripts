@@ -63,7 +63,7 @@ def retrieve_KPIs(tpe_dir):
 		dic["TollRevenue"] = [tolls for i in range(31)]
 		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
 
-
+	print(kpi_names)
 	if "VMT" in kpi_names:
 		print("hit")
 		del df['VMT']
