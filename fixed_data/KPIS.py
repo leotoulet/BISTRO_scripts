@@ -1,9 +1,9 @@
 #Defined frequently used KPIS
 
 congestion_KPI = {
-	"averageVehicleDelayPerPassengerTrip":0.5,
-	"sustainability_GHG":0.5,
-	#"VMT":0.333
+	"averageVehicleDelayPerPassengerTrip":0.333,
+	"sustainability_GHG":0.333,
+	"VMT":0.333
 }
 
 social_KPI = {
@@ -26,19 +26,19 @@ VMT_KPI = {
 }
 
 aggregate_KPI = {
-	"averageVehicleDelayPerPassengerTrip":2*0.5/5,
-	"sustainability_GHG":2*0.5/5,
-	#"VMT":2*0.333/5,
-	"averageTravelCostBurden_Work":2*0.33/5,
-	"busCrowding":2*0.33/5,
-	"averageTravelCostBurden_Secondary":2*0.33/5,
+	"averageVehicleDelayPerPassengerTrip":2*0.333/5,
+	"sustainability_GHG":2*0.333/5,
+	"VMT":2*0.333/5,
+	"averageTravelCostBurden_Work":2*0.333/5,
+	"busCrowding":2*0.333/5,
+	"averageTravelCostBurden_Secondary":2*0.333/5,
 	"TollRevenue":1.0/5
 }
 
 aggregate_KPI_2 = {
-	"averageVehicleDelayPerPassengerTrip":2*0.5/5,
-	"sustainability_GHG":2*0.5/5,
-	#"VMT":2*0.333/5,
+	"averageVehicleDelayPerPassengerTrip":2*0.333/5,
+	"sustainability_GHG":2*0.333/5,
+	"VMT":2*0.333/5,
 	"averageTravelCostBurden_Work":2*0.5/5,
 	"averageTravelCostBurden_Secondary":2*0.5/5,
 	"TollRevenue":1.0/5
