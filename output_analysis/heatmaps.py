@@ -24,21 +24,21 @@ sigmas = []
 xcs = []
 ycs = []
 
-def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, f = 1):
+def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, percent = 0.1):
 	print("    Creating score heatmap for KPI : " + name)
 
 	global sigmas, xcs, ycs
 	sigmas = []
 	xcs = []
 	ycs = []
-
+	
 	X, Y = np.meshgrid(np.linspace(MIN_X, MAX_X, 1000), np.linspace(MIN_Y, MAX_Y, 1000))
 	
 	for s in samples:
 		if s.road_pricing["r"]!=0:
 			xcs.append(s.road_pricing["x"])
 			ycs.append(s.road_pricing["y"])
-			sigmas.append(s.road_pricing["r"]/f)
+			sigmas.append(s.road_pricing["r"])
 
 	si = []
 	for s in samples:

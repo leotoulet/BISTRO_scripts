@@ -72,6 +72,8 @@ def create_samples_list(exp_directory, dirs = None):
 		s = init_sample(d)
 		if s.road_pricing["p"] != 0.0:
 			samples.append(s)
+		else:
+			print(s.directory)
 
 	print("\n")
 	return samples
