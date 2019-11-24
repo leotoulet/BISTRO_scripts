@@ -102,7 +102,6 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.1)
 	filepath = folder+"/tolls"+"/toll_coloring_"+name+".png"
 	plt.savefig(filepath)
 	print("    Saved tollmap to: "+filepath)
-	fig.close()
 
 
 def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0.5):
@@ -147,6 +146,5 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 	filepath = folder+"/congestion"+"/congestion_coloring_"+name+".png"
 	plt.savefig(filepath)
 	print("    Saved congestion map to: "+filepath)
-	fig.close()
 
 	return;
