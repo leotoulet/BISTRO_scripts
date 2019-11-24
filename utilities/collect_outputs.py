@@ -66,6 +66,8 @@ def retrieve_KPIs(tpe_dir):
 
 	if "VMT" in kpi_names:
 		print("VMT")
+	else:
+		print(dic.keys())
 
 	#if "VMT" not in dic.keys():
 	#VMT = get_VMT(tpe_dir)
