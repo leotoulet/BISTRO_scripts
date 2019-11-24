@@ -64,4 +64,4 @@ ALL_KPIS = [aggregate_KPI, aggregate_KPI_2, cost_burden_KPI, congestion_KPI, soc
 ALL_KPIS += [Avg_cost_burden_work_KPI, Avg_cost_burden_secondary_KPI, Bus_crowding_KPI]
 
 ALL_NAMES = ["Aggregate", "Aggregate_2", "Cost Burden", "Congestion", "Social", "TR", "VHD"]
-ALL_NAMES += ["CB_work", "CB_2ndary", "Bus_crowding"]
+ALL_NAMES += ["CB_work", "CB_2ndary", "BC"]
