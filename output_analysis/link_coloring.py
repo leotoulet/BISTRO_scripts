@@ -104,7 +104,7 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.1)
 	print("    Saved tollmap to: "+filepath)
 
 
-def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0.5):
+def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0.1):
 	print("    Generating link congestion coloring for best " + name + " samples")
 	samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
 	
