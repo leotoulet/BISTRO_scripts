@@ -64,7 +64,8 @@ def retrieve_KPIs(tpe_dir):
 		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
 
 
-	if "VMT" in dic.keys():
+	if "VMT" in kpi_names:
+		print("hit")
 		del df['VMT']
 	#if "VMT" not in dic.keys():
 	#VMT = get_VMT(tpe_dir)
