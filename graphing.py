@@ -44,7 +44,7 @@ def filter(s): #Returns a bool it we want to keep the sample
 samples = [s for s in samples if filter(s)]
 
 
-print("########### Loaded all " + len(samples) + " samples in order ! #############\n")
+print("######## Loaded all " + str(len(samples)) + " samples in order ! ############\n")
 
 
 ################################# KPIS ######################################
@@ -99,7 +99,7 @@ def pareto():
 
 if __name__=="__main__":
 	heatmaps()
-	link_coloring()
+	#link_coloring()
 	pareto()
 	price_area()
 
