@@ -44,7 +44,7 @@ def filter(samples): #Returns a bool it we want to keep the sample
 samples = [s for s in samples if filter(samples)]
 
 
-print("########### Loaded all samples in order ! #############\n")
+print("########### Loaded all " + len(samples) + " samples in order ! #############\n")
 
 
 ################################# KPIS ######################################
