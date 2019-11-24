@@ -120,7 +120,6 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 		sample_congestion = getSiouxFauxLinksCongestion(s)
 		for k in sample_congestion.keys():
 			links[k] +=sample_congestion[k][0]/nb_samples
-			print(sample_congestion[k][0])
 
 	#Right now we have a dictionnary with linkId, congestion and coos
 	cong_max = max([links[k] for k in links.keys()])
