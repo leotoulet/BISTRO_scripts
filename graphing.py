@@ -41,7 +41,7 @@ standards = load_standards("fixed_data/standardizationParameters.csv")
 def filter(s): #Returns a bool it we want to keep the sample
 	return s.mode_split["car"]/sum(list(s.mode_split.values())) > 0.4
 
-samples = [s for s in samples if filter(samples)]
+samples = [s for s in samples if filter(s)]
 
 
 print("########### Loaded all " + len(samples) + " samples in order ! #############\n")

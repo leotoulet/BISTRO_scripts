@@ -54,7 +54,7 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 
 
 
-def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05):
+def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.1):
 	links = getSiouxFauxLinks()
 	links = list(links.values())
 	weighted_tolls = [0 for i in range(len(links))]
@@ -105,7 +105,7 @@ def best_scores_link_tolls(samples, standards, KPI, name, folder, percent = 0.05
 	fig.close()
 
 
-def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0.05):
+def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0.5):
 	print("    Generating link congestion coloring for best " + name + " samples")
 	samples = sorted(samples, key=lambda x:computeWeightedScores(x, standards, KPI)[-1])
 	
