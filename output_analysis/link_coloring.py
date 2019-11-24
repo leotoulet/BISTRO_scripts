@@ -38,11 +38,13 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 
 	#Open the sample's link stats
 	csvfile = open(link_stats_path, "rt")
+
 	reader = csv.reader(csvfile)
 	sample_stats = {}
 	for r in reader:
 		sample_stats[r[0]] = r[1:] 
 
+	#For each link in both the network and the sample, compute congestion
 	for row in load_network():
 		if row[0].isdigit() and row[0] in sample_stats:
 			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
