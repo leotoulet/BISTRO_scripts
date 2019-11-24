@@ -54,16 +54,18 @@ def retrieve_KPIs(tpe_dir):
 	kpi_names = list(df.columns)
 
 	dic['Iteration'] = [i for i in range(len(df))]
-	print(kpi_names)
 	
 	for name in kpi_names:
 		dic[trans_dict[name]] = list(df[name])
-	print(dic)
+
 
 	if "TollRevenue" not in dic.keys():
 		tolls = get_toll_revenue(tpe_dir)
 		dic["TollRevenue"] = [tolls for i in range(31)]
 		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
+
+	if "VMT" in kpi_names:
+		print("VMT")
 
 	#if "VMT" not in dic.keys():
 	#VMT = get_VMT(tpe_dir)
