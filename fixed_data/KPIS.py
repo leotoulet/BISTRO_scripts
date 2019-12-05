@@ -53,6 +53,10 @@ inverted_tolls_aggregate2_KPI = {
 	"TollRevenue":-1.0/2
 }
 
+inverted_tolls_KPI = {
+	"TollRevenue":-1.0
+}
+
 Avg_vehicule_delay_KPI = {
 	"averageVehicleDelayPerPassengerTrip":1
 }
@@ -69,8 +73,8 @@ Bus_crowding_KPI = {
 	"busCrowding":1
 }
 
-ALL_KPIS = [inverted_tolls_aggregate2_KPI, aggregate_KPI, aggregate_KPI_2, VMT_KPI, cost_burden_KPI, congestion_KPI, social_KPI, TollRevenue_KPI, Avg_vehicule_delay_KPI]
+ALL_KPIS = [inverted_tolls_KPI, inverted_tolls_aggregate2_KPI, aggregate_KPI, aggregate_KPI_2, VMT_KPI, cost_burden_KPI, congestion_KPI, social_KPI, TollRevenue_KPI, Avg_vehicule_delay_KPI]
 ALL_KPIS += [Avg_cost_burden_work_KPI, Avg_cost_burden_secondary_KPI, Bus_crowding_KPI]
 
-ALL_NAMES = ["Inverted_tolls_agg2", "Aggregate", "Aggregate_2", "VMT", "Cost Burden", "Congestion", "Social", "TR", "VHD"]
+ALL_NAMES = ["Inverted_toll", "Inverted_tolls_agg2", "Aggregate", "Aggregate_2", "VMT", "Cost Burden", "Congestion", "Social", "TR", "VHD"]
 ALL_NAMES += ["CB_work", "CB_2ndary", "BC"]
