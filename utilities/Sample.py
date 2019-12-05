@@ -4,6 +4,7 @@ import os
 from navigate_data import *
 from collect_inputs import *
 from collect_outputs import *
+from math import *
 
 class Sample:
 
@@ -52,7 +53,7 @@ def computeWeightedScores(s, standards, weights, standarding = True):
 			mean, std = standards[k]
 			value = kpis_dict[k][i]
 			s += w*(value - mean)/std
-		scores.append(s/sum(weights.values()))
+		scores.append(s/sum([abs(w) for w in weights.values()]))
 
 	return scores	
 
