@@ -236,6 +236,7 @@ def main():
     from hyperopt import fmin
     from hyperopt import tpe
     from hyperopt import rand
+    
     # Keep track of results
     bayes_trials = MongoTrials('mongo://localhost:27017/wh_db_circle_rs/jobs', exp_key='RS_per_mile')
     # File to save first results
