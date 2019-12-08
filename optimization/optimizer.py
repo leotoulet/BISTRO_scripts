@@ -151,7 +151,7 @@ def compute_weighted_scores(raw_scores, standards):
     #Toll revenue
     toll_revenue = (raw_scores[TOLL_REVENUE] - standards[TOLL_REVENUE][0])/standards[TOLL_REVENUE][1]
 
-    return 2*congestion/5 + 2*social/5 + toll_revenue/5
+    return 1*congestion/4 + 1*social/4 - toll_revenue/2
 
 def read_raw_scores(output_dir):
     path = only_subdir(only_subdir(output_dir))

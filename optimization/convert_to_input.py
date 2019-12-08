@@ -259,10 +259,12 @@ def get_circle_links(x, y, r, p):
             dfrom = ((x - fromLocationX)**2 + (y - fromLocationY)**2)**0.5
             dto = ((x - toLocationX)**2 + (y - toLocationY)**2)**0.5
             price = str(round(float(linkLength)*float(p)/1600, 2))
+
             #if (dfrom > r and dto < r): 
             #    changes.append([linkId,p,timeRange])
             #if (dfrom < r and dto > r):
             #    changes.append([linkId,p,timeRange])
+            
             if dfrom < r or dto < r: 
                 changes.append([linkId,price,timeRange])
 
