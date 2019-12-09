@@ -48,7 +48,7 @@ def getSiouxFauxLinksCongestion(sample): #Congestion being total trips/capacity
 	for row in load_network():
 		if row[0].isdigit() and row[0] in sample_stats:
 			fX,fY,tX,tY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
-			congestion = 100/24*float(sample_stats[row[0]][1])/float(sample_stats[row[0]][3])
+			congestion = 100/24*float(sample_stats[row[0]][1])/float(sample_stats[row[0]][3])*float(sample_stats[row[0][1]])
 			links[row[0]] = (congestion,fX,fY,tX,tY)
 
 	return links
@@ -118,6 +118,7 @@ def best_scores_link_congestion(samples, standards, KPI, name, folder, percent=0
 			links[row[0]]=0
 
 	nb_samples = int(percent*len(samples))
+
 	for s in samples[:nb_samples]:
 		sample_congestion = getSiouxFauxLinksCongestion(s)
 		for k in sample_congestion.keys():
