@@ -46,7 +46,7 @@ Aggregate_3_KPI = {
 	"averageVehicleDelayPerPassengerTrip":1*0.333/2,
 	"sustainability_GHG":1*0.333/2,
 	"VMT":1*0.333/2,
-	"averageTravelCostBurden_Work":1*0.5/2,
+	"averageTravelCostBurden_Work":1*0.5/4,
 	"averageTravelCostBurden_Secondary":1*0.5/4,
 	"TollRevenue":-1.0/4
 }
