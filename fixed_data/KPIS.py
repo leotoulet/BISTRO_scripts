@@ -18,11 +18,27 @@ cost_burden_KPI = {
 }
 
 
-
 VMT_KPI = {
 	"VMT":1.0
 }
 
+Aggregate_optim_KPI = {
+	"averageVehicleDelayPerPassengerTrip":1*0.333/4,
+	"sustainability_GHG":1*0.333/4,
+	"VMT":1*0.333/4,
+	"averageTravelCostBurden_Work":1*0.5/4,
+	"averageTravelCostBurden_Secondary":1*0.5/4,
+	"TollRevenue":-1.0/2
+}
+
+Aggregate_0_KPI = {
+	"averageVehicleDelayPerPassengerTrip":1*0.333/4,
+	"sustainability_GHG":1*0.333/4,
+	"VMT":1*0.333/4,
+	"averageTravelCostBurden_Work":1*0.5/4,
+	"averageTravelCostBurden_Secondary":1*0.5/4,
+	"TollRevenue":-1.0/2
+}
 
 Aggregate_1_KPI = {
 	"averageVehicleDelayPerPassengerTrip":1*0.333/4,
@@ -43,22 +59,30 @@ Aggregate_2_KPI = {
 }
 
 Aggregate_3_KPI = {
-	"averageVehicleDelayPerPassengerTrip":1*0.333/2,
-	"sustainability_GHG":1*0.333/2,
-	"VMT":1*0.333/2,
-	"averageTravelCostBurden_Work":1*0.5/4,
-	"averageTravelCostBurden_Secondary":1*0.5/4,
+	"averageVehicleDelayPerPassengerTrip":3*0.333/8,
+	"sustainability_GHG":3*0.333/8,
+	"VMT":3*0.333/8,
+	"averageTravelCostBurden_Work":3*0.5/8,
+	"averageTravelCostBurden_Secondary":3*0.5/8,
 	"TollRevenue":-1.0/4
 }
 
-
 Aggregate_4_KPI = {
-	"averageVehicleDelayPerPassengerTrip":1*0.333/4,
-	"sustainability_GHG":1*0.333/4,
-	"VMT":1*0.333/4,
-	"averageTravelCostBurden_Work":1*0.5/2,
-	"averageTravelCostBurden_Secondary":1*0.5/2,
-	"TollRevenue":-1.0/4
+	"averageVehicleDelayPerPassengerTrip":2*0.333/5,
+	"sustainability_GHG":2*0.333/5,
+	"VMT":2*0.333/5,
+	"averageTravelCostBurden_Work":2*0.5/5,
+	"averageTravelCostBurden_Secondary":2*0.5/5,
+	"TollRevenue":-1.0/5
+}
+
+Aggregate_5_KPI = {
+	"averageVehicleDelayPerPassengerTrip":5*0.333/12,
+	"sustainability_GHG":5*0.333/12,
+	"VMT":5*0.333/12,
+	"averageTravelCostBurden_Work":5*0.5/12,
+	"averageTravelCostBurden_Secondary":5*0.5/12,
+	"TollRevenue":-1.0/6
 }
 
 Toll_Revenue_KPI = {
@@ -81,7 +105,7 @@ Bus_crowding_KPI = {
 	"busCrowding":1
 }
 
-ALL_KPIS = [Aggregate_1_KPI, Aggregate_2_KPI, Aggregate_3_KPI, Aggregate_4_KPI, VMT_KPI, cost_burden_KPI, congestion_KPI, social_KPI, Toll_Revenue_KPI, Avg_vehicule_delay_KPI]
+ALL_KPIS = [Aggregate_0_KPI, Aggregate_1_KPI, Aggregate_2_KPI, Aggregate_3_KPI, Aggregate_4_KPI, Aggregate_5_KPI, VMT_KPI, cost_burden_KPI, congestion_KPI, social_KPI, Toll_Revenue_KPI, Avg_vehicule_delay_KPI]
 ALL_KPIS += [Avg_cost_burden_work_KPI, Avg_cost_burden_secondary_KPI, Bus_crowding_KPI]
 
 ALL_NAMES = ["Agg1", "Agg2", "Agg3", "Agg4", "VMT", "Cost Burden", "Congestion", "Social", "TR", "VHD"]
