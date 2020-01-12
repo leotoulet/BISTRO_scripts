@@ -108,7 +108,7 @@ Bus_crowding_KPI = {
 ALL_KPIS = [Aggregate_0_KPI, Aggregate_1_KPI, Aggregate_2_KPI, Aggregate_3_KPI, Aggregate_4_KPI, Aggregate_5_KPI, VMT_KPI, cost_burden_KPI, congestion_KPI, social_KPI, Toll_Revenue_KPI, Avg_vehicule_delay_KPI]
 ALL_KPIS += [Avg_cost_burden_work_KPI, Avg_cost_burden_secondary_KPI, Bus_crowding_KPI]
 
-ALL_NAMES = ["Agg1", "Agg2", "Agg3", "Agg4", "VMT", "Cost Burden", "Congestion", "Social", "TR", "VHD"]
+ALL_NAMES = ["Agg0", "Agg1", "Agg2", "Agg3", "Agg4", "Agg5", "VMT", "Cost Burden", "Congestion", "Social", "TR", "VHD"]
 ALL_NAMES += ["CB_work", "CB_2ndary", "BC"]
 
 
