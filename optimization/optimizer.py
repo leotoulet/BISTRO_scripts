@@ -140,9 +140,9 @@ def compute_weighted_scores(raw_scores, standards):
     congestion, social, toll = 0, 0, 0
 
     #Congestion
-    congestion += (raw_scores[AVG_DELAY] - standards[AVG_DELAY][0])/standards[AVG_DELAY][1]/3.0
-    congestion += (raw_scores[GHG] - standards[GHG][0])/standards[GHG][1]/3.0
-    congestion += (raw_scores[VMT] - standards[VMT][0])/standards[VMT][1]/3.0
+    congestion += (raw_scores[AVG_DELAY] - standards[AVG_DELAY][0])/standards[AVG_DELAY][1]/2.0
+    congestion += (raw_scores[GHG] - standards[GHG][0])/standards[GHG][1]/2.0
+    #congestion += (raw_scores[VMT] - standards[VMT][0])/standards[VMT][1]/3.0
     #Social
     social += (raw_scores[WORK_BURDEN] - standards[WORK_BURDEN][0])/standards[WORK_BURDEN][1]/2.0
     social += (raw_scores[SECOND_BURDEN] - standards[SECOND_BURDEN][0])/standards[SECOND_BURDEN][1]/2.0
