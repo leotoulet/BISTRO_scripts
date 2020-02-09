@@ -1,0 +1,13 @@
+#Beam settings
+
+BEAM_PATH: "/home/ubuntu/BeamCompetitions/"
+RESULTS_PATH: "/home//ubuntu/EXP_RESULTS/"
+HYPEROPT_PATH: "/home/ubuntu/.local/bin/"
+
+SAMPLE_SIZE: "15k"
+SIMULATION_ITERS: 30
+NUMBER_OF_SAMPLES: 500
+
+OPTIMIZATION_KPI_FILE: "optimization_kpi.py"
+
+MAX_PRICE_PER_MILE: 10
