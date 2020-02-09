@@ -28,7 +28,8 @@ CONFIG = {}
 with open("settings.yaml") as stream:
     CONFIG = yaml.safe_load(stream)
 
-
+if not os.path.exists(CONFIG["RESULTS_PATH"]):
+    os.makedirs(CONFIG["RESULTS_PATH"])
 
 #BISTRO input files
 AGENCY = "sioux_faux_bus_lines"
@@ -91,9 +92,9 @@ def main():
 
     logging.basicConfig(level=logging.INFO)
 
-    data_root = abspath2("../reference-data")
-    input_root = abspath2("../bayesian-input")
-    output_root = abspath2("../bayesian-output")
+    data_root = abspath2(os.path.join(CONFIG["RESULTS_PATH"],"/reference-data"))
+    input_root = abspath2(os.path.join(CONFIG["RESULTS_PATH"],"/bayesian-input"))
+    output_root = abspath2(os.path.join(CONFIG["RESULTS_PATH"],"/bayesian-output"))
 
     os.makedirs(input_root, exist_ok=True)
     os.makedirs(output_root, exist_ok=True)

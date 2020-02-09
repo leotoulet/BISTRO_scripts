@@ -1,7 +1,7 @@
 #Beam settings
 
 BEAM_PATH: "/home/ubuntu/BeamCompetitions/"
-RESULTS_PATH: "/home//ubuntu/EXP_RESULTS/"
+RESULTS_PATH: "/home/ubuntu/EXP_RESULTS/"
 HYPEROPT_PATH: "/home/ubuntu/.local/bin/"
 
 SAMPLE_SIZE: "15k"

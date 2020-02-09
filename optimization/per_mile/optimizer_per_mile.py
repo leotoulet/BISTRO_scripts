@@ -77,8 +77,6 @@ BEAM_PATH = CONFIG["BEAM_PATH"]
 
 OUT_PATH = CONFIG["RESULTS_PATH"]
 
-if not os.path.exists(CONFIG["RESULTS_PATH"]):
-    os.makedirs(CONFIG["RESULTS_PATH"])
 
 logger = logging.getLogger(__name__)
 
