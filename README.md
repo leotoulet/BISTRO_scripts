@@ -4,9 +4,9 @@ This repo contains scrits used to run experiements on pre-defined scenarios with
 
 Currently, the repo contains two plug-and-play scenarios: 
 
-	* A cordon-style pricing policy that charges users a fixed amount each time they cross a predefined boundary (As currently in use in Oslo)
+* A cordon-style pricing policy that charges users a fixed amount each time they cross a predefined boundary (As currently in use in Oslo)
 
-	* A mileage based toll policy that charges drivers a per-mile amount when they drive within a defined area.
+* A mileage based toll policy that charges drivers a per-mile amount when they drive within a defined area.
 
 ## Installing BISTRO and setting up the optimizer 
 
