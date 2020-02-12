@@ -186,7 +186,7 @@ def read_toll_revenue(output_dir):
 
     return totalTolls
             
-def load_standards(file = "/home/ubuntu/settingsFiles/standardizationParameters.csv"):
+def load_standards(file = CONFIG["STANDARDS"]):
     dict_name = file
     params = {}
     with open(dict_name) as csvfile:

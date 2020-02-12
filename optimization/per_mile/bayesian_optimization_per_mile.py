@@ -114,7 +114,7 @@ def main():
     bayes_trials = MongoTrials('mongo://localhost:27017/wh_db_circle/jobs', exp_key='PER_MILE_TOLL_PAPER')
     
     # File to save first results
-    out_file = '../bayesian-output/bayes_trials.csv'
+    out_file = CONFIG["RESULTS_PATH"]+'/bayes_trials.csv'
     of_connection = open(out_file, 'w')
     writer = csv.writer(of_connection)
 

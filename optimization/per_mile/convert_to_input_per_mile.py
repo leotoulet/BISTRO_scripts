@@ -1,6 +1,22 @@
 
 import pandas as pd
 import csv
+import sys
+import os
+import yaml
+
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+hyperopt_path = os.path.abspath(os.path.dirname(__file__));
+sys.path.append(os.path.abspath("../../"))
+
+try:
+    from optimization_utils import *
+except:
+    from utilities.optimization_utils import *
+
+CONFIG = {}
+with open(os.path.join(hyperopt_path,"settings.yaml")) as stream:
+    CONFIG = yaml.safe_load(stream)
 
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
@@ -17,10 +33,9 @@ centerx = None
 centery = None
 cradius = None
 ctoll = None
-filepath_network = "/home/ubuntu/settingsFiles/network.csv"
 
 
-def convert_to_input(sample, input_dir):
+def convert_to_input(sample, input_dir, network_path=CONFIG["NETWORK_PATH"]):
     vehicle_fleet = []
     frequency_adjustment = []
     mode_incentive = []
@@ -31,7 +46,7 @@ def convert_to_input(sample, input_dir):
         value = sample[key]
         
         if key.startswith('c'):
-            road_pricing = road_pricing + processC(key, value)
+            road_pricing = road_pricing + processC(key, value, network_path)
         else:
             print("EROOR: UNKWOWN KEY; EXITING")
             exit(0);
@@ -51,7 +66,7 @@ def convert_to_input(sample, input_dir):
     mass_fare_d.to_csv(input_dir + '/MassTransitFares.csv', sep=',', index=False)
     
 
-def processC(key, value):
+def processC(key, value, network_path):
 
     global centerx, centery, ctoll, cradius
 
@@ -69,11 +84,11 @@ def processC(key, value):
 
     else:
         print("Parameters for this run: \nCenterX: " + str(centerx) + "\nCenterY: " + str(centery) + "\nPrice: " + str(ctoll) + "\nRadius: " + str(cradius))
-        links = get_circle_links(centerx, centery, cradius, ctoll)
+        links = get_circle_links(centerx, centery, cradius, ctoll, network_path)
         return links
 
 
-def load_network():
+def load_network(filepath_network):
     with open(filepath_network, "rt") as csvfile:
         datareader = csv.reader(csvfile)
         yield next(datareader)
@@ -82,7 +97,7 @@ def load_network():
         return
 
 
-def get_circle_links(x, y, r, p):
+def get_circle_links(x, y, r, p, filepath_network):
     timeRange = '[:]'
 
     #Save parameters
@@ -91,7 +106,7 @@ def get_circle_links(x, y, r, p):
     file.close()
 
     changes = []
-    for row in load_network():
+    for row in load_network(filepath_network):
         if row[0].isdigit():
             linkId,linkLength,fromLocationX,fromLocationY,toLocationX,toLocationY = row[0],row[1],row[-4],row[-3],row[-2],row[-1]
             fromLocationX = float(fromLocationX)
