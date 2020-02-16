@@ -16,7 +16,7 @@ This section gives step by step instructions on how to install BISTRO, Mongodb a
 
 2. Install python3 if not present, and python3-pip (`sudo apt update` and `sudo apt install python3-pip`)
 
-3. Install hyperopt (without superuser!) : `pip3 install hyperopt`
+3. Install hyperopt (without superuser!) : `pip3 install hyperopt`. Depending on your installation, you might need to add `~/.local/bin` to your path variable with the following command: `PATH=$PATH:absolute_path_of you_local_bin_folder`.
 
 4. Install mongodb by following [this](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/) tutorial.
 
