@@ -1,6 +1,6 @@
-#PER-MILE OPTIMIZATION SCENARIO
+# PER-MILE OPTIMIZATION SCENARIO
 
-##Description
+## Description
 
 Drivers are charged a fixed amount per mile when they drive within a certain area. This area has a circular shape. The search space for the exeriment contains four variables:
 
@@ -9,7 +9,7 @@ Drivers are charged a fixed amount per mile when they drive within a certain are
 * radius : circle's radius
 * price : price per mile (in $) when driving within the area.
 
-##Optimization
+## Optimization
 
 This scenario has two different optimization files:
 
@@ -17,14 +17,14 @@ This scenario has two different optimization files:
 
 * Bayesian optimization: Uses Tree Parzen Estimators to select points that have a better chance of optimizating user-defined key performance indicators.
 
-###Running a random search
+### Running a random search
 
 TBA
 
 
-###Running baysesian optimization
+### Running baysesian optimization
 
-####Defining an optimization metric
+#### Defining an optimization metric
 
 *What are we optimizing?* BEAM automatically produces 9 KPIs (key performance indicators) that the user can mix to reach their performance objective. The different KPIs are:
 
@@ -42,7 +42,7 @@ Before running any optimization, the user should define what their priority is a
 
 __/!\\__ Since KPIs have very different ranges, the optimizer standadizes them. To do so, it uses a `standardizationParameters.csv` file that contains the average value of the KPI and its standard deviation, both computed over a random collection of samples of this scenario, acquired using random search. This file comes pre-computed with the experiment and can be found in the settings file, but you can run your own random search or edit it manually it you desire.
 
-####Running the optimization
+#### Running the optimization
 
 Once this is done, the user should edit the `settings.yaml` file. It contains an overview of the optimization hyperparameters. 
 
@@ -61,6 +61,6 @@ __Voilà__, your experiment is running. It will run until it has evaluated the n
 
 To generate graphs of the experiment's output, see the analysis folder.
 
-###Common problems
+### Common problems
 
 * Disk memory: Optimization samples are very memory heavy (About 1.6 GBs for a 30 iterations sample). This is due to BISTRO saving a lot of intermediate information. For most purposes, this information is not needed and can be safely discarded. In the output folder of each sample, there is an `ITERS` directory. The contents of this directory can be deleted and will considerably the space taken by one iteration (to about 50MB)
