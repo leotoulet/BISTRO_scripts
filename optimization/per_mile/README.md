@@ -54,7 +54,7 @@ Once these steps are covered, the optimization can start. The hyperopt library t
 
 3. For each worker, follow these steps:
 	- Open a new terminal window
-	- Navigate to the output folder of your experiment
+	- Navigate to the output folder of your experiment (/!\\ see common problems)
 	- Run `hyperopt-mongo-worker --mongo=localhost:27017/wh_db_circle --poll-interval=0.1`. The worker will automatically connect to the master and evaluate a new sample
 
 __Voilà__, your experiment is running. It will run until it has evaluated the number of samples defined in the settings file. If you want to stop it prematurely, you can simply enter `CTRL + C` in the master terminal. The workers will finish running their experiments and stop on their own. You can also stop the workers manually, but you will get incomplete output folders.
@@ -64,3 +64,5 @@ To generate graphs of the experiment's output, see the analysis folder.
 ### Common problems
 
 * Disk memory: Optimization samples are very memory heavy (About 1.6 GBs for a 30 iterations sample). This is due to BISTRO saving a lot of intermediate information. For most purposes, this information is not needed and can be safely discarded. In the output folder of each sample, there is an `ITERS` directory. The contents of this directory can be deleted and will considerably the space taken by one iteration (to about 50MB)
+
+* Workers have access permission problems: this can happen on some systems, we're working on fixing that bug. Starting your *hyperopt-mongo-worker* in another folder should solver the problem.
