@@ -12,7 +12,7 @@ Currently, the repo contains two plug-and-play scenarios:
 
 This section gives step by step instructions on how to install BISTRO, Mongodb and the hyperopt package on a clean Ubuntu distro. In order to run a BISTRO optimization at correct speeds, we recommend using at least an AWS m5a.8xlarge instance, or equivalent. This should allow for a simulation rate of about 6 Samples/hour.
 
-1. Clone BeamCompetition from [Gitlab](https://gitlab.aicrowd.com/uber/BeamCompetitions). This contains BISTRO's files and the Sioux Faux scenario.
+1. Clone BISTRO from [Github](https://github.com/bistro-its-berkeley/BISTRO). This contains BISTRO's files and the Sioux Faux scenario.
 
 2. Install python3 if not present, and python3-pip (`sudo apt update` and `sudo apt install python3-pip`)
 
@@ -24,22 +24,24 @@ This section gives step by step instructions on how to install BISTRO, Mongodb a
 
 6. Install docker: `sudo apt install docker.io`
 
+The last step is to configure the number of iterations of BEAM:
 
-Once all of the previous steps are completed, you should configure Beam:
+7. Edit `BISTRO/fixed-data/sioux-faux/sioux_faux-15k.conf` and change the following line: `beam.agentsim.lastIteration = 100` to 30. 
 
-1. Change the number of iterations used during optimization (Instruction TBA)
-
-2. Unbreak Beam
 
 
 ## Running experiments
+
+All pre-configured experiments are located in the optimization folder:
+
+* Per-mile experiments can be found in `optimization/per_mile`
+* Cordon-tolls experiments can be found in `optimization/cordon`
 
 With BISTRO installed and configured, refer to each experiment's folder to get step by step instructions on how to run it. For all experiments, there are three generic steps:
 
 1. Use the settings file to set the experiment parameters
 2. Run (as super user) the file that corresponds to the desired scenario
 3. Launch as many hyperopt workers as the system can run. These will run individual simulations and produce Samples.
-
 
 
 

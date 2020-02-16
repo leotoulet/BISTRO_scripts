@@ -111,7 +111,7 @@ def main():
 
     
     # Keep track of results
-    bayes_trials = MongoTrials('mongo://localhost:27017/wh_db_circle/jobs', exp_key='PER_MILE_TOLL_PAPER')
+    bayes_trials = MongoTrials('mongo://localhost:27017/wh_db_circle/jobs', exp_key=CONFIG['UNIQUE_KEY'])
     
     # File to save first results
     out_file = CONFIG["RESULTS_PATH"]+'/bayes_trials.csv'
