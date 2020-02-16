@@ -22,7 +22,7 @@ This section gives step by step instructions on how to install BISTRO, Mongodb a
 
 5. Install the required python dependencies: `pip3 install docker untangle xmltodict pandas shapely pymongo`
 
-6. Install docker: `sudo apt install docker.io`
+6. Install docker: `sudo apt install docker.io`, create a docker group `sudo groupadd docker` and add yourself to it: `sudo usermod -aG docker ${USER}`. You might need to log out of your session and log back in.
 
 The last step is to configure the number of iterations of BEAM:
 
