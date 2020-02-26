@@ -35,8 +35,8 @@ def pareto_front(samples, standards, KPI1, KPI2):
 
 	points = [] #A point is made of a triplet (s, KPI1, KPI2)
 	for s in samples:
-		congestion = computeWeightedScores(s, standards, KPI1)[-1]
-		social = computeWeightedScores(s, standards, KPI2)[-1]
+		#congestion = computeWeightedScores(s, standards, KPI1)[-1]
+		#social = computeWeightedScores(s, standards, KPI2)[-1]
 
 		#No stds
 		congestion = compute_scores(s, standards, KPI1)
@@ -76,10 +76,10 @@ def dominates(k1, k2):
 	return one_strict
 
 def inferior(par1, par2, standards, KPI1, KPI2):
-	x1 = computeWeightedScores(par1[0], standards, KPI1)[-1]
-	y1 = computeWeightedScores(par1[0], standards, KPI2)[-1]
-	x2 = computeWeightedScores(par2[0], standards, KPI1)[-1]
-	y2 = computeWeightedScores(par2[0], standards, KPI2)[-1]
+	#x1 = computeWeightedScores(par1[0], standards, KPI1)[-1]
+	#y1 = computeWeightedScores(par1[0], standards, KPI2)[-1]
+	#x2 = computeWeightedScores(par2[0], standards, KPI1)[-1]
+	#y2 = computeWeightedScores(par2[0], standards, KPI2)[-1]
 
 	x1 = compute_scores(par1[0], standards, KPI1)
 	y1 = compute_scores(par1[0], standards, KPI2)
