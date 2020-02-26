@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 merge_temp = []
-file = open(path)
+file = open("unstd_bau.csv")
 df = pd.read_csv(file, index_col = "KPI")
 
 #print(list(df.index))
