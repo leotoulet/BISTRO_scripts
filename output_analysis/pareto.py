@@ -106,6 +106,10 @@ def save_samples_pareto(pareto_list, KPI1_name, KPI2_name, folder):
 
 def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
 	
+	KPI1 = KPI1.keys()[0]
+	KPI1 = KPI2.keys()[0]
+
+
 	print("    Generating pareto front for "+KPI1_name+ " and "+ KPI2_name)
 	pareto, non_pareto = pareto_front(samples, standards, KPI1, KPI2)
 
