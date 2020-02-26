@@ -21,8 +21,7 @@ def swap(list, i, j):
 
 def compute_scores(s, standards, KPI):
 	global df
-	print(s.KPIS[KPI])
-	return df['BAU_multiplier'][KPI] * s.KPIS[KPI]
+	return df['BAU_multiplier'][KPI] * s.KPIS[KPI][-1]
 
 def sort2(liste, fun, standards, KPI1, KPI2):
 	l = len(liste)
