@@ -50,7 +50,7 @@ Once these steps are covered, the optimization can start. The hyperopt library t
 
 1. Start the docker and mongodb services by typing `sudo service mongod start` and `sudo service docker start`.
 
-2. Launch the optimization master with `sudo python3 bayesian_optimization_per_mile`
+2. Launch the optimization master with `sudo python3 bayesian_optimization_per_mile.py`
 
 3. For each worker, follow these steps:
 	- Open a new terminal window
