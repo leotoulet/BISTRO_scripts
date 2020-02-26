@@ -5,14 +5,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 merge_temp = []
+file = open(path)
+df = pd.read_csv(file, index_col = "KPI")
 
-def load_unstd_bau(path = "unstd_bau.csv"):
-	file = open(path)
-	df = pd.read_csv(file, index_col = "KPI")
-	return df
-
-	print(list(df.index))
-	print(df['BAU_multiplier']['VMT'])
+#print(list(df.index))
+#print(df['BAU_multiplier']['VMT'])
 
 
 def swap(list, i, j):
@@ -22,6 +19,7 @@ def swap(list, i, j):
 
 
 def compute_scores(s, standards, KPI):
+	global df
 	return df['BAU_multiplier'][KPI] * s.KPIS[KPI]
 
 def sort2(liste, fun, standards, KPI1, KPI2):
