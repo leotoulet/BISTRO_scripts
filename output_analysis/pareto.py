@@ -6,7 +6,7 @@ import pandas as pd
 
 import os 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-file = open(os.path.joint(dir_path,"unstd_bau.csv"))
+file = open(os.path.join(dir_path,"unstd_bau.csv"))
 df = pd.read_csv(file, index_col = "KPI")
 
 #print(list(df.index))
