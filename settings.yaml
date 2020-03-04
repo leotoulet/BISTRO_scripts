@@ -1,3 +1,5 @@
 
 EXPERIMENT_DIR: "/home/ubuntu/OPTIM_AGGREGATE_PER_MILE"
 OUTPUT_DIR: "/home/ubuntu/OUTPUT"
+
+STANDARDS: "common_stds.csv"

@@ -73,8 +73,7 @@ def check_file_existence(tpe_dir):
 
 
 #Loads the dicationnary of {KPI: mean, std} from working directory
-def loadStandardization():
-	dict_name = "standardizationParameters.csv"
+def loadStandardization(dict_name = "standardizationParameters.csv"):
 	params = {}
 	with open(dict_name) as csvfile:
 		reader = csv.reader(csvfile)

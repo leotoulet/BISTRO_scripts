@@ -36,7 +36,7 @@ print("############ Configuration file loaded ! ##############\n")
 ########################## Load samples and standards ########################
 
 samples = create_samples_list(CONFIG["EXPERIMENT_DIR"])
-standards = load_standards("fixed_data/standardizationParameters.csv")
+standards = load_standards("fixed_data/" + CONFIG["STANDARDS"])
 
 def filter(s): #Returns a bool it we want to keep the sample
 	return s.mode_split["car"]/sum(list(s.mode_split.values())) > 0.4
