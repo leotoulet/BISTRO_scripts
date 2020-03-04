@@ -36,6 +36,6 @@ for k in KPIS:
 
 	mean_m = (n1*mean1 + n2*mean2)/(n1 + n2)
 	var_m = n1*(std1**2 + (mean1 - mean_m)**2) + n2*(std2**2 + (mean2 - mean_m)**2)
-	var_m = var_m/(n1 + n2)
+	var_m = (var_m/(n1 + n2))**0.5
 
 	stds3.write(k+','+str(mean_m)+','+str(var_m)+'\n')
