@@ -34,12 +34,12 @@ def pareto_front(samples, standards, KPI1, KPI2):
 
 	points = [] #A point is made of a triplet (s, KPI1, KPI2)
 	for s in samples:
-		#congestion = computeWeightedScores(s, standards, KPI1)[-1]
-		#social = computeWeightedScores(s, standards, KPI2)[-1]
+		congestion = computeWeightedScores(s, standards, KPI1)[-1]
+		social = computeWeightedScores(s, standards, KPI2)[-1]
 
 		#No stds
-		congestion = compute_scores(s, standards, KPI1)
-		social = compute_scores(s, standards, KPI2)
+		#congestion = compute_scores(s, standards, KPI1)
+		#social = compute_scores(s, standards, KPI2)
 		
 		points.append((s, congestion, social))
 
@@ -75,15 +75,15 @@ def dominates(k1, k2):
 	return one_strict
 
 def inferior(par1, par2, standards, KPI1, KPI2):
-	#x1 = computeWeightedScores(par1[0], standards, KPI1)[-1]
-	#y1 = computeWeightedScores(par1[0], standards, KPI2)[-1]
-	#x2 = computeWeightedScores(par2[0], standards, KPI1)[-1]
-	#y2 = computeWeightedScores(par2[0], standards, KPI2)[-1]
+	x1 = computeWeightedScores(par1[0], standards, KPI1)[-1]
+	y1 = computeWeightedScores(par1[0], standards, KPI2)[-1]
+	x2 = computeWeightedScores(par2[0], standards, KPI1)[-1]
+	y2 = computeWeightedScores(par2[0], standards, KPI2)[-1]
 
-	x1 = compute_scores(par1[0], standards, KPI1)
-	y1 = compute_scores(par1[0], standards, KPI2)
-	x2 = compute_scores(par2[0], standards, KPI1)
-	y2 = compute_scores(par2[0], standards, KPI2)
+	#x1 = compute_scores(par1[0], standards, KPI1)
+	#y1 = compute_scores(par1[0], standards, KPI2)
+	#x2 = compute_scores(par2[0], standards, KPI1)
+	#y2 = compute_scores(par2[0], standards, KPI2)
 
 	if x1 < x2:
 		return True
@@ -105,8 +105,8 @@ def save_samples_pareto(pareto_list, KPI1_name, KPI2_name, folder):
 
 def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
 	
-	KPI1 = list(KPI1.keys())[0]
-	KPI2 = list(KPI2.keys())[0]
+	#KPI1 = list(KPI1.keys())[0]
+	#KPI2 = list(KPI2.keys())[0]
 
 	print("    Generating pareto front for "+KPI1_name+ " and "+ KPI2_name)
 	pareto, non_pareto = pareto_front(samples, standards, KPI1, KPI2)
