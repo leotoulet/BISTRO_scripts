@@ -129,8 +129,8 @@ def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
 	y_min = min(p[2] for p in pareto + non_pareto)
 	y_max = max(p[2] for p in pareto + non_pareto)
 
-	plt.plot([x_min, x_min], [pareto[0][2], 1000], color='black')
-	plt.plot([pareto[len(pareto) - 1][1], 100], [y_min, y_min], color='black')
+	plt.plot([x_min, x_min], [pareto[0][2], 1000000], color='black')
+	plt.plot([pareto[len(pareto) - 1][1], 100000], [y_min, y_min], color='black')
 
 	plt.xlim((x_min - 0.4, x_max + 0.4))
 	plt.ylim((y_min - 0.4, y_max + 0.4))
