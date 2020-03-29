@@ -48,6 +48,7 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, percent = 0
 	Z = combined_normal_distribution(X, Y, si)
 
 	fig, ax = plt.subplots()
+	fig.figsize = (12.8,9.6)
 	z_min, z_max = Z.min(), Z.max()
 
 	#Z = (Z - z_min)/z_max
