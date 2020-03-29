@@ -65,7 +65,8 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, percent = 0
 		filepath = folder+"/score_heatmap_"+name+".png"
 		plt.savefig(filepath, dpi=1000)
 		print("    Saved heatmap to: "+filepath)
-	except e:
+		
+	except Exception as e:
 		print("Exception when plotting heatmap: "+str(e))
 		pass;
 
