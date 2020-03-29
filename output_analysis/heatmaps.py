@@ -19,7 +19,7 @@ MAX_X = 565829
 MIN_Y = 4163388
 MAX_Y = 4192081
 
-SLOPE = 1/100
+SLOPE = 1/20
 
 sigmas = []
 xcs = []
@@ -89,7 +89,6 @@ def plotSiouxFauxMap(ax):
 			X = [fromLocationX,toLocationX]
 			Y = [fromLocationY, toLocationY]
 			segs.append(((X[0],Y[0]),(X[1],Y[1])))
-			#plt.plot(X, Y, 'w')
 
 	ln_coll = matplotlib.collections.LineCollection(segs,color='white')
 	ln_coll.set_linewidth(0.5)
