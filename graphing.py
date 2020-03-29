@@ -98,9 +98,10 @@ def pareto():
 #############################################################################
 
 if __name__=="__main__":
-	#pareto()
+	pareto()
 	#link_coloring()
 	heatmaps()
+	
 	price_area()
 
 
