@@ -1,5 +1,5 @@
 
-EXPERIMENT_DIR: "/home/ubuntu/OPTIM_AGGREGATE_PER_MILE"
+EXPERIMENT_DIR: "/home/ubuntu/OUT_SF"
 OUTPUT_DIR: "/home/ubuntu/OUTPUT"
 
 STANDARDS: "standardizationParameters.csv"
