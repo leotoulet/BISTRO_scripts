@@ -80,9 +80,14 @@ def combined_normal_distribution(x,y, factors):
 
 
 def plotSiouxFauxMap(ax):
+	segs = []
 	for row in load_network():
 		if row[0].isdigit():
 			fromLocationX,fromLocationY,toLocationX,toLocationY = float(row[-4]),float(row[-3]),float(row[-2]),float(row[-1])
 			X = [fromLocationX,toLocationX]
 			Y = [fromLocationY, toLocationY]
-			plt.plot(X, Y, 'w')
+			segs.append(((X[0],Y[0]),(X[1],Y[1])))
+			#plt.plot(X, Y, 'w')
+
+	ln_coll = matplotlib.collections.LineCollection(segs,color='white')
+	ax.add_collection(ln_coll)
