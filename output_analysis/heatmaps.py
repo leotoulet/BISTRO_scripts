@@ -28,41 +28,46 @@ ycs = []
 def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, percent = 0.1):
 	print("    Creating score heatmap for KPI : " + name)
 
-	global sigmas, xcs, ycs
-	sigmas = []
-	xcs = []
-	ycs = []
-	
-	X, Y = np.meshgrid(np.linspace(MIN_X, MAX_X, 1000), np.linspace(MIN_Y, MAX_Y, 1000))
-	
-	for s in samples:
-		if s.road_pricing["r"]!=0:
-			xcs.append(s.road_pricing["x"])
-			ycs.append(s.road_pricing["y"])
-			sigmas.append(s.road_pricing["r"])
+	try:
 
-	si = []
-	for s in samples:
-		if s.road_pricing["r"]!=0:
-			si.append(computeWeightedScores(s, standards, KPI)[-1])
-	Z = combined_normal_distribution(X, Y, si)
+		global sigmas, xcs, ycs
+		sigmas = []
+		xcs = []
+		ycs = []
+		
+		X, Y = np.meshgrid(np.linspace(MIN_X, MAX_X, 1000), np.linspace(MIN_Y, MAX_Y, 1000))
+		
+		for s in samples:
+			if s.road_pricing["r"]!=0:
+				xcs.append(s.road_pricing["x"])
+				ycs.append(s.road_pricing["y"])
+				sigmas.append(s.road_pricing["r"])
 
-	fig, ax = plt.subplots()
-	fig.figsize = (12.8,9.6)
-	z_min, z_max = Z.min(), Z.max()
+		si = []
+		for s in samples:
+			if s.road_pricing["r"]!=0:
+				si.append(computeWeightedScores(s, standards, KPI)[-1])
+		Z = combined_normal_distribution(X, Y, si)
 
-	#Z = (Z - z_min)/z_max
+		fig, ax = plt.subplots()
+		fig.figsize = (12.8,9.6)
+		z_min, z_max = Z.min(), Z.max()
 
-	plotSiouxFauxMap(ax)
-	c = ax.pcolormesh(X, Y, Z, cmap='RdBu_r', vmin=z_min, vmax=z_max)
-	ax.set_title(name)
-	# set the limits of the plot to the limits of the data
-	ax.axis([X.min(), X.max(), Y.min(), Y.max()])
-	fig.colorbar(c, ax=ax)
+		#Z = (Z - z_min)/z_max
 
-	filepath = folder+"/score_heatmap_"+name+".png"
-	plt.savefig(filepath, dpi=1000)
-	print("    Saved heatmap to: "+filepath)
+		plotSiouxFauxMap(ax)
+		c = ax.pcolormesh(X, Y, Z, cmap='RdBu_r', vmin=z_min, vmax=z_max)
+		ax.set_title(name)
+		# set the limits of the plot to the limits of the data
+		ax.axis([X.min(), X.max(), Y.min(), Y.max()])
+		fig.colorbar(c, ax=ax)
+
+		filepath = folder+"/score_heatmap_"+name+".png"
+		plt.savefig(filepath, dpi=1000)
+		print("    Saved heatmap to: "+filepath)
+	except e:
+		print("Exception when plotting heatmap: "+str(e))
+		pass;
 
 
 def normal_distribution(x,y, xc, yc, sigma):
