@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import LinearSegmentedColormap
+import matplotlib
 import os
 from math import *
 import sys 
@@ -91,3 +92,4 @@ def plotSiouxFauxMap(ax):
 
 	ln_coll = matplotlib.collections.LineCollection(segs,color='white')
 	ax.add_collection(ln_coll)
+	return ax
