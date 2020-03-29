@@ -92,5 +92,7 @@ def plotSiouxFauxMap(ax):
 			#plt.plot(X, Y, 'w')
 
 	ln_coll = matplotlib.collections.LineCollection(segs,color='white')
+	print(ln_coll.get_linewidth())
 	ax.add_collection(ln_coll)
+
 	return ax
