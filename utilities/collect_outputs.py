@@ -12,6 +12,9 @@ trans_dict = {
 
 	'Iteration':'Iteration',
 
+
+	'Accessibility: number of commute locations accessible by car within 15 minutes':'driveCommuteAccessibility',
+
 	'Accessibility: number of secondary locations accessible by car within 15 minutes':'driveSecondaryAccessibility',
 	'Accessibility: number of secondary locations accessible by transit within 15 minutes':'transitSecondaryAccessibility',
 	'Accessibility: number of work locations accessible by car within 15 minutes':'driveWorkAccessibility',
