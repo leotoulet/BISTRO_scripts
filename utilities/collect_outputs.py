@@ -64,14 +64,22 @@ def retrieve_KPIs(tpe_dir):
 
 
 	if "TollRevenue" not in dic.keys():
-		tolls = get_toll_revenue(tpe_dir)
+		tolls = 0.0
+		try:
+			tolls = get_toll_revenue(tpe_dir)
+		except:
+			pass
 		dic["TollRevenue"] = [tolls for i in range(31)]
 		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
 
 
 
 	if "VMT" not in dic.keys():
-		VMT = get_VMT(tpe_dir)
+		VMT = 0.0
+		try:
+			VMT = get_VMT(tpe_dir)
+		except:
+			pass
 		dic["VMT"] = [VMT for i in range(31)]
 		df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
 
