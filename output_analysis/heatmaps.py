@@ -19,7 +19,7 @@ MAX_X = 565829
 MIN_Y = 4163388
 MAX_Y = 4192081
 
-SLOPE = 1/20
+SLOPE = 1/2000
 
 sigmas = []
 xcs = []
@@ -65,9 +65,9 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, percent = 0
 		filepath = folder+"/score_heatmap_"+name+".png"
 		plt.savefig(filepath, dpi=1000)
 		print("    Saved heatmap to: "+filepath)
-		
+
 	except Exception as e:
-		print("Exception when plotting heatmap: "+str(e))
+		print("    Exception when plotting heatmap: "+str(e))
 		pass;
 
 
