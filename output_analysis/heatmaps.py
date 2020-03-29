@@ -61,7 +61,7 @@ def plotTrafficCirclesHeatMap(samples, standards, KPI, name, folder, percent = 0
 	fig.colorbar(c, ax=ax)
 
 	filepath = folder+"/score_heatmap_"+name+".png"
-	plt.savefig(filepath)
+	plt.savefig(filepath, dpi=1000)
 	print("    Saved heatmap to: "+filepath)
 
 
