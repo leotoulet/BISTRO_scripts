@@ -68,6 +68,7 @@ def retrieve_KPIs(tpe_dir):
 		try:
 			tolls = get_toll_revenue(tpe_dir)
 		except:
+			print("Failed to get TR  from sample " + tpe_dir)
 			pass
 		dic["TollRevenue"] = [tolls for i in range(31)]
 		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
@@ -78,7 +79,8 @@ def retrieve_KPIs(tpe_dir):
 		VMT = 0.0
 		try:
 			VMT = get_VMT(tpe_dir)
-		except:
+		except e:
+			print("Failed to get VMT from sample " + tpe_dir)
 			pass
 		dic["VMT"] = [VMT for i in range(31)]
 		df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
