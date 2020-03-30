@@ -108,40 +108,46 @@ def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
 	#KPI1 = list(KPI1.keys())[0]
 	#KPI2 = list(KPI2.keys())[0]
 
-	print("    Generating pareto front for "+KPI1_name+ " and "+ KPI2_name)
-	pareto, non_pareto = pareto_front(samples, standards, KPI1, KPI2)
+	try:
 
-	plt.clf()
+		print("    Generating pareto front for "+KPI1_name+ " and "+ KPI2_name)
+		pareto, non_pareto = pareto_front(samples, standards, KPI1, KPI2)
 
-	for p in pareto:
-		plt.plot(p[1], p[2], 'ro')
+		plt.clf()
 
-	for p in non_pareto:
-		plt.plot(p[1], p[2], 'xb')
+		for p in pareto:
+			plt.plot(p[1], p[2], 'ro')
+
+		for p in non_pareto:
+			plt.plot(p[1], p[2], 'xb')
 
 
 
-	for i in range(len(pareto) - 1):
-		plt.plot([pareto[i][1], pareto[i+1][1]], [pareto[i][2], pareto[i+1][2]],color="black")
+		for i in range(len(pareto) - 1):
+			plt.plot([pareto[i][1], pareto[i+1][1]], [pareto[i][2], pareto[i+1][2]],color="black")
 
-	x_min = min(p[1] for p in pareto + non_pareto)
-	x_max = max(p[1] for p in pareto + non_pareto)
-	y_min = min(p[2] for p in pareto + non_pareto)
-	y_max = max(p[2] for p in pareto + non_pareto)
+		x_min = min(p[1] for p in pareto + non_pareto)
+		x_max = max(p[1] for p in pareto + non_pareto)
+		y_min = min(p[2] for p in pareto + non_pareto)
+		y_max = max(p[2] for p in pareto + non_pareto)
 
-	plt.plot([x_min, x_min], [pareto[0][2], 1000000], color='black')
-	plt.plot([pareto[len(pareto) - 1][1], 100000], [y_min, y_min], color='black')
+		plt.plot([x_min, x_min], [pareto[0][2], 1000000], color='black')
+		plt.plot([pareto[len(pareto) - 1][1], 100000], [y_min, y_min], color='black')
 
-	plt.xlim((x_min - 0.4, x_max + 0.4))
-	plt.ylim((y_min - 0.4, y_max + 0.4))
-	plt.xlabel(KPI1_name)
-	plt.ylabel(KPI2_name)
-	plt.title("Pareto front " + KPI1_name + " " + KPI2_name)
+		plt.xlim((x_min - 0.4, x_max + 0.4))
+		plt.ylim((y_min - 0.4, y_max + 0.4))
+		plt.xlabel(KPI1_name)
+		plt.ylabel(KPI2_name)
+		plt.title("Pareto front " + KPI1_name + " " + KPI2_name)
 
-	filepath = folder+"/pareto_"+KPI1_name+"_"+KPI2_name+".png"
-	plt.savefig(filepath)
-	print("    Saved pareto front to: "+filepath)
+		filepath = folder+"/pareto_"+KPI1_name+"_"+KPI2_name+".png"
+		plt.savefig(filepath)
+		print("    Saved pareto front to: "+filepath)
 
-	plt.savefig("pareto.png")
+		plt.savefig("pareto.png")
 
-	save_samples_pareto(pareto, KPI1_name, KPI2_name, folder)
+		save_samples_pareto(pareto, KPI1_name, KPI2_name, folder)
+
+	except Exception as e:
+		print("    Failed at creating pareto front " + str(e))
+		pass
