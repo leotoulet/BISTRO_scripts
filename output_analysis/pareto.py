@@ -103,6 +103,8 @@ def save_samples_pareto(pareto_list, KPI1_name, KPI2_name, folder):
 	file.close()
 	print("    Saved pareto list to: "+path)
 
+
+
 def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
 	
 	#KPI1 = list(KPI1.keys())[0]
