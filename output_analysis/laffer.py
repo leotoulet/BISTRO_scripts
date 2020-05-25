@@ -116,7 +116,7 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	dic = {}
 	for k,n in zip(KPIS, KPIS_names):
 		print(n)
-		if n[:2] == "AGG":
+		if n[:2] == "Agg":
 			dic[n] = k
 	print(dic)
 
