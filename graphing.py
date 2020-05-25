@@ -100,6 +100,7 @@ def laffer():
 	print("Generating laffer curve")
 	saving_dir = CONFIG["OUTPUT_DIR"] + "/laffer"
 	laffer_df = compute_laffer(samples_copy, standards)
+	os.makedirs(saving_dir, exist_ok = True)
 	save_laffer_csv(laffer_df, saving_dir)
 	plot_laffer(samples_copy, standards, saving_dir)
 	return
