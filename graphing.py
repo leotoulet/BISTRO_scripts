@@ -15,6 +15,7 @@ from Sample import *
 from price_area_functions import *
 from link_coloring import *
 from pareto import *
+from laffer import *
 
 print("################### Scripts loaded ! ##################\n")
 
@@ -94,6 +95,13 @@ def pareto():
 		for k2, n2 in zip(KPIS, KPIS_names):
 			plot_pareto(samples_copy, standards, k1, k2, n1, n2, saving_dir)
 
+def laffer():
+	samples_copy = [s for s in samples]
+	print("Generating laffer curve")
+	saving_dir = CONFIG["OUTPUT_DIR"] + "/laffer"
+	laffer_df = compute_laffer(samples_copy, standards)
+	save_laffer_csv(laffer_df, saving_dir)
+	return
 
 #############################################################################
 
