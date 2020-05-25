@@ -1,5 +1,7 @@
 from Sample import *
 from collect_inputs import *
+from collect_outputs import *
+from Sample import *
 from KPIS import *
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -116,7 +118,8 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	dic = {}
 	for k,n in zip(KPIS, KPIS_names):
 		if n[:3] == "Agg":
-			dic[n] = k
+			best_sample = np.argmin([computeWeightedScores(samples, standards, k)[-1] for s in samples]).dir
+			dic[n] = best_sample
 	print(dic)
 
 
