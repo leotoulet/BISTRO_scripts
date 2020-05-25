@@ -118,8 +118,8 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	dic = {}
 	for k,n in zip(KPIS, KPIS_names):
 		if n[:3] == "Agg":
-			best_sample = np.argmin([computeWeightedScores(s, standards, k)[-1] for s in samples]).dir
-			dic[n] = best_sample
+			best_sample = np.argmin([computeWeightedScores(s, standards, k)[-1] for s in samples])
+			dic[n] = samples[best_sample].dir
 	print(dic)
 
 
