@@ -101,15 +101,16 @@ def laffer():
 	saving_dir = CONFIG["OUTPUT_DIR"] + "/laffer"
 	laffer_df = compute_laffer(samples_copy, standards)
 	save_laffer_csv(laffer_df, saving_dir)
+	plot_laffer(samples_copy, standards, saving_dir)
 	return
 
 #############################################################################
 
 if __name__=="__main__":
-	pareto()
+	laffer()
+	#pareto()
 	#link_coloring()
-	heatmaps()
-	
-	price_area()
+	#heatmaps()
+	#price_area()
 
 

@@ -33,22 +33,22 @@ def compute_laffer(samples, standards):
 	# then update by index in loop, leave as 0 if sample error
 
 	for s in samples:
-		print(sample_index)
+		#print(sample_index)
 		price = s.road_pricing["p"]
-		print("ROAD PRICE: " + str(price))
+		#print("ROAD PRICE: " + str(price))
 		trips = s.mode_split.get("ride_hail", 0) + s.mode_split.get("car", 0)
 
 		if len(s.KPIS["TollRevenue"]) == 0:
 			tr = 0.0
 		else:
 			tr = s.KPIS["TollRevenue"][-1]
-		print("TOTAL REVENUE: " + str(tr))
+		#print("TOTAL REVENUE: " + str(tr))
 		
 		if len(s.KPIS["VMT"]) == 0:
 			car_ridehail_vmt = 0.0
 		else:
 			car_ridehail_vmt = s.KPIS["VMT"][-1]
-		print("CAR-RIDEHAIL VMT: " + str(car_ridehail_vmt))
+		#print("CAR-RIDEHAIL VMT: " + str(car_ridehail_vmt))
 
 		if car_ridehail_vmt == 0:
 			equivalent_tax_rate = 0.0
@@ -64,8 +64,8 @@ def compute_laffer(samples, standards):
 		# avg_tolled_VMT_per_trip = tolled_VMT / trips
 		# ratio = tolled_VMT / car_ridehail_vmt
 
-		print("EQUIV TAX RATE: " + str(equivalent_tax_rate))
-		print("TOLLED VMT: " + str(tolled_VMT))
+		#print("EQUIV TAX RATE: " + str(equivalent_tax_rate))
+		#print("TOLLED VMT: " + str(tolled_VMT))
 
 		toll_revenues.append(tr)
 		equivalent_tax_rates.append(equivalent_tax_rate)
@@ -113,10 +113,12 @@ def plot_laffer(samples, standards, folder):
 	# print("TR: " + str(toll_revenues[optimal_sample_index]))
 	# print("Equivalent Tax Rate: " + str(tax_rates[optimal_sample_index]))
 
-	save_laffer_csv(laffer_data, folder)
+	
 
-	# plt.clf()
-
+	plt.clf()
+	TR = laffer_data["toll_revenue"]
+	ETR = laffer_data["equivalent_tax_rate"]
+	print(TR)
 
 	# except Exception as e:
 	# 	print("    Failed at creating Laffer Curve " + str(e))
