@@ -130,7 +130,8 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 
 	#Add red points for best samples
 	for n in dic:
-		plt.plot(ETR[dic[n][0]], TR[dic[n][0]], 'or')
+		plt.plot(ETR[dic[n][0]], TR[dic[n][0]], 'o')
+		plt.legend("Best for "+ n)
 
 	plt.savefig(folder+"/laffer.png")
 	print("    Saved laffer curve plot to: "+folder+"/laffer.png")
