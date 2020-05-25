@@ -102,7 +102,7 @@ def save_laffer_csv(df, folder):
 	print("    Saved laffer data to: "+path)
 
 
-def plot_laffer(samples, standards, folder):
+def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	# try:
 	
 	laffer_data = compute_laffer(samples, standards) # list of lists
@@ -111,6 +111,14 @@ def plot_laffer(samples, standards, folder):
 	# print("Optimal Sample Index: " + str(optimal_sample_index))
 	# print("TR: " + str(toll_revenues[optimal_sample_index]))
 	# print("Equivalent Tax Rate: " + str(tax_rates[optimal_sample_index]))
+
+	#Get best point for each Aggregate KPI
+	dic = {}
+	for k,n in zip(KPIS, KPIS_names):
+		if n[:3] == "AGG":
+			dic[n] = k
+	print(dic)
+
 
 	
 
