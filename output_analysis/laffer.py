@@ -104,7 +104,6 @@ def save_laffer_csv(df, folder):
 
 def plot_laffer(samples, standards, folder):
 	# try:
-	print("    Generating Laffer Curve")
 	
 	laffer_data = compute_laffer(samples, standards) # list of lists
 	# optimal_sample_index = np.argmax(toll_revenues)
@@ -116,10 +115,11 @@ def plot_laffer(samples, standards, folder):
 	
 
 	plt.clf()
-	TR = laffer_data["toll_revenue"]
-	ETR = laffer_data["equivalent_tax_rate"]
-	print(TR)
-
+	TR = list(laffer_data["toll_revenue"])
+	ETR = list(laffer_data["equivalent_tax_rate"])
+	plt.plot(TR, ETR)
+	plt.savefig(folder+"/laffer.png")
+	print("    Saved laffer curve plot to: "+path)
 	# except Exception as e:
 	# 	print("    Failed at creating Laffer Curve " + str(e))
 	# 	exc_type, exc_obj, exc_tb = sys.exc_info()
