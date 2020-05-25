@@ -119,16 +119,19 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	for k,n in zip(KPIS, KPIS_names):
 		if n[:3] == "Agg":
 			best_sample = np.argmin([computeWeightedScores(s, standards, k)[-1] for s in samples])
-			dic[n] = samples[best_sample], computeWeightedScores(samples[best_sample], standards, k)[-1]
+			dic[n] = best_sample, round(computeWeightedScores(samples[best_sample], standards, k)[-1],2)
 	print(dic)
 
-
-	
 
 	plt.clf()
 	TR = list(laffer_data["toll_revenue"])
 	ETR = list(laffer_data["equivalent_tax_rate"])
 	plt.plot(ETR, TR, "ob")
+
+	#Add red points for best samples
+	for n in dic:
+		plt.plot(ETR[dic[n][0]], TR[dic[n][0]], 'or')
+
 	plt.savefig(folder+"/laffer.png")
 	print("    Saved laffer curve plot to: "+folder+"/laffer.png")
 	# except Exception as e:
