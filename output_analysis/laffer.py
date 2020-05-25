@@ -115,6 +115,7 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	#Get best point for each Aggregate KPI
 	dic = {}
 	for k,n in zip(KPIS, KPIS_names):
+		print(n)
 		if n[:2] == "AGG":
 			dic[n] = k
 	print(dic)
