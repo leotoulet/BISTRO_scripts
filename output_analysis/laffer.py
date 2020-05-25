@@ -119,7 +119,7 @@ def plot_laffer(samples, standards, folder):
 	ETR = list(laffer_data["equivalent_tax_rate"])
 	plt.plot(TR, ETR)
 	plt.savefig(folder+"/laffer.png")
-	print("    Saved laffer curve plot to: "+path)
+	print("    Saved laffer curve plot to: "+folder+"/laffer.png")
 	# except Exception as e:
 	# 	print("    Failed at creating Laffer Curve " + str(e))
 	# 	exc_type, exc_obj, exc_tb = sys.exc_info()
