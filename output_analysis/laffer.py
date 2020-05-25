@@ -117,7 +117,7 @@ def plot_laffer(samples, standards, folder):
 	plt.clf()
 	TR = list(laffer_data["toll_revenue"])
 	ETR = list(laffer_data["equivalent_tax_rate"])
-	plt.plot(TR, ETR)
+	plt.plot(ETR, TR, "ob")
 	plt.savefig(folder+"/laffer.png")
 	print("    Saved laffer curve plot to: "+folder+"/laffer.png")
 	# except Exception as e:
