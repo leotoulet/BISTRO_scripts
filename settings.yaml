@@ -1,6 +1,7 @@
 
-EXPERIMENT_DIR: "/home/ubuntu/OUT_SF"
+EXPERIMENT_DIR: "/home/ubuntu/OPTIM_PER_MILE"
 OUTPUT_DIR: "/home/ubuntu/OUTPUT"
 
-STANDARDS: "standardizationParameters.csv"
+#STANDARDS: "standardizationParameters.csv"
+STANDARDS: "per_mile_stds.csv"
 #STANDARDS: "common_stds.csv"
