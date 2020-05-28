@@ -129,9 +129,9 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	plt.plot(ETR, TR, "ob", alpha=0.75)
 
 	#Add red points for best samples
-	plt.plot(ETR[dic["Agg0"][0]], TR[dic["Agg0"][0]], 'o')
-	plt.plot(ETR[dic["Agg3"][0]], TR[dic["Agg3"][0]], 'o')
-	plt.plot(ETR[dic["Agg6"][0]], TR[dic["Agg6"][0]], 'o')
+	plt.plot(ETR[dic["Agg0"][0]], TR[dic["Agg0"][0]], 'or')
+	plt.plot(ETR[dic["Agg3"][0]], TR[dic["Agg3"][0]], 'og')
+	plt.plot(ETR[dic["Agg6"][0]], TR[dic["Agg6"][0]], 'om')
 	plt.legend(["Laffer points", "Best for Agg 0,1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
 
 	plt.savefig(folder+"/laffer.png")
