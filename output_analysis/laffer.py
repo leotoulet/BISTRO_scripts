@@ -126,7 +126,7 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	plt.clf()
 	TR = list(laffer_data["toll_revenue"])
 	ETR = list(laffer_data["equivalent_tax_rate"])
-	plt.plot(ETR, TR, "ob", alpha=0.75)
+	plt.plot(ETR, TR, "ob", alpha=0.25)
 
 	#Add red points for best samples
 	plt.plot(ETR[dic["Agg0"][0]], TR[dic["Agg0"][0]], 'or')
