@@ -111,8 +111,8 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	dic = {}
 	for k,n in zip(KPIS, KPIS_names):
 		if n[:3] == "Agg":
-			best_sample = np.argmin([computeWeightedScores(s, standards, k)[-1] for s in samples])
-			dic[n] = best_sample, round(computeWeightedScores(samples[best_sample], standards, k)[-1],2)
+			best_sample = sorted(samples, key = lambda s:computeWeightedScores(s, standards, k)[-1])[0]
+			dic[n] = best_sample, round(computeWeightedScores(best_sample, standards, k)[-1],2)
 	print(dic)
 
 
@@ -129,9 +129,9 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	plt.plot(RP, TR, "xb", alpha = 0.25)
 
 	#Add red points for best samples
-	plt.plot(ETR[dic["Agg0"][0]], TR[dic["Agg0"][0]], 'or')
-	plt.plot(ETR[dic["Agg3"][0]], TR[dic["Agg3"][0]], 'og')
-	plt.plot(ETR[dic["Agg6"][0]], TR[dic["Agg6"][0]], 'oy')
+	plt.plot(dic["Agg0"][0].KPIS["TollRevenue"][-1], dic["Agg0"][0].road_pricing["p"], 'or')
+	plt.plot(dic["Agg3"][0].KPIS["TollRevenue"][-1], dic["Agg3"][0].road_pricing["p"], 'og')
+	plt.plot(dic["Agg6"][0].KPIS["TollRevenue"][-1], dic["Agg6"][0].road_pricing["p"], 'oy')
 	plt.legend(["Laffer points", "Best for Agg 0,1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
 
 	plt.savefig(folder+"/laffer.png")
