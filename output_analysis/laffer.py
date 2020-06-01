@@ -113,17 +113,18 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 			best_sample = sorted(samples, key = lambda s:computeWeightedScores(s, standards, k)[-1])[0]
 			dic[n] = best_sample, round(computeWeightedScores(best_sample, standards, k)[-1],2)
 
+
+	#To be used with something that's not road pricing
 	samples_etr = {}
 	for s in samples:
 		price = s.road_pricing["p"]
 		tr = s.KPIS["TollRevenue"][-1]
 		vmt = s.KPIS["VMT"][-1]
+		trips = s.mode_split.get("ride_hail", 0) + s.mode_split.get("car", 0)
+		tolled_VMT = tr/price
+		tolled_VMT_per_trip = tolled_VMT/trips
 
-		etr = 0.0
-		if tr > 0.0:
-			etr = price*price*vmt/tr
-			if etr > 15:
-				print(tr)
+		etr = price*tolled_VMT_per_trip
 		samples_etr[s] = etr
 
 	for k,kn in zip(KPIS, KPIS_names):
