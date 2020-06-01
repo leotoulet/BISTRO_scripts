@@ -136,4 +136,4 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 		plt.legend(["Laffer points", "Best for Agg 0,1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
 
 		plt.savefig(folder+"/laffer="+kn+".png")
-		print("    Saved " + kn "laffer curve plot to: "+folder+"/laffer_"+kn+".png")
+		print("    Saved " + kn + "laffer curve plot to: "+folder+"/laffer_"+kn+".png")
