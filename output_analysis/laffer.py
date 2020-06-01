@@ -144,6 +144,8 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 		plt.plot(samples_etr[dic["Agg6"][0]], computeWeightedScores(dic["Agg6"][0], standards, k)[-1], 'oy')
 		plt.legend(["Laffer points", "Best for Agg 0,1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
 		plt.title(kn + " as a function road pricing")
+		plt.xlabel("road price x average tolled VMT per trip ($)")
+		plt.ylable(kn)
 
 		plt.savefig(folder+"/laffer_"+kn+".png")
 		print("    Saved " + kn + "road pricing curve plot to: "+folder+"/laffer_"+kn+".png")
@@ -165,6 +167,8 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	plt.plot(samples_etr[dic["Agg6"][0]], dic["Agg6"][0].KPIS["TollRevenue"][-1], 'oy')
 	plt.legend(["Laffer points", "Best for Agg 0,1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
 	plt.title("Laffer curve")
+	plt.xlabel("road price x average tolled VMT per trip ($)")
+	plt.ylabel("Toll Revenue")
 
 	plt.savefig(folder+"/laffer.png")
 	print("    Saved laffer curve plot to: "+folder+"/laffer.png")
