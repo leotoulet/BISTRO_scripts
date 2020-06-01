@@ -113,6 +113,13 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 			best_sample = sorted(samples, key = lambda s:computeWeightedScores(s, standards, k)[-1])[0]
 			dic[n] = best_sample, round(computeWeightedScores(best_sample, standards, k)[-1],2)
 
+	samples_etr = {}
+	for s in samples:
+		price = s.road_pricing["p"]
+		tr = s.KPIS["TollRevenue"][-1]
+		vmt = s.KPIS["VMT"][-1]
+		etr = vmt/(tr/price)
+		samples_etr[s] = etr
 
 	for k,kn in zip(KPIS, KPIS_names):
 		plt.clf()
