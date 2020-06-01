@@ -129,9 +129,9 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	plt.plot(RP, TR, "xb", alpha = 0.25)
 
 	#Add red points for best samples
-	plt.plot(dic["Agg0"][0].KPIS["TollRevenue"][-1], dic["Agg0"][0].road_pricing["p"], 'or')
-	plt.plot(dic["Agg3"][0].KPIS["TollRevenue"][-1], dic["Agg3"][0].road_pricing["p"], 'og')
-	plt.plot(dic["Agg6"][0].KPIS["TollRevenue"][-1], dic["Agg6"][0].road_pricing["p"], 'oy')
+	plt.plot(dic["Agg0"][0].road_pricing["p"], dic["Agg0"][0].KPIS["TollRevenue"][-1], 'or')
+	plt.plot(dic["Agg3"][0].road_pricing["p"], dic["Agg3"][0].KPIS["TollRevenue"][-1], 'og')
+	plt.plot(dic["Agg6"][0].road_pricing["p"], dic["Agg6"][0].KPIS["TollRevenue"][-1], 'oy')
 	plt.legend(["Laffer points", "Best for Agg 0,1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
 
 	plt.savefig(folder+"/laffer.png")
