@@ -119,12 +119,10 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 		plt.clf()
 		RP = []
 		KP = []
-		#plt.plot(ETR, TR, "xb", alpha=0.25)
 
 		for s in samples:
-			tr = s.KPIS["TollRevenue"][-1]
 			rp = s.road_pricing["p"]
-			KP.append(computeWeightedScores(best_sample, standards, k)[-1])
+			KP.append(computeWeightedScores(s, standards, k)[-1])
 			RP.append(rp)
 		plt.plot(RP, KP, "xb", alpha = 0.25)
 
@@ -133,6 +131,7 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 		plt.plot(dic["Agg3"][0].road_pricing["p"], computeWeightedScores(dic["Agg3"][0], standards, k)[-1], 'og')
 		plt.plot(dic["Agg6"][0].road_pricing["p"], computeWeightedScores(dic["Agg6"][0], standards, k)[-1], 'oy')
 		plt.legend(["Laffer points", "Best for Agg 0,1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
+		plt.title("Laffer curve for "+kn)
 
 		plt.savefig(folder+"/laffer_"+kn+".png")
 		print("    Saved " + kn + "laffer curve plot to: "+folder+"/laffer_"+kn+".png")
