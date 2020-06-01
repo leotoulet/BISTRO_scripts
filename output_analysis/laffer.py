@@ -120,7 +120,7 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 		price = s.road_pricing["p"]
 		tr = s.KPIS["TollRevenue"][-1]
 		vmt = s.KPIS["VMT"][-1]
-		trips = s.mode_split["ride_hail"] + s.mode_split["car"]
+		trips =  s.mode_split.get("ride_hail", 0) + s.mode_split.get("car", 0)
 		tolled_VMT = tr/price
 		tolled_VMT_per_trip = tolled_VMT/trips
 
