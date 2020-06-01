@@ -135,16 +135,13 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 		for s in samples:
 			rp = s.road_pricing["p"]
 			KP.append(computeWeightedScores(s, standards, k)[-1])
-			#RP.append(rp)
 			RP.append(samples_etr[s])
 		plt.plot(RP, KP, "xb", alpha = 0.25)
 
 		#Add red points for best samples --> Change this to compute weighted score
-		plt.plot(dic["Agg0"][0].road_pricing["p"], computeWeightedScores(dic["Agg0"][0], standards, k)[-1], 'or')
-		
-		plt.plot(dic["Agg3"][0].road_pricing["p"], computeWeightedScores(dic["Agg3"][0], standards, k)[-1], 'og')
-		
-		plt.plot(dic["Agg6"][0].road_pricing["p"], computeWeightedScores(dic["Agg6"][0], standards, k)[-1], 'oy')
+		plt.plot(samples_etr[dic["Agg0"][0]], computeWeightedScores(dic["Agg0"][0], standards, k)[-1], 'or')
+		plt.plot(samples_etr[dic["Agg3"][0]], computeWeightedScores(dic["Agg3"][0], standards, k)[-1], 'og')
+		plt.plot(samples_etr[dic["Agg6"][0]], computeWeightedScores(dic["Agg6"][0], standards, k)[-1], 'oy')
 		plt.legend(["Laffer points", "Best for Agg 0,1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
 		plt.title(kn + " as a function road pricing")
 
@@ -159,13 +156,13 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	for s in samples:
 		rp = s.road_pricing["p"]
 		KP.append(s.KPIS["TollRevenue"][-1])
-		RP.append(rp)
+		RP.append(samples_etr[s])
 	plt.plot(RP, KP, "xb", alpha = 0.25)
 
 	#Add red points for best samples --> Change this to compute weighted score
-	plt.plot(dic["Agg0"][0].road_pricing["p"], dic["Agg0"][0].KPIS["TollRevenue"][-1], 'or')
-	plt.plot(dic["Agg3"][0].road_pricing["p"], dic["Agg3"][0].KPIS["TollRevenue"][-1], 'og')
-	plt.plot(dic["Agg6"][0].road_pricing["p"], dic["Agg6"][0].KPIS["TollRevenue"][-1], 'oy')
+	plt.plot(samples_etr[dic["Agg0"][0]], dic["Agg0"][0].KPIS["TollRevenue"][-1], 'or')
+	plt.plot(samples_etr[dic["Agg3"][0]], dic["Agg3"][0].KPIS["TollRevenue"][-1], 'og')
+	plt.plot(samples_etr[dic["Agg6"][0]], dic["Agg6"][0].KPIS["TollRevenue"][-1], 'oy')
 	plt.legend(["Laffer points", "Best for Agg 0,1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
 	plt.title("Laffer curve")
 
