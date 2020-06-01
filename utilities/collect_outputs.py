@@ -107,7 +107,8 @@ def getModeSplit(tpe_dir):
 			summ += list(df[col])[-1]
 
 		for col in df.columns: 
-			dic[col] = round(list(df[col])[-1]/summ, 2)
+			#dic[col] = round(list(df[col])[-1]/summ, 2)
+			dic[col] = round(list(df[col])[-1], 2)
 
 	return dic
 
