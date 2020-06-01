@@ -122,6 +122,8 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 		etr = 0.0
 		if tr > 0.0:
 			etr = price*price*vmt/tr
+			if etr > 15:
+				print(tr)
 		samples_etr[s] = etr
 
 	for k,kn in zip(KPIS, KPIS_names):
