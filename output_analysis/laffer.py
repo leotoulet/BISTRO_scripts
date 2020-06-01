@@ -124,7 +124,7 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 		for s in samples:
 			tr = s.KPIS["TollRevenue"][-1]
 			rp = s.road_pricing["p"]
-			KP.append(computeWeightedScores(best_sample, standards, k))
+			KP.append(computeWeightedScores(best_sample, standards, k))[-1]
 			RP.append(rp)
 		plt.plot(RP, KP, "xb", alpha = 0.25)
 
