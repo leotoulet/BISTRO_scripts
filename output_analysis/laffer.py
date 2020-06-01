@@ -105,16 +105,9 @@ def save_laffer_csv(df, folder):
 
 
 def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
-	# try:
 	
 	laffer_data = compute_laffer(samples, standards) # list of lists
-	# optimal_sample_index = np.argmax(toll_revenues)
 
-	# print("Optimal Sample Index: " + str(optimal_sample_index))
-	# print("TR: " + str(toll_revenues[optimal_sample_index]))
-	# print("Equivalent Tax Rate: " + str(tax_rates[optimal_sample_index]))
-
-	#Get best point for each Aggregate KPI
 	dic = {}
 	for k,n in zip(KPIS, KPIS_names):
 		if n[:3] == "Agg":
@@ -126,7 +119,12 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 	plt.clf()
 	TR = list(laffer_data["toll_revenue"])
 	ETR = list(laffer_data["equivalent_tax_rate"])
-	plt.plot(ETR, TR, "xb", alpha=0.25)
+	#plt.plot(ETR, TR, "xb", alpha=0.25)
+
+	for s in samples:
+		tr = s.KPIS["TollRevenue"][-1]
+		rp = s.road_price["p"]
+		plt.plot(rp, tr, "xb", alpha = 0.25)
 
 	#Add red points for best samples
 	plt.plot(ETR[dic["Agg0"][0]], TR[dic["Agg0"][0]], 'or')
@@ -136,10 +134,3 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 
 	plt.savefig(folder+"/laffer.png")
 	print("    Saved laffer curve plot to: "+folder+"/laffer.png")
-	# except Exception as e:
-	# 	print("    Failed at creating Laffer Curve " + str(e))
-	# 	exc_type, exc_obj, exc_tb = sys.exc_info()
-	# 	print("    Line number: " + str(exc_tb.tb_lineno))
-	# 	print("    Exception type: " + str(exc_type))
-	# 	print("    sample_index: " + str(sample_index))
-	# 	pass
