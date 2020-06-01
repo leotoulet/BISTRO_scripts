@@ -117,14 +117,16 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 
 
 	plt.clf()
-	TR = list(laffer_data["toll_revenue"])
-	ETR = list(laffer_data["equivalent_tax_rate"])
+	TR = []
+	RP = []
 	#plt.plot(ETR, TR, "xb", alpha=0.25)
 
 	for s in samples:
 		tr = s.KPIS["TollRevenue"][-1]
 		rp = s.road_pricing["p"]
-		plt.plot(rp, tr, "xb", alpha = 0.25)
+		TR.append(tr)
+		RP.append(rp)
+	plt.plot(RP, TR, "xb", alpha = 0.25)
 
 	#Add red points for best samples
 	plt.plot(ETR[dic["Agg0"][0]], TR[dic["Agg0"][0]], 'or')
