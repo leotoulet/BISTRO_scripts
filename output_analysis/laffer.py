@@ -119,9 +119,7 @@ def plot_laffer(samples, standards, folder, KPIS, KPIS_names):
 		tr = s.KPIS["TollRevenue"][-1]
 		vmt = s.KPIS["VMT"][-1]
 
-		etr = 0.0
-		if tr > 0:
-			etr = price*vmt/tr
+		etr = tr/vmt
 		samples_etr[s] = etr
 
 	for k,kn in zip(KPIS, KPIS_names):
