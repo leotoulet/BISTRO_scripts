@@ -1,5 +1,5 @@
 
-EXPERIMENT_DIR: "/home/ubuntu/RANDOM_SEARCH_PER_MILE"
+EXPERIMENT_DIR: "/home/ubuntu/OPTIM_PER_MILE"
 OUTPUT_DIR: "/home/ubuntu/OUTPUT"
 
 #STANDARDS: "standardizationParameters.csv"
