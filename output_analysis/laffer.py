@@ -106,6 +106,7 @@ def save_laffer_csv(df, folder):
 
 def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
 	
+	os.makedirs(folder+"/laffer_std", exist_ok = True)
 
 	dic = {}
 	for k,n in zip(KPIS, KPIS_names):
@@ -153,6 +154,8 @@ def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
 
 def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	
+	os.makedirs(folder+"/laffer_raw", exist_ok = True)
+
 	dic = {}
 	for k,n in zip(KPIS, KPIS_names):
 		if n[:3] == "Agg":
