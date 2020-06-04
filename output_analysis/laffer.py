@@ -172,6 +172,11 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 		samples_etr[s] = etr
 
 
+	#Load UNSTD
+	bau_df = pd.load_csv('unstd_bau.csv')
+	print()
+
+
 	#Toll Revenue
 	plt.clf()
 	RP = []

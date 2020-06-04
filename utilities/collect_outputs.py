@@ -172,3 +172,36 @@ def get_VMT(tpe_dir):
 	file.close()
 
 	return VMT
+
+
+def get_raw_data(tpe_dir):
+	output_dir = os.path.join(tpe_dir, 'output')
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	stats = os.path.join(output_dir,'summaryStats.csv')
+	df = pd.read_csv(stats, index_col='Iteration')
+
+	raw_data = {}
+	l = len(df['averageTripExpenditure_Secondary']) - 1 #Last iteration of BEAM
+	raw_data['averageTravelCostBurden_Work'] = df['averageTripExpenditure_Work'][l]
+	raw_data['averageTravelCostBurden_Secondary'] = df['averageTripExpenditure_Secondary'][l]
+	raw_data['averageVehicleDelayPerPassengerTrip'] = df['averageVehicleDelayPerPassengerTrip'][l]
+	raw_data['VHD'] = df['totalHoursOfVehicleTrafficDelay'][l]
+
+
+	MJ_PER_GALLON_GASOLINE = 131.76
+	gCO2_PER_GALLON_GASOLINE = 11405.84
+	GHG_gas = df['fuelConsumedInMJ_Gasoline'][l]/MJ_PER_GALLON_GASOLINE*gCO2_PER_GALLON_GASOLINE
+
+	MJ_PER_GALLON_DIESEL = 146.52
+	gCO2_PER_GALLON_DIESEL = 13718.04
+	GHG_die = df['fuelConsumedInMJ_Diesel'][l]/MJ_PER_GALLON_DIESEL*gCO2_PER_GALLON_DIESEL
+
+	#From the internet
+	gCO2_PER_MJ_ELEC = 0.1247
+	GHG_ele = df['fuelConsumedInMJ_Electricity'][l]*gCO2_PER_MJ_ELEC
+
+	raw_data['GHG'] = GHG_gas + GHG_die + GHG_ele
+
+	return raw_data

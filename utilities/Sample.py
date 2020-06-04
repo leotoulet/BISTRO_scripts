@@ -18,7 +18,8 @@ class Sample:
 
 	#Outputs
 	KPIS = None; #dict of {KPI: (it0, it1, ..., it.n)}
-	mode_split = None;	
+	mode_split = None;
+	raw_data = None;
 
 	def __str__(self):
 		return "Sample at directory: " + self.directory + ", at timeStamp: " + str(self.timeStamp)
@@ -36,6 +37,8 @@ def init_sample(tpe_dir):
 
 	s.KPIS = retrieve_KPIs(tpe_dir) #Those are RAW KPIS, getting the actual KPIs
 	#requires to standardize them
+
+	s.raw_data = get_raw_data(tpe_dir)
 
 	return s
 
