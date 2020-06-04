@@ -227,7 +227,7 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 		KP = []
 
 		for s in samples:
-			KP.append(s.raw_kpis[k])
+			KP.append(s.raw_data[k])
 			RP.append(samples_etr[s])
 		plt.plot(RP, KP, "xb", alpha = 0.25)
 
