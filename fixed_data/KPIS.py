@@ -142,30 +142,3 @@ ALL_KPIS += [Avg_cost_burden_work_KPI, Avg_cost_burden_secondary_KPI, Bus_crowdi
 
 ALL_NAMES = ["Agg0", "Agg1", "Agg2", "Agg3", "Agg4", "Agg5", "Agg6", "Agg7", "Agg8", "VMT", "Cost Burden", "Congestion", "Social", "TR", "VHD"]
 ALL_NAMES += ["CB_work", "CB_2ndary", "BC", "GHG"]
-
-
-
-"""
-aggregate_KPI = {
-	"averageVehicleDelayPerPassengerTrip":2*0.333/5,
-	"sustainability_GHG":2*0.333/5,
-	"VMT":2*0.333/5,
-	"averageTravelCostBurden_Work":2*0.333/5,
-	"busCrowding":2*0.333/5,
-	"averageTravelCostBurden_Secondary":2*0.333/5,
-	"TollRevenue":1.0/5
-}
-
-aggregate_KPI_2 = {
-	"averageVehicleDelayPerPassengerTrip":2*0.333/5,
-	"sustainability_GHG":2*0.333/5,
-	"VMT":2*0.333/5,
-	"averageTravelCostBurden_Work":2*0.5/5,
-	"averageTravelCostBurden_Secondary":2*0.5/5,
-	"TollRevenue":1.0/5
-}
-
-TollRevenue_KPI = {
-	"TollRevenue":1.0
-}
-"""
