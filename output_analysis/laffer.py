@@ -172,21 +172,16 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 		samples_etr[s] = etr
 
 
-	#Load UNSTD
-	bau_df = pd.load_csv('unstd_bau.csv')
-	print()
-
-
 	#Toll Revenue
 	plt.clf()
 	RP = []
-	KP = []
+	TR = []
 
 	for s in samples:
 		rp = s.road_pricing["p"]
-		KP.append(s.KPIS["TollRevenue"][-1])
+		TR.append(s.KPIS["TollRevenue"][-1])
 		RP.append(samples_etr[s])
-	plt.plot(RP, KP, "xb", alpha = 0.25)
+	plt.plot(RP, TR, "xb", alpha = 0.25)
 
 	#Add red points for best samples --> Change this to compute weighted score
 	plt.plot(samples_etr[dic["Agg1"][0]], dic["Agg1"][0].KPIS["TollRevenue"][-1], 'or')
@@ -207,7 +202,6 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	VMT = []
 
 	for s in samples:
-		rp = s.road_pricing["p"]
 		VMT.append(s.KPIS["VMT"][-1])
 		RP.append(samples_etr[s])
 	plt.plot(RP, VMT, "xb", alpha = 0.25)
@@ -223,3 +217,27 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 
 	plt.savefig(folder+"/laffer_VMT.png")
 	print("    Saved laffer curve plot to: "+folder+"/laffer_VMT.png")
+
+	#Raw data
+	raw_kpis = list(samples[0].raw_data.keys())
+	for k in raw_kpis:
+
+		plt.clf()
+		RP = []
+		KP = []
+
+		for s in samples:
+			KP.append(s.raw_kpis[k])
+			RP.append(samples_etr[s])
+		plt.plot(RP, KP, "xb", alpha = 0.25)
+
+		plt.plot(samples_etr[dic["Agg1"][0]], dic["Agg1"][0].raw_data[k], 'or')
+		plt.plot(samples_etr[dic["Agg3"][0]], dic["Agg3"][0].raw_data[k], 'og')
+		plt.plot(samples_etr[dic["Agg6"][0]], dic["Agg6"][0].raw_data[k], 'oy')
+		plt.legend(["Laffer points", "Best for Agg 1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
+		plt.title(k + " vs Average trip cost")
+		plt.xlabel("road price x average tolled VMT per trip ($)")
+		plt.ylabel(k)
+
+		plt.savefig(folder+"/laffer_"+k+".png")
+		print("    Saved laffer curve plot to: "+folder+"/laffer_"+k+".png")
