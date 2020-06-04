@@ -40,6 +40,7 @@ def init_sample(tpe_dir):
 
 	s.raw_data = get_raw_data(tpe_dir)
 
+
 	return s
 
 #Returns a list score stored by iteration number
@@ -74,7 +75,9 @@ def create_samples_list(exp_directory, dirs = None):
 		i += 1
 		print("Loading sample " + str(i) + "...", end="\r")
 		s = init_sample(d)
-		if s.road_pricing["p"] != 0.0:
+
+		#Ditch s if problem:
+		if len(list(s.KPIS['VMT'])) > 0:
 			samples.append(s)
 		else:
 			print(s.directory)
