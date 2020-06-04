@@ -205,7 +205,7 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 		rp = s.road_pricing["p"]
 		VMT.append(s.KPIS["VMT"][-1])
 		RP.append(samples_etr[s])
-	plt.plot(RP, KP, "xb", alpha = 0.25)
+	plt.plot(RP, VMT, "xb", alpha = 0.25)
 
 	#Add red points for best samples --> Change this to compute weighted score
 	plt.plot(samples_etr[dic["Agg1"][0]], dic["Agg1"][0].KPIS["VMT"][-1], 'or')
