@@ -77,7 +77,7 @@ def create_samples_list(exp_directory, dirs = None):
 		s = init_sample(d)
 
 		#Ditch s if problem:
-		if len(list(s.KPIS['VMT'])) > 0:
+		if s.road_pricing["p"] != 0.0 and len(list(s.KPIS['VMT'])) > 0:
 			samples.append(s)
 		else:
 			print(s.directory)
