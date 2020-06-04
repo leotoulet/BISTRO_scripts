@@ -199,8 +199,11 @@ def get_raw_data(tpe_dir):
 	GHG_die = df['fuelConsumedInMJ_Diesel'][l]/MJ_PER_GALLON_DIESEL*gCO2_PER_GALLON_DIESEL
 
 	#From the internet
-	gCO2_PER_MJ_ELEC = 0.1247
-	GHG_ele = df['fuelConsumedInMJ_Electricity'][l]*gCO2_PER_MJ_ELEC
+	try:
+		gCO2_PER_MJ_ELEC = 0.1247
+		GHG_ele = df['fuelConsumedInMJ_Electricity'][l]*gCO2_PER_MJ_ELEC
+	except Exception as e:
+		GHG_ele = 0.0
 
 	raw_data['GHG'] = GHG_gas + GHG_die + GHG_ele
 
