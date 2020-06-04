@@ -151,7 +151,7 @@ def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
 		print("    Saved " + kn + " road pricing curve plot to: "+folder+"/laffer_std_"+kn+".png")
 
 
-def plot_laffer_unstd(samples, folder, KPIS, KPIS_names):
+def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	
 	dic = {}
 	for k,n in zip(KPIS, KPIS_names):

@@ -103,7 +103,7 @@ def laffer():
 	os.makedirs(saving_dir, exist_ok = True)
 	save_laffer_csv(laffer_df, saving_dir)
 	plot_laffer_std(samples_copy, standards, saving_dir, KPIS, KPIS_names)
-	plot_laffer_unstd(samples_copy, saving_dir, KPIS, KPIS_names)
+	plot_laffer_unstd(samples_copy, standards, saving_dir, KPIS, KPIS_names)
 	return
 
 #############################################################################
