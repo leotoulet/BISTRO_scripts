@@ -148,11 +148,30 @@ def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
 		plt.ylabel(kn)
 
 		plt.savefig(folder+"/laffer_std_"+kn+".png")
-		print("    Saved " + kn + "road pricing curve plot to: "+folder+"/laffer_"+kn+".png")
+		print("    Saved " + kn + " road pricing curve plot to: "+folder+"/laffer_std_"+kn+".png")
 
 
 def plot_laffer_unstd(samples, folder)
 	
+	dic = {}
+	for k,n in zip(KPIS, KPIS_names):
+		if n[:3] == "Agg":
+			best_sample = sorted(samples, key = lambda s:computeWeightedScores(s, standards, k)[-1])[0]
+			dic[n] = best_sample, round(computeWeightedScores(best_sample, standards, k)[-1],2)
+
+	samples_etr = {}
+	for s in samples:
+		price = s.road_pricing["p"]
+		tr = s.KPIS["TollRevenue"][-1]
+		vmt = s.KPIS["VMT"][-1]
+		trips =  s.mode_split.get("ride_hail", 0) + s.mode_split.get("car", 0)
+		tolled_VMT = tr/price
+		tolled_VMT_per_trip = tolled_VMT/trips
+
+		etr = price*tolled_VMT_per_trip
+		samples_etr[s] = etr
+
+
 	#Toll Revenue
 	plt.clf()
 	RP = []
