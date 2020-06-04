@@ -147,8 +147,8 @@ def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
 		plt.xlabel("road price x average tolled VMT per trip ($)")
 		plt.ylabel(kn)
 
-		plt.savefig(folder+"/laffer_std_"+kn+".png", bbox_inches='tight')
-		print("    Saved " + kn + " road pricing curve plot to: "+folder+"/laffer_std_"+kn+".png")
+		plt.savefig(folder+"/laffer_std/laffer_std_"+kn+".png", bbox_inches='tight')
+		print("    Saved " + kn + " road pricing curve plot to: "+folder+"/laffer_std/laffer_std_"+kn+".png")
 
 
 def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
@@ -192,8 +192,8 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	plt.xlabel("road price x average tolled VMT per trip ($)")
 	plt.ylabel("Toll Revenue")
 
-	plt.savefig(folder+"/laffer_TR.png", bbox_inches='tight')
-	print("    Saved laffer curve plot to: "+folder+"/laffer_TR.png")
+	plt.savefig(folder+"/laffer_raw/laffer_TR.png", bbox_inches='tight')
+	print("    Saved laffer curve plot to: "+folder+"/laffer_raw/laffer_TR.png")
 
 
 	#VMT
@@ -215,8 +215,8 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	plt.xlabel("road price x average tolled VMT per trip ($)")
 	plt.ylabel("VMT")
 
-	plt.savefig(folder+"/laffer_VMT.png", bbox_inches='tight')
-	print("    Saved laffer curve plot to: "+folder+"/laffer_VMT.png")
+	plt.savefig(folder+"/laffer_raw/laffer_VMT.png", bbox_inches='tight')
+	print("    Saved laffer curve plot to: "+folder+"/laffer_raw/laffer_VMT.png")
 
 	#Raw data
 	raw_kpis = list(samples[0].raw_data.keys())
@@ -239,5 +239,5 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 		plt.xlabel("road price x average tolled VMT per trip ($)")
 		plt.ylabel(k)
 
-		plt.savefig(folder+"/laffer_"+k+".png",bbox_inches='tight')
-		print("    Saved laffer curve plot to: "+folder+"/laffer_"+k+".png")
+		plt.savefig(folder+"/laffer_raw/laffer_"+k+".png",bbox_inches='tight')
+		print("    Saved laffer curve plot to: "+folder+"/laffer_raw/laffer_"+k+".png")
