@@ -192,9 +192,13 @@ def plot_laffer_std(samples1, standards, folder, KPIS, KPIS_names, samples2 = No
 
 
 
-def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names, samples2 = None):
+def plot_laffer_unstd(samples1, standards, folder, KPIS, KPIS_names, samples2 = None):
 	
 	os.makedirs(folder+"/laffer_raw", exist_ok = True)
+
+	samples = samples1
+	if samples2 is not None:
+		samples += samples2
 
 	dic = get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names)
 
@@ -216,11 +220,20 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names, samples2 = N
 	RP = []
 	TR = []
 
-	for s in samples:
+	for s in samples1:
 		rp = s.road_pricing["p"]
 		TR.append(s.KPIS["TollRevenue"][-1])
 		RP.append(samples_etr[s])
 	plt.plot(RP, TR, "xb", alpha = 0.25)
+
+	RP = []
+	TR = []
+
+	for s in samples2:
+		rp = s.road_pricing["p"]
+		TR.append(s.KPIS["TollRevenue"][-1])
+		RP.append(samples_etr[s])
+	plt.plot(RP, TR, "xr", alpha = 0.25)
 
 	#Add red points for best samples
 	gen = colors_iter()
@@ -233,7 +246,7 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names, samples2 = N
 			l += str(n) + " "
 		legend.append(l)
 
-	plt.legend(["Laffer points"] + legend)
+	plt.legend(["Laffer points RS", "Laffer points OPITM"] + legend)
 	plt.title("Laffer curve")
 	plt.xlabel("road price x average tolled VMT per trip ($)")
 	plt.ylabel("Toll Revenue")
@@ -247,10 +260,18 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names, samples2 = N
 	RP = []
 	VMT = []
 
-	for s in samples:
+	for s in samples1:
 		VMT.append(s.KPIS["VMT"][-1])
 		RP.append(samples_etr[s])
 	plt.plot(RP, VMT, "xb", alpha = 0.25)
+
+	RP = []
+	VMT = []
+
+	for s in samples2:
+		VMT.append(s.KPIS["VMT"][-1])
+		RP.append(samples_etr[s])
+	plt.plot(RP, VMT, "xr", alpha = 0.25)
 
 	#Add red points for best samples
 	gen = colors_iter()
@@ -262,7 +283,7 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names, samples2 = N
 		for n in v:
 			l += str(n) + " "
 		legend.append(l)
-	plt.legend(["Laffer points"] + legend)
+	plt.legend(["Laffer points RS", "Laffer points OPTIM"] + legend)
 	plt.title("Vehicle miles traveled vs Average trip cost")
 	plt.xlabel("road price x average tolled VMT per trip ($)")
 	plt.ylabel("VMT")
@@ -279,11 +300,17 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names, samples2 = N
 		RP = []
 		KP = []
 
-		for s in samples:
+		for s in samples1:
 			KP.append(s.raw_data[kpi])
 			RP.append(samples_etr[s])
 		plt.plot(RP, KP, "xb", alpha = 0.25)
 
+		RP = []
+		KP = []
+		for s in samples2:
+			KP.append(s.raw_data[kpi])
+			RP.append(samples_etr[s])
+		plt.plot(RP, KP, "xr", alpha = 0.25)
 		#Add red points for best samples
 		legend = []
 		gen = colors_iter()
@@ -294,7 +321,7 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names, samples2 = N
 			for n in v:
 				l += str(n) + " "
 			legend.append(l)
-		plt.legend(["Laffer points"] + legend)
+		plt.legend(["Laffer points RS", "Laffer points OPTIM"] + legend)
 		plt.title(kpi + " vs Average trip cost")
 		plt.xlabel("road price x average tolled VMT per trip ($)")
 		plt.ylabel(kpi)
