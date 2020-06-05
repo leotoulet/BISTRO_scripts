@@ -14,13 +14,16 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 file = open(os.path.join(dir_path,"unstd_bau.csv"))
 df = pd.read_csv(file, index_col = "KPI")
 
+#Alpha used in laffer curves
+a = 0.15
+
 # THINGS I CHANGED
 # collect_outputs.py: VEHICLES variable, getModeSplit line
 # graphing.py: added laffer, commented out other graphs
 # laffer.py: created file
 
 def colors_iter():
-    colors = ['y','m','g','r']
+    colors = ['y','k','g',]
     i = 0
     while True:
         yield colors[i%len(colors)]
@@ -160,7 +163,7 @@ def plot_laffer_std(samples1, standards, folder, KPIS, KPIS_names, samples2 = No
 			rp = s.road_pricing["p"]
 			KP.append(computeWeightedScores(s, standards, kpi)[-1])
 			RP.append(samples_etr[s])
-		plt.plot(RP, KP, "xb", alpha = 0.25)
+		plt.plot(RP, KP, "xb", alpha = a)
 
 		RP = []
 		KP = []
@@ -168,7 +171,7 @@ def plot_laffer_std(samples1, standards, folder, KPIS, KPIS_names, samples2 = No
 			rp = s.road_pricing["p"]
 			KP.append(computeWeightedScores(s, standards, kpi)[-1])
 			RP.append(samples_etr[s])
-		plt.plot(RP, KP, "xr", alpha = 0.25)
+		plt.plot(RP, KP, "xr", alpha = a)
 
 		#Add red points for best samples --> Change this to compute weighted score
 		legend = []
@@ -224,7 +227,7 @@ def plot_laffer_unstd(samples1, standards, folder, KPIS, KPIS_names, samples2 = 
 		rp = s.road_pricing["p"]
 		TR.append(s.KPIS["TollRevenue"][-1])
 		RP.append(samples_etr[s])
-	plt.plot(RP, TR, "xb", alpha = 0.25)
+	plt.plot(RP, TR, "xb", alpha = a)
 
 	RP = []
 	TR = []
@@ -233,7 +236,7 @@ def plot_laffer_unstd(samples1, standards, folder, KPIS, KPIS_names, samples2 = 
 		rp = s.road_pricing["p"]
 		TR.append(s.KPIS["TollRevenue"][-1])
 		RP.append(samples_etr[s])
-	plt.plot(RP, TR, "xr", alpha = 0.25)
+	plt.plot(RP, TR, "xr", alpha = a)
 
 	#Add red points for best samples
 	gen = colors_iter()
@@ -263,7 +266,7 @@ def plot_laffer_unstd(samples1, standards, folder, KPIS, KPIS_names, samples2 = 
 	for s in samples1:
 		VMT.append(s.KPIS["VMT"][-1])
 		RP.append(samples_etr[s])
-	plt.plot(RP, VMT, "xb", alpha = 0.25)
+	plt.plot(RP, VMT, "xb", alpha = a)
 
 	RP = []
 	VMT = []
@@ -271,7 +274,7 @@ def plot_laffer_unstd(samples1, standards, folder, KPIS, KPIS_names, samples2 = 
 	for s in samples2:
 		VMT.append(s.KPIS["VMT"][-1])
 		RP.append(samples_etr[s])
-	plt.plot(RP, VMT, "xr", alpha = 0.25)
+	plt.plot(RP, VMT, "xr", alpha = a)
 
 	#Add red points for best samples
 	gen = colors_iter()
@@ -303,14 +306,14 @@ def plot_laffer_unstd(samples1, standards, folder, KPIS, KPIS_names, samples2 = 
 		for s in samples1:
 			KP.append(s.raw_data[kpi])
 			RP.append(samples_etr[s])
-		plt.plot(RP, KP, "xb", alpha = 0.25)
+		plt.plot(RP, KP, "xb", alpha = a)
 
 		RP = []
 		KP = []
 		for s in samples2:
 			KP.append(s.raw_data[kpi])
 			RP.append(samples_etr[s])
-		plt.plot(RP, KP, "xr", alpha = 0.25)
+		plt.plot(RP, KP, "xr", alpha = a)
 		#Add red points for best samples
 		legend = []
 		gen = colors_iter()
