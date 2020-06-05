@@ -174,13 +174,6 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	
 	os.makedirs(folder+"/laffer_raw", exist_ok = True)
 
-	"""
-	dic = {}
-	for k,n in zip(KPIS, KPIS_names):
-		if n[:3] == "Agg":
-			best_sample = sorted(samples, key = lambda s:computeWeightedScores(s, standards, k)[-1])[0]
-			dic[n] = best_sample, round(computeWeightedScores(best_sample, standards, k)[-1],2)
-	"""
 	dic = get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names)
 
 	samples_etr = {}
@@ -255,14 +248,14 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 
 	#Raw data
 	raw_kpis = list(samples[0].raw_data.keys())
-	for k in raw_kpis:
+	for kpi in raw_kpis:
 
 		plt.clf()
 		RP = []
 		KP = []
 
 		for s in samples:
-			KP.append(s.raw_data[k])
+			KP.append(s.raw_data[kpi])
 			RP.append(samples_etr[s])
 		plt.plot(RP, KP, "xb", alpha = 0.25)
 
@@ -270,7 +263,7 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 		legend = []
 		for k in dic:
 			v = dic[k]
-			plt.plot(samples_etr[k], k.raw_data[k], 'o')
+			plt.plot(samples_etr[k], k.raw_data[kpi], 'o')
 			l = "Best for agg "
 			for n in v:
 				l += str(n) + " "
@@ -279,5 +272,5 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 		plt.xlabel("road price x average tolled VMT per trip ($)")
 		plt.ylabel(k)
 
-		plt.savefig(folder+"/laffer_raw/laffer_"+k+".png",bbox_inches='tight')
-		print("    Saved laffer curve plot to: "+folder+"/laffer_raw/laffer_"+k+".png")
+		plt.savefig(folder+"/laffer_raw/laffer_"+kpi+".png",bbox_inches='tight')
+		print("    Saved laffer curve plot to: "+folder+"/laffer_raw/laffer_"+kpi+".png")
