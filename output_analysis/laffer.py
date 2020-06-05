@@ -268,9 +268,9 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 			for n in v:
 				l += str(n) + " "
 			legend.append(l)
-		plt.title(k + " vs Average trip cost")
+		plt.title(kpi + " vs Average trip cost")
 		plt.xlabel("road price x average tolled VMT per trip ($)")
-		plt.ylabel(k)
+		plt.ylabel(kpi)
 
 		plt.savefig(folder+"/laffer_raw/laffer_"+kpi+".png",bbox_inches='tight')
 		print("    Saved laffer curve plot to: "+folder+"/laffer_raw/laffer_"+kpi+".png")
