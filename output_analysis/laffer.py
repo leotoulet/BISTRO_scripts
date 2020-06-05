@@ -160,9 +160,10 @@ def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
 
 		#Add red points for best samples --> Change this to compute weighted score
 		legend = []
+		gen = colors_iter()
 		for k in dic:
 			v = dic[k]
-			plt.plot(samples_etr[k], computeWeightedScores(k, standards, kpi)[-1], 'o' + colors_iter())
+			plt.plot(samples_etr[k], computeWeightedScores(k, standards, kpi)[-1], 'o' + next(gen))
 			l = "Best for agg "
 			for n in v:
 				l += str(n) + " "
@@ -210,10 +211,11 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	plt.plot(RP, TR, "xb", alpha = 0.25)
 
 	#Add red points for best samples
+	gen = colors_iter()
 	legend = []
 	for k in dic:
 		v = dic[k]
-		plt.plot(samples_etr[k], k.KPIS["TollRevenue"][-1], 'o' + colors_iter())
+		plt.plot(samples_etr[k], k.KPIS["TollRevenue"][-1], 'o' + next(gen))
 		l = "Best for agg "
 		for n in v:
 			l += str(n) + " "
@@ -239,10 +241,11 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	plt.plot(RP, VMT, "xb", alpha = 0.25)
 
 	#Add red points for best samples
+	gen = colors_iter()
 	legend = []
 	for k in dic:
 		v = dic[k]
-		plt.plot(samples_etr[k], k.KPIS["VMT"][-1], 'o' + colors_iter())
+		plt.plot(samples_etr[k], k.KPIS["VMT"][-1], 'o' + next(gen))
 		l = "Best for agg "
 		for n in v:
 			l += str(n) + " "
@@ -271,9 +274,10 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 
 		#Add red points for best samples
 		legend = []
+		gen = colors_iter()
 		for k in dic:
 			v = dic[k]
-			plt.plot(samples_etr[k], k.raw_data[kpi], 'o'+ colors_iter())
+			plt.plot(samples_etr[k], k.raw_data[kpi], 'o'+ next(gen))
 			l = "Best for agg "
 			for n in v:
 				l += str(n) + " "
