@@ -165,8 +165,8 @@ def get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names):
 				dic[best_sample] = [num]
 			else:
 				dic[best_sample].append(num)
+				dic[best_sample] = sorted(dic[best_sample])
 
-	print(dic)
 	return dic
 
 
@@ -210,7 +210,8 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	#Add red points for best samples --> Change this to compute weighted score
 	
 	legend = []
-	for k,v in dic:
+	for k in dic:
+		v = dic[k]
 		plt.plot(samples_etr[k], k.KPIS["TollRevenue"], 'o')
 		l = "Best for agg "
 		for n in v:
