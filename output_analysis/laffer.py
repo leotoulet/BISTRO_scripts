@@ -152,15 +152,35 @@ def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
 		print("    Saved " + kn + " road pricing curve plot to: "+folder+"/laffer_std/laffer_std_"+kn+".png")
 
 
+
+def get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names):
+
+	dic = {}
+	for k,n in zip(KPIS, KPIS_names):
+		if n[:3] == "Agg":
+			num = n[3]
+			best_sample = sorted(samples, key = lambda s:computeWeightedScores(s, standards, k)[-1])[0]
+			
+			if best_sample not in dic:
+				dic[best_sample] = [num]
+			else:
+				dic[best_sample].append(num)
+
+	return dic
+
+
 def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	
 	os.makedirs(folder+"/laffer_raw", exist_ok = True)
 
+	"""
 	dic = {}
 	for k,n in zip(KPIS, KPIS_names):
 		if n[:3] == "Agg":
 			best_sample = sorted(samples, key = lambda s:computeWeightedScores(s, standards, k)[-1])[0]
 			dic[n] = best_sample, round(computeWeightedScores(best_sample, standards, k)[-1],2)
+	"""
+	dic = get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names)
 
 	samples_etr = {}
 	for s in samples:
@@ -187,10 +207,21 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 	plt.plot(RP, TR, "xb", alpha = 0.25)
 
 	#Add red points for best samples --> Change this to compute weighted score
-	plt.plot(samples_etr[dic["Agg1"][0]], dic["Agg1"][0].KPIS["TollRevenue"][-1], 'or')
-	plt.plot(samples_etr[dic["Agg3"][0]], dic["Agg3"][0].KPIS["TollRevenue"][-1], 'og')
-	plt.plot(samples_etr[dic["Agg6"][0]], dic["Agg6"][0].KPIS["TollRevenue"][-1], 'oy')
-	plt.legend(["Laffer points", "Best for Agg 1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
+	
+	legend = []
+	for k,v in dic:
+		plt.plot(samples_etr[k], k.KPIS["TollRevenue"], 'o')
+		l = "Best for agg "
+		for n in v:
+			l.append(str(n) + " ")
+		legend.append(l)
+
+	#plt.plot(samples_etr[dic["Agg1"][0]], dic["Agg1"][0].KPIS["TollRevenue"][-1], 'or')
+	#plt.plot(samples_etr[dic["Agg3"][0]], dic["Agg3"][0].KPIS["TollRevenue"][-1], 'og')
+	#plt.plot(samples_etr[dic["Agg6"][0]], dic["Agg6"][0].KPIS["TollRevenue"][-1], 'oy')
+	
+	plt.legend(["Laffer points"] + legend)
+	#plt.legend(["Laffer points", "Best for Agg 1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
 	plt.title("Laffer curve")
 	plt.xlabel("road price x average tolled VMT per trip ($)")
 	plt.ylabel("Toll Revenue")
