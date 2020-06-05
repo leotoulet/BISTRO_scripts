@@ -127,9 +127,13 @@ def get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names):
 
 	return dic
 
-def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
+def plot_laffer_std(samples1, standards, folder, KPIS, KPIS_names, samples2 = None):
 	
 	os.makedirs(folder+"/laffer_std", exist_ok = True)
+
+	samples = samples1
+	if samples2 is not None:
+		samples += samples2
 
 	dic = get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names)
 
@@ -152,11 +156,17 @@ def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
 		RP = []
 		KP = []
 
-		for s in samples:
+		for s in samples1:
 			rp = s.road_pricing["p"]
 			KP.append(computeWeightedScores(s, standards, kpi)[-1])
 			RP.append(samples_etr[s])
 		plt.plot(RP, KP, "xb", alpha = 0.25)
+
+		for s in samples2:
+			rp = s.road_pricing["p"]
+			KP.append(computeWeightedScores(s, standards, kpi)[-1])
+			RP.append(samples_etr[s])
+		plt.plot(RP, KP, "xr", alpha = 0.25)
 
 		#Add red points for best samples --> Change this to compute weighted score
 		legend = []
@@ -180,7 +190,7 @@ def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
 
 
 
-def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
+def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names, samples2 = None):
 	
 	os.makedirs(folder+"/laffer_raw", exist_ok = True)
 

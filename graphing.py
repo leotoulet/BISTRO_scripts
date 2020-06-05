@@ -37,6 +37,11 @@ print("############ Configuration file loaded ! ##############\n")
 ########################## Load samples and standards ########################
 
 samples = create_samples_list(CONFIG["EXPERIMENT_DIR"])
+
+samples2 = None
+if CONFIG["EXPERIMENT_DIR_2"] is not None:
+	samples2 = create_samples_list(CONFIG["EXPERIMENT_DIR_2"])
+
 standards = load_standards("fixed_data/" + CONFIG["STANDARDS"])
 
 def filter(s): #Returns a bool it we want to keep the sample
@@ -102,8 +107,8 @@ def laffer():
 	laffer_df = compute_laffer(samples_copy, standards)
 	os.makedirs(saving_dir, exist_ok = True)
 	save_laffer_csv(laffer_df, saving_dir)
-	plot_laffer_std(samples_copy, standards, saving_dir, KPIS, KPIS_names)
-	plot_laffer_unstd(samples_copy, standards, saving_dir, KPIS, KPIS_names)
+	plot_laffer_std(samples_copy, standards, saving_dir, KPIS, KPIS_names, samples2)
+	plot_laffer_unstd(samples_copy, standards, saving_dir, KPIS, KPIS_names, samples2)
 	return
 
 #############################################################################
