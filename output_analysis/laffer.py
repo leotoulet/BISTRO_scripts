@@ -166,6 +166,7 @@ def get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names):
 			else:
 				dic[best_sample].append(num)
 
+	print(dic)
 	return dic
 
 
