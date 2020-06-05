@@ -104,55 +104,6 @@ def save_laffer_csv(df, folder):
 	print("    Saved laffer data to: "+path)
 
 
-def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
-	
-	os.makedirs(folder+"/laffer_std", exist_ok = True)
-
-	dic = {}
-	for k,n in zip(KPIS, KPIS_names):
-		if n[:3] == "Agg":
-			best_sample = sorted(samples, key = lambda s:computeWeightedScores(s, standards, k)[-1])[0]
-			dic[n] = best_sample, round(computeWeightedScores(best_sample, standards, k)[-1],2)
-
-
-	#To be used with something that's not road pricing
-	samples_etr = {}
-	for s in samples:
-		price = s.road_pricing["p"]
-		tr = s.KPIS["TollRevenue"][-1]
-		vmt = s.KPIS["VMT"][-1]
-		trips =  s.mode_split.get("ride_hail", 0) + s.mode_split.get("car", 0)
-		tolled_VMT = tr/price
-		tolled_VMT_per_trip = tolled_VMT/trips
-
-		etr = price*tolled_VMT_per_trip
-		samples_etr[s] = etr
-
-	for k,kn in zip(KPIS, KPIS_names):
-		plt.clf()
-		RP = []
-		KP = []
-
-		for s in samples:
-			rp = s.road_pricing["p"]
-			KP.append(computeWeightedScores(s, standards, k)[-1])
-			RP.append(samples_etr[s])
-		plt.plot(RP, KP, "xb", alpha = 0.25)
-
-		#Add red points for best samples --> Change this to compute weighted score
-		plt.plot(samples_etr[dic["Agg1"][0]], computeWeightedScores(dic["Agg1"][0], standards, k)[-1], 'or')
-		plt.plot(samples_etr[dic["Agg3"][0]], computeWeightedScores(dic["Agg3"][0], standards, k)[-1], 'og')
-		plt.plot(samples_etr[dic["Agg6"][0]], computeWeightedScores(dic["Agg6"][0], standards, k)[-1], 'oy')
-		plt.legend(["Sample points", "Best for Agg 1,2", "Best for Agg 3,4,5,7", "Best for Agg 6,8"])
-		plt.title(kn + " as a function road pricing")
-		plt.xlabel("road price x average tolled VMT per trip ($)")
-		plt.ylabel(kn)
-
-		plt.savefig(folder+"/laffer_std/laffer_std_"+kn+".png", bbox_inches='tight')
-		print("    Saved " + kn + " road pricing curve plot to: "+folder+"/laffer_std/laffer_std_"+kn+".png")
-
-
-
 def get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names):
 
 	dic = {}
@@ -168,6 +119,57 @@ def get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names):
 				dic[best_sample] = sorted(dic[best_sample])
 
 	return dic
+
+def plot_laffer_std(samples, standards, folder, KPIS, KPIS_names):
+	
+	os.makedirs(folder+"/laffer_std", exist_ok = True)
+
+	dic = get_best_agg_samples(samples, standards, folder, KPIS, KPIS_names)
+
+	#To be used with something that's not road pricing
+	samples_etr = {}
+	for s in samples:
+		price = s.road_pricing["p"]
+		tr = s.KPIS["TollRevenue"][-1]
+		vmt = s.KPIS["VMT"][-1]
+		trips =  s.mode_split.get("ride_hail", 0) + s.mode_split.get("car", 0)
+		tolled_VMT = tr/price
+		tolled_VMT_per_trip = tolled_VMT/trips
+
+		etr = price*tolled_VMT_per_trip
+		samples_etr[s] = etr
+
+
+	for kpi,kn in zip(KPIS, KPIS_names):
+		plt.clf()
+		RP = []
+		KP = []
+
+		for s in samples:
+			rp = s.road_pricing["p"]
+			KP.append(computeWeightedScores(s, standards, kpi)[-1])
+			RP.append(samples_etr[s])
+		plt.plot(RP, KP, "xb", alpha = 0.25)
+
+		#Add red points for best samples --> Change this to compute weighted score
+		legend = []
+		for k in dic:
+			v = dic[k]
+			plt.plot(samples_etr[k], computeWeightedScores(k, standards, kpi)[-1], 'o')
+			l = "Best for agg "
+			for n in v:
+				l += str(n) + " "
+			legend.append(l)
+
+		plt.legend(["Laffer points"] + legend)
+		plt.title(kn + " as a function road pricing")
+		plt.xlabel("road price x average tolled VMT per trip ($)")
+		plt.ylabel(kn)
+
+		plt.savefig(folder+"/laffer_std/laffer_std_"+kn+".png", bbox_inches='tight')
+		print("    Saved " + kn + " road pricing curve plot to: "+folder+"/laffer_std/laffer_std_"+kn+".png")
+
+
 
 
 def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
@@ -238,6 +240,7 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 		for n in v:
 			l += str(n) + " "
 		legend.append(l)
+	plt.legend(["Laffer points"] + legend)
 	plt.title("Vehicle miles traveled vs Average trip cost")
 	plt.xlabel("road price x average tolled VMT per trip ($)")
 	plt.ylabel("VMT")
@@ -268,6 +271,7 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 			for n in v:
 				l += str(n) + " "
 			legend.append(l)
+		plt.legend(["Laffer points"] + legend)
 		plt.title(kpi + " vs Average trip cost")
 		plt.xlabel("road price x average tolled VMT per trip ($)")
 		plt.ylabel(kpi)
