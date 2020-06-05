@@ -162,6 +162,8 @@ def plot_laffer_std(samples1, standards, folder, KPIS, KPIS_names, samples2 = No
 			RP.append(samples_etr[s])
 		plt.plot(RP, KP, "xb", alpha = 0.25)
 
+		RP = []
+		KP = []
 		for s in samples2:
 			rp = s.road_pricing["p"]
 			KP.append(computeWeightedScores(s, standards, kpi)[-1])
@@ -179,7 +181,7 @@ def plot_laffer_std(samples1, standards, folder, KPIS, KPIS_names, samples2 = No
 				l += str(n) + " "
 			legend.append(l)
 
-		plt.legend(["Laffer points"] + legend)
+		plt.legend(["Laffer points RS", "Laffer points OPTIM"] + legend)
 		plt.title(kn + " as a function road pricing")
 		plt.xlabel("road price x average tolled VMT per trip ($)")
 		plt.ylabel(kn)
