@@ -45,9 +45,11 @@ if CONFIG["EXPERIMENT_DIR_2"] is not None:
 standards = load_standards("fixed_data/" + CONFIG["STANDARDS"])
 
 def filter(s): #Returns a bool it we want to keep the sample
-	return s.mode_split["car"]/sum(list(s.mode_split.values())) > 0.4
+	#return s.mode_split["car"]/sum(list(s.mode_split.values())) > 0.4
+	return s.raw_data['averageVehicleDelayPerPassengerTrip'] > 150.0
 
- #samples = [s for s in samples if filter(s)]
+samples = [s for s in samples if filter(s)]
+samples2 = [s for s in samples2 if filter(s)]
 
 
 print("######## Loaded all " + str(len(samples)) + " samples in order ! ############\n")
