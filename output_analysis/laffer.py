@@ -20,7 +20,7 @@ df = pd.read_csv(file, index_col = "KPI")
 # laffer.py: created file
 
 def colors_iter():
-    colors = ['o','m','g','r']
+    colors = ['y','m','g','r']
     i = 0
     while True:
         yield colors[i%len(colors)]
