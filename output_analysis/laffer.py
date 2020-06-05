@@ -215,7 +215,7 @@ def plot_laffer_unstd(samples, standards, folder, KPIS, KPIS_names):
 		plt.plot(samples_etr[k], k.KPIS["TollRevenue"][-1], 'o')
 		l = "Best for agg "
 		for n in v:
-			l.append(str(n) + " ")
+			l += str(n) + " "
 		legend.append(l)
 
 	#plt.plot(samples_etr[dic["Agg1"][0]], dic["Agg1"][0].KPIS["TollRevenue"][-1], 'or')
