@@ -23,7 +23,7 @@ a = 0.15
 # laffer.py: created file
 
 def colors_iter():
-    colors = ['y','k','g',]
+    colors = ['y','k','g','c']
     i = 0
     while True:
         yield colors[i%len(colors)]
@@ -319,7 +319,7 @@ def plot_laffer_unstd(samples1, standards, folder, KPIS, KPIS_names, samples2 = 
 		gen = colors_iter()
 		for k in dic:
 			v = dic[k]
-			plt.plot(samples_etr[k], k.raw_data[kpi], 'o'+ next(gen))
+			plt.plot(samples_etr[k], k.raw_data[kpi], '*'+ next(gen))
 			l = "Best for agg "
 			for n in v:
 				l += str(n) + " "
