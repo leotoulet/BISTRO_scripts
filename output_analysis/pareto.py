@@ -126,17 +126,16 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 			if p[0] in samples1:
 				plt.plot(p[1], p[2], 'xb', alpha = 0.25)
 			if not s1_count:
-				s1, = plt.plot([1,2,3], label='Random search points')
+				s1, = plt.plot(p[1], p[2], 'xb', alpha = 0.25, label='Random search points')
 				s1_count += 1
 			else:
 				plt.plot(p[1], p[2], 'xg', alpha = 0.25)
 			if not s2_count:
-				s2, = plt.plot([1,2,3], label='Optimization points')
+				s2, = plt.plot(p[1], p[2], 'xg', alpha = 0.25, label='Optimization points')
 				s2_count += 1
 
 		for p in pareto:
 			plt.plot(p[1], p[2], 'ro')
-
 
 		for i in range(len(pareto) - 1):
 			plt.plot([pareto[i][1], pareto[i+1][1]], [pareto[i][2], pareto[i+1][2]],color="black")
@@ -154,6 +153,7 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 		plt.xlabel(KPI1_name)
 		plt.ylabel(KPI2_name)
 		plt.title("Pareto front " + KPI1_name + " " + KPI2_name)
+		plt.legend(handles=[s1,s2])
 
 		filepath = folder+"/pareto_"+KPI1_name+"_"+KPI2_name+".png"
 		plt.savefig(filepath)
