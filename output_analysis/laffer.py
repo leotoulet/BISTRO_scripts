@@ -319,7 +319,7 @@ def plot_laffer_unstd(samples1, standards, folder, KPIS, KPIS_names, samples2 = 
 		gen = colors_iter()
 		for k in dic:
 			v = dic[k]
-			plt.plot(samples_etr[k], k.raw_data[kpi], '*'+ next(gen))
+			plt.plot(samples_etr[k], k.raw_data[kpi], 'o'+ next(gen))
 			l = "Best for agg "
 			for n in v:
 				l += str(n) + " "

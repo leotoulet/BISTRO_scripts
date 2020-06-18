@@ -100,7 +100,7 @@ def pareto():
 	os.makedirs(saving_dir, exist_ok = True)
 	for k1,n1 in zip(KPIS, KPIS_names):
 		for k2, n2 in zip(KPIS, KPIS_names):
-			plot_pareto(samples_copy, standards, k1, k2, n1, n2, saving_dir)
+			plot_pareto(samples_copy, standards, k1, k2, n1, n2, saving_dir, samples2)
 
 def laffer():
 	samples_copy = [s for s in samples]

@@ -30,10 +30,10 @@ def sort2(liste, fun, standards, KPI1, KPI2):
 			if inferior(liste[j+1], liste[j], standards, KPI1, KPI2):
 				swap(liste, j, j+1)
 
-def pareto_front(samples, standards, KPI1, KPI2):
+def pareto_front(samples1, standards, KPI1, KPI2):
 
 	points = [] #A point is made of a triplet (s, KPI1, KPI2)
-	for s in samples:
+	for s in samples1:
 		congestion = computeWeightedScores(s, standards, KPI1)[-1]
 		social = computeWeightedScores(s, standards, KPI2)[-1]
 
@@ -105,10 +105,12 @@ def save_samples_pareto(pareto_list, KPI1_name, KPI2_name, folder):
 
 
 
-def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
+def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, samples2 = None):
 	
 	#KPI1 = list(KPI1.keys())[0]
 	#KPI2 = list(KPI2.keys())[0]
+
+	samples = samples1 + samples2
 
 	try:
 
@@ -121,7 +123,10 @@ def plot_pareto(samples, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder):
 			plt.plot(p[1], p[2], 'ro')
 
 		for p in non_pareto:
-			plt.plot(p[1], p[2], 'xb')
+			if p in samples1:
+				plt.plot(p[1], p[2], 'xb')
+			else:
+				plt.plot(p[1], p[2], 'xg')
 
 
 
