@@ -120,11 +120,19 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 
 		plt.clf()
 
+		s1_count = 0
+		s2_count = 0
 		for p in non_pareto:
 			if p[0] in samples1:
 				plt.plot(p[1], p[2], 'xb', alpha = 0.25)
+			if not s1_count:
+				s1, = plt.plot([1,2,3], label='Random search points')
+				s1_count += 1
 			else:
 				plt.plot(p[1], p[2], 'xg', alpha = 0.25)
+			if not s2_count:
+				s2, = plt.plot([1,2,3], label='Optimization points')
+				s2_count += 1
 
 		for p in pareto:
 			plt.plot(p[1], p[2], 'ro')
