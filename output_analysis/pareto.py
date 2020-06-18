@@ -160,6 +160,6 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 
 	except Exception as e:
 		exc_type, exc_obj, exc_tb = sys.exc_info()
-		print(exc_tb.tb_lineno)
+		print("Line " + str(exc_tb.tb_lineno))
 		print("    Failed at creating pareto front " + str(e))
 		pass
