@@ -119,14 +119,16 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 
 		plt.clf()
 
+
+		for p in samples1:
+			plt.plot(p[1], p[2], 'xb')
+		for p in samples2:
+			plt.plot(p[1], p[2], 'xg')
+
 		for p in pareto:
 			plt.plot(p[1], p[2], 'ro')
 
-		for p in non_pareto:
-			if p in samples1:
-				plt.plot(p[1], p[2], 'xb')
-			else:
-				plt.plot(p[1], p[2], 'xg')
+
 
 
 
