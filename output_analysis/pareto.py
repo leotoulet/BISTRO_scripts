@@ -109,7 +109,7 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 	
 	#KPI1 = list(KPI1.keys())[0]
 	#KPI2 = list(KPI2.keys())[0]
-	samples = samples1
+	samples = [s for s in samples1]
 	if samples2 is not None:
 		samples += samples2
 
