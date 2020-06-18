@@ -120,7 +120,7 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 
 		plt.clf()
 
-
+		print(samples1[0])
 		for p in samples1:
 			plt.plot(p[1], p[2], 'xb')
 		for p in samples2:
