@@ -95,12 +95,13 @@ def link_coloring():
 
 def pareto():
 	samples_copy = [s for s in samples]
+	samples_2_copy = [s for s in samples2]
 	print("Generating pareto fronts")
 	saving_dir = CONFIG["OUTPUT_DIR"] + "/pareto"
 	os.makedirs(saving_dir, exist_ok = True)
 	for k1,n1 in zip(KPIS, KPIS_names):
 		for k2, n2 in zip(KPIS, KPIS_names):
-			plot_pareto(samples_copy, standards, k1, k2, n1, n2, saving_dir, samples2)
+			plot_pareto(samples_copy, standards, k1, k2, n1, n2, saving_dir, samples_2_copy)
 
 def laffer():
 	samples_copy = [s for s in samples]
