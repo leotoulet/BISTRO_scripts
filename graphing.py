@@ -118,7 +118,7 @@ def laffer():
 
 if __name__=="__main__":
 	#laffer()
-	pareto()
+	#pareto()
 	#link_coloring()
 	#heatmaps()
 	#price_area()
