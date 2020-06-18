@@ -37,8 +37,8 @@ print("############ Configuration file loaded ! ##############\n")
 ########################## Load samples and standards ########################
 
 samples = create_samples_list(CONFIG["EXPERIMENT_DIR"])
-
 samples2 = None
+
 if CONFIG["EXPERIMENT_DIR_2"] is not None:
 	samples2 = create_samples_list(CONFIG["EXPERIMENT_DIR_2"])
 

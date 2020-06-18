@@ -111,6 +111,9 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 	#KPI2 = list(KPI2.keys())[0]
 
 	samples = samples1 + samples2
+	print(samples1)
+	print(samples2)
+	print(samples)
 
 	try:
 
