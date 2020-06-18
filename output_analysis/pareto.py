@@ -110,8 +110,6 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 	#KPI1 = list(KPI1.keys())[0]
 	#KPI2 = list(KPI2.keys())[0]
 
-	samples = samples1 + samples2
-	print(len(samples1),len(samples2),len(samples))
 
 	try:
 
@@ -159,5 +157,7 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 		save_samples_pareto(pareto, KPI1_name, KPI2_name, folder)
 
 	except Exception as e:
+		exc_type, exc_obj, exc_tb = sys.exc_info()
+		print(exc_tb.tb_lineno)
 		print("    Failed at creating pareto front " + str(e))
 		pass
