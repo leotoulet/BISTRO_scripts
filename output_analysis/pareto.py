@@ -122,15 +122,12 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 
 		for p in non_pareto:
 			if p[0] in samples1:
-				plt.plot(p[1], p[2], 'xb')
+				plt.plot(p[1], p[2], 'xb', alpha = 0.25)
 			else:
-				plt.plot(p[1], p[2], 'xg')
+				plt.plot(p[1], p[2], 'xg', alpha = 0.25)
 
 		for p in pareto:
 			plt.plot(p[1], p[2], 'ro')
-
-
-
 
 
 		for i in range(len(pareto) - 1):
