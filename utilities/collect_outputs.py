@@ -73,7 +73,7 @@ def retrieve_KPIs(tpe_dir):
 		dic["TollRevenue"] = [tolls for i in range(31)]
 
 		if "TollRevenue" in df:
-			df["TollRevenue"] = dic["TollRevenue"] #(["TollRevenue"], axis=1)
+			df["TollRevenue"] = dic["TollRevenue"]
 		else:
 			df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
 
@@ -86,12 +86,12 @@ def retrieve_KPIs(tpe_dir):
 		except e:
 			print("Failed to get VMT from sample " + tpe_dir)
 			pass
+		dic["VMT"] = [VMT for i in range(31)]
 
 		if "VMT" in df:
-			df.drop(["VMT"], axis=1)
-
-		dic["VMT"] = [VMT for i in range(31)]
-		df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
+			df["VMT"] = dic["VMT"]
+		else:
+			df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
 
 	csvfile.close()
 	df.to_csv(path)
