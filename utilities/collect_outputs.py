@@ -70,12 +70,12 @@ def retrieve_KPIs(tpe_dir):
 		except:
 			print("Failed to get TR  from sample " + tpe_dir)
 			pass
+		dic["TollRevenue"] = [tolls for i in range(31)]
 
 		if "TollRevenue" in df:
-			df.drop(["TollRevenue"], axis=1)
-
-		dic["TollRevenue"] = [tolls for i in range(31)]
-		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
+			df["TollRevenue"] = dic["TollRevenue"] #(["TollRevenue"], axis=1)
+		else:
+			df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
 
 
 
