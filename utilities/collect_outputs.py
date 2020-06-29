@@ -63,7 +63,7 @@ def retrieve_KPIs(tpe_dir):
 		dic[trans_dict[name]] = list(df[name])
 
 
-	if "TollRevenue" not in dic.keys():
+	if True: #"TollRevenue" not in dic.keys():
 		tolls = 0.0
 		try:
 			tolls = get_toll_revenue(tpe_dir)
@@ -75,7 +75,7 @@ def retrieve_KPIs(tpe_dir):
 
 
 
-	if "VMT" not in dic.keys():
+	if True: # "VMT" not in dic.keys():
 		VMT = 0.0
 		try:
 			VMT = get_VMT(tpe_dir)
