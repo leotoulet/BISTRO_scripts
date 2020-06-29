@@ -65,6 +65,9 @@ def retrieve_KPIs(tpe_dir):
 
 	if True: #"TollRevenue" not in dic.keys():
 		tolls = 0.0
+
+		
+
 		try:
 			tolls = get_toll_revenue(tpe_dir)
 		except:
@@ -121,6 +124,17 @@ def getModeSplit(tpe_dir):
 	return dic
 
 def get_toll_revenue(tpe_dir):
+
+
+	output_dir = os.path.join(tpe_dir, 'output')
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	output_dir = os.path.join(output_dir, only_subdir(output_dir))
+	stats = os.path.join(output_dir,'summaryStats.csv')
+	df = pd.read_csv(stats, index_col='Iteration')
+	l = len(df['averageTripExpenditure_Secondary']) - 1 #Last iteration of BEAM
+	return df["tollRevenue"][l]
+
 	output_dir = os.path.join(tpe_dir, 'output')
 	output_dir = os.path.join(output_dir, only_subdir(output_dir))
 	output_dir = os.path.join(output_dir, only_subdir(output_dir))
@@ -136,11 +150,14 @@ def get_toll_revenue(tpe_dir):
 	return totalTolls
 
 def get_VMT(tpe_dir):
+
+
 	output_dir = os.path.join(tpe_dir, 'output')
 	output_dir = os.path.join(output_dir, only_subdir(output_dir))
 	output_dir = os.path.join(output_dir, only_subdir(output_dir))
 	output_dir = os.path.join(output_dir, only_subdir(output_dir))
 	f = gzip.open(os.path.join(output_dir,'outputEvents.xml.gz'), 'rb')
+
 	doc = xmltodict.parse(f.read())
 
 	#For each link, compute the number of time it was used
