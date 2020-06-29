@@ -70,6 +70,10 @@ def retrieve_KPIs(tpe_dir):
 		except:
 			print("Failed to get TR  from sample " + tpe_dir)
 			pass
+
+		if "TollRevenue" in df:
+			df.drop("TollRevenue")
+
 		dic["TollRevenue"] = [tolls for i in range(31)]
 		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
 
@@ -82,6 +86,10 @@ def retrieve_KPIs(tpe_dir):
 		except e:
 			print("Failed to get VMT from sample " + tpe_dir)
 			pass
+
+		if "VMT" in df:
+			df.drop("VMT")
+
 		dic["VMT"] = [VMT for i in range(31)]
 		df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
 
