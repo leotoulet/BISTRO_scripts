@@ -72,7 +72,7 @@ def retrieve_KPIs(tpe_dir):
 			pass
 
 		if "TollRevenue" in df:
-			df.drop("TollRevenue")
+			df.drop("TollRevenue", axis=1)
 
 		dic["TollRevenue"] = [tolls for i in range(31)]
 		df.insert(len(df.columns), 'TollRevenue', tolls, allow_duplicates = False)
@@ -88,7 +88,7 @@ def retrieve_KPIs(tpe_dir):
 			pass
 
 		if "VMT" in df:
-			df.drop("VMT")
+			df.drop("VMT", axis=1)
 
 		dic["VMT"] = [VMT for i in range(31)]
 		df.insert(len(df.columns), 'VMT', VMT, allow_duplicates = False)
