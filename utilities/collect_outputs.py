@@ -82,7 +82,7 @@ def retrieve_KPIs(tpe_dir):
 
 
 
-	if True: # "VMT" not in dic.keys():
+	if "VMT" not in dic.keys():
 		VMT = 0.0
 		try:
 			VMT = get_VMT(tpe_dir)
