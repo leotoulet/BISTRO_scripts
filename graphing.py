@@ -119,7 +119,7 @@ def laffer():
 if __name__=="__main__":
 	laffer()
 	pareto()
-	link_coloring()
+	#link_coloring()
 	heatmaps()
 	price_area()
 
