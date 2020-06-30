@@ -136,9 +136,9 @@ def plot_pareto(samples1, standards, KPI1, KPI2, KPI1_name, KPI2_name, folder, s
 
 		for p in pareto:
 			if p[0] in samples1:
-				plt.plot(p[1], p[2], 'rb')
+				plt.plot(p[1], p[2], 'ob')
 			else:
-				plt.plot(p[1], p[2], 'rg')
+				plt.plot(p[1], p[2], 'og')
 
 		for i in range(len(pareto) - 1):
 			plt.plot([pareto[i][1], pareto[i+1][1]], [pareto[i][2], pareto[i+1][2]],color="black")
